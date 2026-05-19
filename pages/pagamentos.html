@@ -155,8 +155,8 @@
                             <div>
                                 <div class="stats-label">Total de Inscrições</div>
                                 <div class="stats-value" id="totalInscritos">0</div>
-                                <h6 class="text-muted mt-2 mb-0" style="font-size: 0.8rem; font-weight: 600;">Esperado:
-                                    R$ <span id="valorTotal">0,00</span></h6>
+                                <!-- <h6 class="text-muted mt-2 mb-0" style="font-size: 0.8rem; font-weight: 600;">Esperado:
+                                        R$ <span id="valorTotal">0,00</span></h6> -->
                             </div>
                         </div>
                     </div>
@@ -193,8 +193,8 @@
                             <div>
                                 <div class="stats-label">Pendentes</div>
                                 <div class="stats-value" id="totalPendentes">0</div>
-                                <h6 class="text-warning mt-2 mb-0" style="font-size: 0.8rem; font-weight: 600;">
-                                    Pendente: R$ <span id="valorPendente">0,00</span></h6>
+                                <!-- <h6 class="text-warning mt-2 mb-0" style="font-size: 0.8rem; font-weight: 600;">
+                                    Pendente: R$ <span id="valorPendente">0,00</span></h6> -->
                             </div>
                         </div>
                     </div>
@@ -430,13 +430,40 @@
             carregarParticipantesPendentes();
             carregarUltimosPagamentos();
 
+            // Formatar campos de valor como moeda
+            $('#valorPagamento, #editValorPagamento').on('input', function (e) {
+                let valor = e.target.value;
+                valor = valor.replace(/\D/g, ""); // Remove tudo o que não é dígito
+                
+                if (valor === "") {
+                    e.target.value = "";
+                    return;
+                }
+                
+                valor = parseInt(valor, 10).toString();
+                
+                if (valor === "NaN") {
+                    e.target.value = "";
+                    return;
+                }
+
+                while (valor.length < 3) {
+                    valor = "0" + valor;
+                }
+                
+                valor = valor.replace(/(\d+)(\d{2})$/, "$1,$2");
+                valor = valor.replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1.");
+                
+                e.target.value = valor;
+            });
+
             // Registrar novo pagamento
             $('#paymentForm').on('submit', function (e) {
                 e.preventDefault();
 
                 const participanteId = $('#participante').val();
                 const formaPagamento = $('#formaPagamento').val();
-                const valorPagamento = parseFloat($('#valorPagamento').val().replace(',', '.'));
+                const valorPagamento = parseFloat($('#valorPagamento').val().replace(/\./g, '').replace(',', '.'));
 
                 console.log("Tentando registrar novo pagamento:");
                 console.log("- Participante ID:", participanteId);
@@ -952,7 +979,7 @@
             $('#salvarEdicaoPagamento').on('click', function () {
                 const pagamentoId = $('#editPagamentoId').val();
                 const participanteId = $('#editParticipanteId').val();
-                const valorPagamento = parseFloat($('#editValorPagamento').val().replace(',', '.'));
+                const valorPagamento = parseFloat($('#editValorPagamento').val().replace(/\./g, '').replace(',', '.'));
                 const formaPagamento = $('#editFormaPagamento').val();
 
                 if (!valorPagamento || isNaN(valorPagamento) || valorPagamento <= 0) {

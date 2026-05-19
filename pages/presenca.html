@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Confirmação de Presença</title>
     <link rel="shortcut icon" href="../assets/3.ico" type="image/x-icon">
-    
+
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap">
     <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
@@ -72,7 +72,7 @@
         <a href="gestao.html" class="btn-voltar">
             <i class="material-icons">arrow_back</i>
         </a>
-        <h2 class="header-title">CONFIRMAÇÃO DE PRESENÇA</h2>
+        <h2 class="header-title">Check-in</h2>
     </div>
 
     <div class="container mt-5">
@@ -90,7 +90,8 @@
                 <div class="card dashboard-card h-100">
                     <div class="card-body">
                         <div class="d-flex align-items-center">
-                            <div class="stats-icon-wrapper mr-3" style="background: rgba(13, 110, 253, 0.1); color: #0d6efd;">
+                            <div class="stats-icon-wrapper mr-3"
+                                style="background: rgba(13, 110, 253, 0.1); color: #0d6efd;">
                                 <i class="bi bi-people-fill"></i>
                             </div>
                             <div>
@@ -105,12 +106,16 @@
                 <div class="card dashboard-card h-100">
                     <div class="card-body">
                         <div class="d-flex align-items-center">
-                            <div class="stats-icon-wrapper mr-3" style="background: rgba(40, 167, 69, 0.1); color: #28a745;">
+                            <div class="stats-icon-wrapper mr-3"
+                                style="background: rgba(40, 167, 69, 0.1); color: #28a745;">
                                 <i class="bi bi-person-check-fill"></i>
                             </div>
                             <div>
                                 <div class="stats-label">Presentes</div>
-                                <div class="stats-value text-success d-flex align-items-end" id="totalPresentes">0 <small class="text-muted ml-2 pb-1 font-weight-bold" id="percentualPresentes" style="font-size: 0.8rem;">(0%)</small></div>
+                                <div class="stats-value text-success d-flex align-items-end" id="totalPresentes">0
+                                    <small class="text-muted ml-2 pb-1 font-weight-bold" id="percentualPresentes"
+                                        style="font-size: 0.8rem;">(0%)</small>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -120,12 +125,15 @@
                 <div class="card dashboard-card h-100">
                     <div class="card-body">
                         <div class="d-flex align-items-center">
-                            <div class="stats-icon-wrapper mr-3" style="background: rgba(220, 53, 69, 0.1); color: #dc3545;">
+                            <div class="stats-icon-wrapper mr-3"
+                                style="background: rgba(220, 53, 69, 0.1); color: #dc3545;">
                                 <i class="bi bi-person-x-fill"></i>
                             </div>
                             <div>
                                 <div class="stats-label">Ausentes</div>
-                                <div class="stats-value text-danger d-flex align-items-end" id="totalAusentes">0 <small class="text-muted ml-2 pb-1 font-weight-bold" id="percentualAusentes" style="font-size: 0.8rem;">(0%)</small></div>
+                                <div class="stats-value text-danger d-flex align-items-end" id="totalAusentes">0 <small
+                                        class="text-muted ml-2 pb-1 font-weight-bold" id="percentualAusentes"
+                                        style="font-size: 0.8rem;">(0%)</small></div>
                             </div>
                         </div>
                     </div>
@@ -135,12 +143,14 @@
                 <div class="card dashboard-card h-100">
                     <div class="card-body">
                         <div class="d-flex align-items-center">
-                            <div class="stats-icon-wrapper mr-3" style="background: rgba(23, 162, 184, 0.1); color: #17a2b8;">
+                            <div class="stats-icon-wrapper mr-3"
+                                style="background: rgba(23, 162, 184, 0.1); color: #17a2b8;">
                                 <i class="bi bi-clock-history"></i>
                             </div>
                             <div>
                                 <div class="stats-label">Última Atualização</div>
-                                <div class="stats-value text-info" id="ultimaAtualizacao" style="font-size: 1.2rem;">--:--</div>
+                                <div class="stats-value text-info" id="ultimaAtualizacao" style="font-size: 1.2rem;">
+                                    --:--</div>
                             </div>
                         </div>
                     </div>
@@ -163,8 +173,8 @@
                         <div class="col-md-4">
                             <div class="form-group">
                                 <label for="filtroNome">Buscar por nome</label>
-                                <input type="text" class="form-control" id="filtroNome" 
-                                       placeholder="Digite o nome do participante">
+                                <input type="text" class="form-control" id="filtroNome"
+                                    placeholder="Digite o nome do participante">
                             </div>
                         </div>
                         <div class="col-md-4">
@@ -197,7 +207,8 @@
         <div class="row">
             <div class="col-md-12">
                 <div class="card dashboard-card">
-                    <div class="card-header bg-transparent border-bottom-0 pt-4 pb-0 d-flex justify-content-between align-items-center">
+                    <div
+                        class="card-header bg-transparent border-bottom-0 pt-4 pb-0 d-flex justify-content-between align-items-center">
                         <h5 class="mb-0" style="color: #2c3e50; font-weight: 700;">
                             <i class="bi bi-people mr-2"></i> Lista de Participantes
                         </h5>
@@ -208,7 +219,8 @@
                         </div>
                     </div>
                     <div class="card-body">
-                        <div class="table-responsive" style="border-radius: 10px; overflow: hidden; box-shadow: 0 0 10px rgba(0,0,0,0.05);">
+                        <div class="table-responsive"
+                            style="border-radius: 10px; overflow: hidden; box-shadow: 0 0 10px rgba(0,0,0,0.05);">
                             <table class="table table-striped table-hover mb-0" id="participantesTable">
                                 <thead class="thead-dark">
                                     <tr>
@@ -232,8 +244,8 @@
     </div>
 
     <!-- Modal de Confirmação de Presença -->
-    <div class="modal fade" id="confirmarPresencaModal" tabindex="-1" role="dialog" 
-         aria-labelledby="confirmarPresencaModalLabel" aria-hidden="true">
+    <div class="modal fade" id="confirmarPresencaModal" tabindex="-1" role="dialog"
+        aria-labelledby="confirmarPresencaModalLabel" aria-hidden="true">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
@@ -261,8 +273,8 @@
                     </div>
                     <div class="form-group">
                         <label for="observacoesPresenca">Observações (opcional)</label>
-                        <textarea class="form-control" id="observacoesPresenca" rows="3" 
-                                  placeholder="Observações sobre a presença..."></textarea>
+                        <textarea class="form-control" id="observacoesPresenca" rows="3"
+                            placeholder="Observações sobre a presença..."></textarea>
                     </div>
                 </div>
                 <div class="modal-footer">
@@ -276,8 +288,8 @@
     </div>
 
     <!-- Modal de Exportação -->
-    <div class="modal fade" id="exportarPresencaModal" tabindex="-1" role="dialog" 
-         aria-labelledby="exportarPresencaModalLabel" aria-hidden="true">
+    <div class="modal fade" id="exportarPresencaModal" tabindex="-1" role="dialog"
+        aria-labelledby="exportarPresencaModalLabel" aria-hidden="true">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
@@ -327,7 +339,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.16.9/xlsx.full.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/2.0.5/FileSaver.min.js"></script>
     <script src="../firebase/firebaseConfig.js"></script>
-        
+
     <script>
         // Variáveis globais
         let todosParticipantes = [];
@@ -336,7 +348,7 @@
         $(document).ready(function () {
             // Carregar dados iniciais
             carregarParticipantes();
-            
+
             // Atualizar hora atual a cada minuto
             atualizarHoraAtual();
             setInterval(atualizarHoraAtual, 60000);
@@ -348,10 +360,10 @@
 
             // Configurar eventos dos botões
             $('#confirmarPresente').on('click', confirmarPresenca);
-            $('#btnExportarPresenca').on('click', function() {
+            $('#btnExportarPresenca').on('click', function () {
                 $('#exportarPresencaModal').modal('show');
             });
-            $('#confirmarExportacaoPresenca').on('click', function() {
+            $('#confirmarExportacaoPresenca').on('click', function () {
                 exportarListaPresenca();
                 $('#exportarPresencaModal').modal('hide');
             });
@@ -365,22 +377,22 @@
                 .get()
                 .then((querySnapshot) => {
                     todosParticipantes = [];
-                    
+
                     querySnapshot.forEach((doc) => {
                         const participante = doc.data();
                         participante.id = doc.id;
-                        
+
                         // Definir status de presença se não existir
                         if (!participante.statusPresenca) {
                             participante.statusPresenca = 'pendente';
                         }
-                        
+
                         todosParticipantes.push(participante);
                     });
-                    
+
                     // Aplicar filtros iniciais
                     aplicarFiltros();
-                    
+
                     // Atualizar estatísticas
                     atualizarEstatisticas();
                 })
@@ -394,24 +406,24 @@
             const filtroNome = $('#filtroNome').val().toLowerCase();
             const filtroStatus = $('#filtroStatus').val();
             const ordenacao = $('#ordenacao').val();
-            
+
             // Aplicar filtros
             participantesFiltrados = todosParticipantes.filter(participante => {
                 // Filtro por nome
                 const nomeMatch = participante.nome.toLowerCase().includes(filtroNome);
-                
+
                 // Filtro por status
                 let statusMatch = true;
                 if (filtroStatus !== 'todos') {
                     statusMatch = (participante.statusPresenca || 'pendente') === filtroStatus;
                 }
-                
+
                 return nomeMatch && statusMatch;
             });
-            
+
             // Aplicar ordenação
             participantesFiltrados.sort((a, b) => {
-                switch(ordenacao) {
+                switch (ordenacao) {
                     case 'nome':
                         return a.nome.localeCompare(b.nome);
                     case 'checkin':
@@ -424,7 +436,7 @@
                         return a.nome.localeCompare(b.nome);
                 }
             });
-            
+
             // Atualizar a tabela
             atualizarTabelaParticipantes();
         }
@@ -432,23 +444,23 @@
         function atualizarTabelaParticipantes() {
             const tabelaParticipantes = $('#participantesList');
             tabelaParticipantes.html('');
-            
+
             if (participantesFiltrados.length === 0) {
                 tabelaParticipantes.html('<tr><td colspan="6" class="text-center">Nenhum participante encontrado</td></tr>');
                 return;
             }
-            
+
             participantesFiltrados.forEach(participante => {
                 const idade = participante.idade || '';
                 const telefone = formatarTelefone(participante.telefone);
                 const status = participante.statusPresenca || 'pendente';
-                
+
                 // Determinar classe do badge de status
                 let statusClass = 'pendente';
                 let statusText = 'Pendente';
                 let statusIcon = 'schedule';
-                
-                switch(status) {
+
+                switch (status) {
                     case 'presente':
                         statusClass = 'presente';
                         statusText = 'Presente';
@@ -460,17 +472,17 @@
                         statusIcon = 'cancel';
                         break;
                 }
-                
+
                 // Formatear hora do check-in
                 let checkinInfo = '--:--';
                 if (participante.dataCheckin) {
                     const data = new Date(participante.dataCheckin);
-                    checkinInfo = data.toLocaleTimeString('pt-BR', { 
-                        hour: '2-digit', 
-                        minute: '2-digit' 
+                    checkinInfo = data.toLocaleTimeString('pt-BR', {
+                        hour: '2-digit',
+                        minute: '2-digit'
                     });
                 }
-                
+
                 const linha = `
                 <tr id="participante-row-${participante.id}">
                     <td>
@@ -509,7 +521,7 @@
                     </td>
                 </tr>
                 `;
-                
+
                 tabelaParticipantes.append(linha);
             });
         }
@@ -518,10 +530,10 @@
             const total = todosParticipantes.length;
             const presentes = todosParticipantes.filter(p => p.statusPresenca === 'presente').length;
             const ausentes = todosParticipantes.filter(p => p.statusPresenca === 'ausente').length;
-            
+
             const percentualPresentes = total > 0 ? Math.round((presentes / total) * 100) : 0;
             const percentualAusentes = total > 0 ? Math.round((ausentes / total) * 100) : 0;
-            
+
             $('#totalInscritos').text(total);
             $('#totalPresentes').text(presentes);
             $('#totalAusentes').text(ausentes);
@@ -531,28 +543,28 @@
 
         function atualizarHoraAtual() {
             const agora = new Date();
-            const hora = agora.toLocaleTimeString('pt-BR', { 
-                hour: '2-digit', 
-                minute: '2-digit' 
+            const hora = agora.toLocaleTimeString('pt-BR', {
+                hour: '2-digit',
+                minute: '2-digit'
             });
             $('#ultimaAtualizacao').text(hora);
         }
 
         function abrirModalPresenca(participanteId) {
             const participante = todosParticipantes.find(p => p.id === participanteId);
-            
+
             if (!participante) {
                 alert('Participante não encontrado!');
                 return;
             }
-            
+
             // Preencher o modal com os dados do participante
             $('#participanteId').val(participanteId);
             $('#nomeParticipante').val(participante.nome);
             $('#idadeParticipante').val(participante.idade || '');
             $('#telefoneParticipante').val(formatarTelefone(participante.telefone));
             $('#observacoesPresenca').val(participante.observacoesPresenca || '');
-            
+
             // Abrir o modal
             $('#confirmarPresencaModal').modal('show');
         }
@@ -560,26 +572,26 @@
         function confirmarPresenca() {
             const participanteId = $('#participanteId').val();
             const observacoes = $('#observacoesPresenca').val();
-            
+
             marcarPresenca(participanteId, 'presente', observacoes);
             $('#confirmarPresencaModal').modal('hide');
         }
 
         function marcarPresenca(participanteId, status, observacoes = '') {
             const agora = new Date().toISOString();
-            
+
             // Atualizar no Firestore
             const updateData = {
                 statusPresenca: status,
                 observacoesPresenca: observacoes,
                 dataUltimaAtualizacao: agora
             };
-            
+
             // Adicionar data de check-in apenas se for marcar como presente
             if (status === 'presente') {
                 updateData.dataCheckin = agora;
             }
-            
+
             db.collection("Eventos").doc("ComRoca2026").collection("inscricoes").doc(participanteId)
                 .update(updateData)
                 .then(() => {
@@ -592,18 +604,18 @@
                             todosParticipantes[index].dataCheckin = agora;
                         }
                     }
-                    
+
                     // Recarregar dados
                     aplicarFiltros();
                     atualizarEstatisticas();
-                    
+
                     // Mostrar feedback visual
                     const statusText = status === 'presente' ? 'presente' : 'ausente';
                     const participante = todosParticipantes[index];
-                    
+
                     // Toast de sucesso
                     const mensagem = `${participante.nome} marcado como ${statusText}!`;
-                    
+
                     // Criar notificação visual
                     mostrarNotificacao(mensagem, status === 'presente' ? 'success' : 'warning');
                 })
@@ -627,10 +639,10 @@
                     </button>
                 </div>
             `);
-            
+
             // Adicionar ao body
             $('body').append(notificacao);
-            
+
             // Remover automaticamente após 3 segundos
             setTimeout(() => {
                 notificacao.alert('close');
@@ -642,44 +654,44 @@
             const statusExportar = $('#statusExportar').val();
             const incluirHorarios = $('#incluirHorarios').is(':checked');
             const incluirObservacoes = $('#incluirObservacoes').is(':checked');
-            
+
             // Filtrar participantes pelo status selecionado
             let participantesExportar = [...todosParticipantes];
-            
+
             if (statusExportar !== 'todos') {
-                participantesExportar = participantesExportar.filter(p => 
+                participantesExportar = participantesExportar.filter(p =>
                     (p.statusPresenca || 'pendente') === statusExportar
                 );
             }
-            
+
             // Ordenar por nome
             participantesExportar.sort((a, b) => a.nome.localeCompare(b.nome));
-            
+
             // Preparar dados para exportação
             const dados = participantesExportar.map(p => {
                 const status = p.statusPresenca || 'pendente';
-                const statusText = status === 'presente' ? 'Presente' : 
-                                 status === 'ausente' ? 'Ausente' : 'Pendente';
-                
+                const statusText = status === 'presente' ? 'Presente' :
+                    status === 'ausente' ? 'Ausente' : 'Pendente';
+
                 const item = {
                     'Nome': p.nome,
                     'Idade': p.idade || '',
                     'Telefone': formatarTelefone(p.telefone),
                     'Status': statusText
                 };
-                
+
                 if (incluirHorarios && p.dataCheckin) {
                     const data = new Date(p.dataCheckin);
                     item['Horário Check-in'] = data.toLocaleString('pt-BR');
                 }
-                
+
                 if (incluirObservacoes && p.observacoesPresenca) {
                     item['Observações'] = p.observacoesPresenca;
                 }
-                
+
                 return item;
             });
-            
+
             // Exportar no formato selecionado
             if (formato === 'excel') {
                 exportarExcelPresenca(dados);
@@ -692,7 +704,7 @@
             const ws = XLSX.utils.json_to_sheet(dados);
             const wb = XLSX.utils.book_new();
             XLSX.utils.book_append_sheet(wb, ws, "Lista de Presença");
-            
+
             const nomeArquivo = `Lista_Presenca_ComRoca2026_${formatarDataArquivo(new Date())}.xlsx`;
             XLSX.writeFile(wb, nomeArquivo);
         }
@@ -700,7 +712,7 @@
         function exportarCSVPresenca(dados) {
             const ws = XLSX.utils.json_to_sheet(dados);
             const csv = XLSX.utils.sheet_to_csv(ws);
-            
+
             const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
             const nomeArquivo = `Lista_Presenca_ComRoca2026_${formatarDataArquivo(new Date())}.csv`;
             saveAs(blob, nomeArquivo);
@@ -708,17 +720,17 @@
 
         function formatarTelefone(telefone) {
             if (!telefone) return '';
-            
+
             // Remover caracteres não numéricos
             const numeros = telefone.replace(/\D/g, '');
-            
+
             // Formatar como (XX) XXXXX-XXXX ou (XX) XXXX-XXXX
             if (numeros.length === 11) {
                 return `(${numeros.substring(0, 2)}) ${numeros.substring(2, 7)}-${numeros.substring(7)}`;
             } else if (numeros.length === 10) {
                 return `(${numeros.substring(0, 2)}) ${numeros.substring(2, 6)}-${numeros.substring(6)}`;
             }
-            
+
             return telefone;
         }
 
@@ -728,7 +740,7 @@
             const ano = data.getFullYear();
             const hora = String(data.getHours()).padStart(2, '0');
             const minuto = String(data.getMinutes()).padStart(2, '0');
-            
+
             return `${dia}-${mes}-${ano}_${hora}-${minuto}`;
         }
     </script>
