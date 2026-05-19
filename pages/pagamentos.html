@@ -579,8 +579,8 @@
                     celular = '55' + celular;
                 }
 
-                // Montar o link do QRCode com Nome e Celular (removemos o parâmetro size opcional para manter o link ainda mais curto e limpo)
-                const qrCodeData = `${nomeParticipante} - ${celularOriginal}`;
+                // Montar o link do QRCode com o ID do participante (garante validação única e rápida no check-in)
+                const qrCodeData = participanteId;
                 const qrCodeUrl = `https://api.qrserver.com/v1/create-qr-code/?data=${encodeURIComponent(qrCodeData)}`;
 
                 // Mensagem formatada
