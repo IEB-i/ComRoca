@@ -20,85 +20,174 @@
         }
 
         .dashboard-card {
-            border-radius: 15px;
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-            transition: transform 0.3s, box-shadow 0.3s;
-            margin-bottom: 20px;
+            border-radius: 16px;
+            background: #ffffff;
+            border: 1px solid rgba(0, 0, 0, 0.05);
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.03);
+            transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
             height: 100%;
-            border: none;
+            position: relative;
+            overflow: hidden;
+            text-decoration: none !important;
+            display: flex;
+            flex-direction: column;
         }
 
         .dashboard-card:hover {
             transform: translateY(-5px);
-            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.15);
+            box-shadow: 0 12px 30px rgba(97, 55, 4, 0.15);
+            border-color: rgba(97, 55, 4, 0.1);
+        }
+
+        .dashboard-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background: linear-gradient(90deg, #613704, #FF8C00);
+            transform: scaleX(0);
+            transform-origin: left;
+            transition: transform 0.4s ease;
+        }
+
+        .dashboard-card:hover::before {
+            transform: scaleX(1);
+        }
+
+        .card-icon-wrapper {
+            width: 60px;
+            height: 60px;
+            border-radius: 14px;
+            background: rgba(97, 55, 4, 0.05);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 20px;
+            color: #613704;
+            transition: all 0.3s ease;
+        }
+
+        .dashboard-card:hover .card-icon-wrapper {
+            background: #613704;
+            color: #ffffff;
+            transform: scale(1.05);
         }
 
         .card-icon {
-            font-size: 3rem;
-            margin-bottom: 15px;
-            color: #3d7517;
+            font-size: 1.8rem;
+        }
+
+        .dashboard-card .card-title {
+            color: #333;
+            font-weight: 700;
+            font-size: 1.2rem;
+            margin-bottom: 10px;
+        }
+
+        .dashboard-card .card-text {
+            color: #6c757d;
+            font-size: 0.95rem;
+            line-height: 1.5;
+            flex-grow: 1;
+        }
+
+        .card-action {
+            margin-top: 20px;
+            display: flex;
+            align-items: center;
+            color: #FF8C00;
+            font-weight: 600;
+            font-size: 0.95rem;
+            transition: all 0.3s ease;
+        }
+
+        .card-action i {
+            margin-left: 8px;
+            transition: transform 0.3s ease;
+        }
+
+        .dashboard-card:hover .card-action {
+            color: #613704;
+        }
+
+        .dashboard-card:hover .card-action i {
+            transform: translateX(5px);
         }
 
         .summary-card {
-            border-radius: 10px;
-            margin-bottom: 20px;
+            border-radius: 20px;
+            margin-bottom: 30px;
+            background: #ffffff;
+            border: 1px solid rgba(97, 55, 4, 0.08);
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.04);
+            padding: 10px;
+            position: relative;
+            overflow: hidden;
         }
 
-        .summary-card.tarefas {
-            border-left: 5px solid #3d7517;
-        }
-
-        .summary-card.financeiro {
-            border-left: 5px solid #17a2b8;
-        }
-
-        .summary-card.participantes {
-            border-left: 5px solid #ffc107;
-        }
-
-        .summary-card-header {
-            font-weight: bold;
-            padding: 10px 15px;
-            background-color: #f8f9fa;
-            border-bottom: 1px solid #eee;
-        }
-
-        .btn-acamp {
-            background: linear-gradient(45deg, #3d7517, #3d7517);
-            color: white;
-            border: none;
-            border-radius: 5px;
-            padding: 8px 15px;
-            transition: all 0.3s;
-        }
-
-        .btn-acamp:hover {
-            background: linear-gradient(45deg, #2b5210, #3d7517);
-            color: white;
-            transform: translateY(-2px);
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        .summary-card::after {
+            content: '';
+            position: absolute;
+            top: -50px;
+            right: -50px;
+            width: 150px;
+            height: 150px;
+            background: radial-gradient(circle, rgba(255,140,0,0.15) 0%, rgba(255,255,255,0) 70%);
+            border-radius: 50%;
         }
 
         .stats-value {
-            font-size: 2.5rem;
-            font-weight: bold;
+            font-size: 3rem;
+            font-weight: 800;
             margin-bottom: 0;
-            color: #3d7517;
+            color: #613704;
+            line-height: 1;
         }
 
         .stats-label {
-            color: #6c757d;
-            font-size: 0.9rem;
+            color: #888;
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-top: 8px;
+            font-weight: 700;
         }
 
         .progress {
-            height: 10px;
-            border-radius: 5px;
-            margin-top: 5px;
+            height: 8px;
+            border-radius: 10px;
+            margin-top: 15px;
+            background-color: #f0f0f0;
+            box-shadow: inset 0 1px 2px rgba(0,0,0,0.05);
         }
 
         .progress-bar {
-            background-color: #3d7517;
+            background: linear-gradient(90deg, #FF8C00, #ffb347);
+            border-radius: 10px;
+        }
+
+        .section-title-wrapper {
+            display: flex;
+            align-items: center;
+            margin-bottom: 1.5rem;
+            margin-top: 2rem;
+        }
+
+        .section-title-indicator {
+            width: 6px;
+            height: 24px;
+            background: #FF8C00;
+            border-radius: 6px;
+            margin-right: 12px;
+        }
+
+        .section-title {
+            margin-bottom: 0;
+            font-weight: 800;
+            color: #613704;
+            font-size: 1.4rem;
         }
 
         .task-item {
@@ -150,21 +239,68 @@
 
     <div class="container mt-5">
         <!-- Estatísticas Principais -->
+        <div class="section-title-wrapper mt-4">
+            <div class="section-title-indicator"></div>
+            <h4 class="section-title">Visão Geral</h4>
+        </div>
         <div class="row mb-4">
 
-            <div class="col-md-4">
-                <div class="card summary-card participantes">
+            <!-- Card 1: Participantes -->
+            <div class="col-md-4 mb-3">
+                <div class="card summary-card h-100 mb-0">
                     <div class="card-body">
                         <div class="d-flex align-items-center">
-                            <div class="flex-shrink-0">
-                                <i class="material-icons" style="font-size: 2.5rem; color: #ffc107;">people</i>
+                            <div class="flex-shrink-0 p-3" style="background: rgba(255, 140, 0, 0.1); border-radius: 16px;">
+                                <i class="bi bi-people-fill" style="font-size: 2.5rem; color: #FF8C00;"></i>
                             </div>
-                            <div class="flex-grow-1 ms-3 ml-3">
+                            <div class="flex-grow-1 ms-3 ml-4">
                                 <h3 class="stats-value" id="totalInscritos">0</h3>
-                                <p class="stats-label">Participantes</p>
+                                <p class="stats-label">Inscritos</p>
                                 <div class="progress">
-                                    <div class="progress-bar bg-warning" id="progressoInscricoes" role="progressbar"
+                                    <div class="progress-bar" id="progressoInscricoes" role="progressbar"
                                         style="width: 0%"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Card 2: Pagamentos Efetuados -->
+            <div class="col-md-4 mb-3">
+                <div class="card summary-card h-100 mb-0">
+                    <div class="card-body">
+                        <div class="d-flex align-items-center">
+                            <div class="flex-shrink-0 p-3" style="background: rgba(40, 167, 69, 0.1); border-radius: 16px;">
+                                <i class="bi bi-check-circle-fill" style="font-size: 2.5rem; color: #28a745;"></i>
+                            </div>
+                            <div class="flex-grow-1 ms-3 ml-4">
+                                <h3 class="stats-value" id="totalPagos">0</h3>
+                                <p class="stats-label">Pagos</p>
+                                <div class="progress">
+                                    <div class="progress-bar" id="progressoPagos" role="progressbar"
+                                        style="width: 0%; background: linear-gradient(90deg, #28a745, #34ce57) !important;"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Card 3: Faltam Pagar -->
+            <div class="col-md-4 mb-3">
+                <div class="card summary-card h-100 mb-0">
+                    <div class="card-body">
+                        <div class="d-flex align-items-center">
+                            <div class="flex-shrink-0 p-3" style="background: rgba(220, 53, 69, 0.1); border-radius: 16px;">
+                                <i class="bi bi-exclamation-circle-fill" style="font-size: 2.5rem; color: #dc3545;"></i>
+                            </div>
+                            <div class="flex-grow-1 ms-3 ml-4">
+                                <h3 class="stats-value" id="totalPendentes">0</h3>
+                                <p class="stats-label">Pendentes</p>
+                                <div class="progress">
+                                    <div class="progress-bar" id="progressoPendentes" role="progressbar"
+                                        style="width: 0%; background: linear-gradient(90deg, #dc3545, #e4606d) !important;"></div>
                                 </div>
                             </div>
                         </div>
@@ -175,68 +311,89 @@
         </div>
 
         <!-- Cards -->
-        <h4 class="mb-3">Módulos de Gestão</h4>
+        <div class="section-title-wrapper mt-5">
+            <div class="section-title-indicator"></div>
+            <h4 class="section-title">Módulos de Gestão</h4>
+        </div>
         <div class="row mb-5">
             <!-- Card Participantes -->
             <div class="col-md-4 mb-4">
-                <div class="card dashboard-card">
-                    <div class="card-body text-center p-4">
-                        <i class="bi bi-person-badge card-icon"></i>
+                <a href="participantes.html" class="card dashboard-card">
+                    <div class="card-body p-4 d-flex flex-column">
+                        <div class="card-icon-wrapper">
+                            <i class="bi bi-people-fill card-icon"></i>
+                        </div>
                         <h5 class="card-title">Participantes</h5>
-                        <p class="card-text">Gerenciar inscrições, dados e informações dos participantes.
-                        </p>
-                        <a href="participantes.html" class="btn btn-acamp">Acessar</a>
+                        <p class="card-text">Gerencie as inscrições, visualize os dados completos e edite as informações de todos os participantes do evento.</p>
+                        <div class="card-action mt-auto">
+                            Acessar Módulo <i class="bi bi-arrow-right"></i>
+                        </div>
                     </div>
-                </div>
+                </a>
             </div>
 
             <!-- Card Pagamentos -->
             <div class="col-md-4 mb-4">
-                <div class="card dashboard-card">
-                    <div class="card-body text-center p-4">
-                        <i class="bi bi-currency-dollar card-icon"></i>
+                <a href="pagamentos.html" class="card dashboard-card">
+                    <div class="card-body p-4 d-flex flex-column">
+                        <div class="card-icon-wrapper">
+                            <i class="bi bi-cash-coin card-icon"></i>
+                        </div>
                         <h5 class="card-title">Pagamentos</h5>
-                        <p class="card-text">Controlar pagamentos, confirmações e relatórios financeiros do evento.</p>
-                        <a href="pagamentos.html" class="btn btn-acamp">Acessar</a>
+                        <p class="card-text">Acompanhe confirmações de pagamento, gerencie pendências e analise o balanço financeiro das inscrições.</p>
+                        <div class="card-action mt-auto">
+                            Acessar Módulo <i class="bi bi-arrow-right"></i>
+                        </div>
                     </div>
-                </div>
+                </a>
             </div>
 
             <!-- Card Movimentação do Caixa -->
             <div class="col-md-4 mb-4">
-                <div class="card dashboard-card">
-                    <div class="card-body text-center p-4">
-                        <i class="bi bi-safe card-icon"></i>
+                <a href="caixa.html" class="card dashboard-card">
+                    <div class="card-body p-4 d-flex flex-column">
+                        <div class="card-icon-wrapper">
+                            <i class="bi bi-piggy-bank-fill card-icon"></i>
+                        </div>
                         <h5 class="card-title">Movimentação do Caixa</h5>
-                        <p class="card-text">Controle de Caixa do Evento</p>
-                        <a href="caixa.html" class="btn btn-acamp">Acessar</a>
+                        <p class="card-text">Registre e monitore todas as entradas e saídas do evento, garantindo o controle total do fluxo de caixa.</p>
+                        <div class="card-action mt-auto">
+                            Acessar Módulo <i class="bi bi-arrow-right"></i>
+                        </div>
                     </div>
-                </div>
+                </a>
             </div>
 
             <!-- Card Check-in -->
             <div class="col-md-4 mb-4">
-                <div class="card dashboard-card">
-                    <div class="card-body text-center p-4">
-                        <i class="bi bi-clipboard-check card-icon"></i>
+                <a href="presenca.html" class="card dashboard-card">
+                    <div class="card-body p-4 d-flex flex-column">
+                        <div class="card-icon-wrapper">
+                            <i class="bi bi-clipboard2-check-fill card-icon"></i>
+                        </div>
                         <h5 class="card-title">Check-in</h5>
-                        <p class="card-text">Realizar check-in dos participantes.</p>
-                        <a href="presenca.html" class="btn btn-acamp">Acessar</a>
+                        <p class="card-text">Realize a validação rápida da presença dos participantes durante a chegada no evento.</p>
+                        <div class="card-action mt-auto">
+                            Acessar Módulo <i class="bi bi-arrow-right"></i>
+                        </div>
                     </div>
-                </div>
+                </a>
             </div>
 
             <!-- Card Relatório Pós-Evento -->
             <div class="col-md-4 mb-4">
-                <div class="card dashboard-card">
-                    <div class="card-body text-center p-4">
-                        <i class="bi bi-clipboard-data card-icon"></i>
+                <a href="pos-evento.html" class="card dashboard-card">
+                    <div class="card-body p-4 d-flex flex-column">
+                        <div class="card-icon-wrapper">
+                            <i class="bi bi-bar-chart-fill card-icon"></i>
+                        </div>
                         <h5 class="card-title">Relatório Pós-Evento</h5>
-                        <p class="card-text">Relatórios completos de inscrições, pagamentos e estatísticas do evento.
-                        </p>
-                        <a href="pos-evento.html" class="btn btn-acamp">Acessar</a>
+                        <p class="card-text">Visualize gráficos, métricas e um relatório completo com todas as estatísticas consolidadas do evento.</p>
+                        <div class="card-action mt-auto">
+                            Acessar Módulo <i class="bi bi-arrow-right"></i>
+                        </div>
                     </div>
-                </div>
+                </a>
             </div>
 
         </div>
@@ -312,36 +469,58 @@
         // Função para carregar estatísticas gerais
         function carregarEstatisticas() {
             // Carregar dados de pagamentos
-            db.collection("Eventos").doc("ComRoca2025").collection("inscricoes")
-                .where("anoevento", "==", "2025")
+            db.collection("Eventos").doc("ComRoca2026").collection("inscricoes")
+                .where("anoevento", "==", "2026")
                 .get()
                 .then((querySnapshot) => {
                     let totalInscritos = querySnapshot.size;
                     let totalPagos = 0;
-                    const valorInscricao = 20.00;
+                    let totalPendentes = 0;
+                    const valorInscricao = 20.00; // Ou o valor da inscrição do ano
 
                     querySnapshot.forEach((doc) => {
                         const participante = doc.data();
                         if (participante.statusPagamento === 'pago') {
                             totalPagos++;
+                        } else {
+                            totalPendentes++;
                         }
                     });
 
                     // Atualizar contadores
-                    document.getElementById('totalInscritos').textContent = totalInscritos;
+                    if (document.getElementById('totalInscritos')) {
+                        document.getElementById('totalInscritos').textContent = totalInscritos;
+                    }
+                    if (document.getElementById('totalPagos')) {
+                        document.getElementById('totalPagos').textContent = totalPagos;
+                    }
+                    if (document.getElementById('totalPendentes')) {
+                        document.getElementById('totalPendentes').textContent = totalPendentes;
+                    }
 
-                    // Atualizar valores financeiros
-                    const valorPago = (totalPagos * valorInscricao).toFixed(2).replace('.', ',');
-                    document.getElementById('valorPago').textContent = 'R$ ' + valorPago;
+                    // Atualizar valores financeiros se houver na tela
+                    if (document.getElementById('valorPago')) {
+                        const valorPago = (totalPagos * valorInscricao).toFixed(2).replace('.', ',');
+                        document.getElementById('valorPago').textContent = 'R$ ' + valorPago;
+                    }
 
-                    // Calcular porcentagem de pagamentos
-                    const porcentagemPagamentos = totalInscritos > 0 ? Math.round((totalPagos / totalInscritos) * 100) : 0;
-                    document.getElementById('progressoPagamentos').style.width = porcentagemPagamentos + '%';
+                    // Calcular porcentagem
+                    const porcentagemPagos = totalInscritos > 0 ? Math.round((totalPagos / totalInscritos) * 100) : 0;
+                    const porcentagemPendentes = totalInscritos > 0 ? Math.round((totalPendentes / totalInscritos) * 100) : 0;
+                    
+                    if (document.getElementById('progressoPagos')) {
+                        document.getElementById('progressoPagos').style.width = porcentagemPagos + '%';
+                    }
+                    if (document.getElementById('progressoPendentes')) {
+                        document.getElementById('progressoPendentes').style.width = porcentagemPendentes + '%';
+                    }
 
-                    // Atualizar progresso de inscrições (vamos supor uma meta de 100 participantes)
-                    const meta = 100;
+                    // Atualizar progresso de inscrições (meta do ComRoca é 70 participantes)
+                    const meta = 70;
                     const porcentagemInscritos = Math.min(Math.round((totalInscritos / meta) * 100), 100);
-                    document.getElementById('progressoInscricoes').style.width = porcentagemInscritos + '%';
+                    if (document.getElementById('progressoInscricoes')) {
+                        document.getElementById('progressoInscricoes').style.width = porcentagemInscritos + '%';
+                    }
                 })
                 .catch((error) => {
                     console.error("Erro ao carregar estatísticas de pagamentos: ", error);

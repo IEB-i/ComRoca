@@ -10,66 +10,13 @@
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap">
     <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css">
+    <link rel="stylesheet" href="../css/common.css">
     <style>
         body {
             font-family: 'Montserrat', sans-serif;
             color: #333;
             padding-top: 80px;
-        }
-
-        .dashboard-card {
-            border-radius: 10px;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-            transition: transform 0.3s;
-            margin-bottom: 20px;
-        }
-
-        .dashboard-card:hover {
-            transform: translateY(-5px);
-        }
-
-        .card-header {
-            border-radius: 10px 10px 0 0;
-            font-weight: bold;
-        }
-
-        .presenca-card {
-            background: linear-gradient(45deg, #28a745, #20c997);
-            color: white;
-        }
-
-        .table-responsive {
-            border-radius: 10px;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-        }
-
-        .btn-voltar {
-            position: absolute;
-            left: 20px;
-            top: 50%;
-            transform: translateY(-50%);
-            background-color: rgba(255, 255, 255, 0.2);
-            color: white;
-            border-radius: 50%;
-            width: 40px;
-            height: 40px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            transition: all 0.3s ease;
-            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-        }
-
-        .btn-voltar:hover {
-            background-color: rgba(255, 255, 255, 0.3);
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-            transform: translateY(-50%) scale(1.05);
-            color: white;
-            text-decoration: none;
-        }
-
-        .btn-voltar .material-icons {
-            font-size: 24px;
         }
 
         .status-badge {
@@ -93,14 +40,6 @@
             color: #212529;
         }
 
-        .filtro-container {
-            background-color: #f8f9fa;
-            border-radius: 10px;
-            padding: 15px;
-            margin-bottom: 20px;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-        }
-
         .btn-presenca {
             transition: all 0.3s ease;
         }
@@ -113,28 +52,6 @@
             background-color: #fff3cd;
             padding: 2px 4px;
             border-radius: 3px;
-        }
-
-        .stats-card {
-            text-align: center;
-            padding: 20px;
-            border-radius: 10px;
-            margin-bottom: 15px;
-        }
-
-        .stats-presente {
-            background: linear-gradient(45deg, #28a745, #20c997);
-            color: white;
-        }
-
-        .stats-ausente {
-            background: linear-gradient(45deg, #dc3545, #e74c3c);
-            color: white;
-        }
-
-        .stats-total {
-            background: linear-gradient(45deg, #007bff, #0056b3);
-            color: white;
         }
 
         .hora-checkin {
@@ -159,50 +76,89 @@
     </div>
 
     <div class="container mt-5">
+        <!-- 1. RESUMO DE PRESENÇAS -->
+        <div class="section-title-wrapper mt-5 mb-4">
+            <div class="section-title-indicator"></div>
+            <h4 class="section-title text-uppercase mb-0">
+                <i class="bi bi-person-check mr-2"></i> Resumo de Presenças
+            </h4>
+        </div>
+
         <!-- Estatísticas -->
-        <div class="row">
-            <div class="col-md-3">
-                <div class="card dashboard-card stats-total">
-                    <div class="card-body text-center">
-                        <h5 class="card-title">Total Inscritos</h5>
-                        <h2 id="totalInscritos">0</h2>
-                        <small>Pagamento confirmado</small>
+        <div class="row mb-4">
+            <div class="col-md-3 mb-3">
+                <div class="card dashboard-card h-100">
+                    <div class="card-body">
+                        <div class="d-flex align-items-center">
+                            <div class="stats-icon-wrapper mr-3" style="background: rgba(13, 110, 253, 0.1); color: #0d6efd;">
+                                <i class="bi bi-people-fill"></i>
+                            </div>
+                            <div>
+                                <div class="stats-label">Total Inscritos</div>
+                                <div class="stats-value" id="totalInscritos">0</div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
-            <div class="col-md-3">
-                <div class="card dashboard-card stats-presente">
-                    <div class="card-body text-center">
-                        <h5 class="card-title">Presentes</h5>
-                        <h2 id="totalPresentes">0</h2>
-                        <small id="percentualPresentes">0%</small>
+            <div class="col-md-3 mb-3">
+                <div class="card dashboard-card h-100">
+                    <div class="card-body">
+                        <div class="d-flex align-items-center">
+                            <div class="stats-icon-wrapper mr-3" style="background: rgba(40, 167, 69, 0.1); color: #28a745;">
+                                <i class="bi bi-person-check-fill"></i>
+                            </div>
+                            <div>
+                                <div class="stats-label">Presentes</div>
+                                <div class="stats-value text-success d-flex align-items-end" id="totalPresentes">0 <small class="text-muted ml-2 pb-1 font-weight-bold" id="percentualPresentes" style="font-size: 0.8rem;">(0%)</small></div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
-            <div class="col-md-3">
-                <div class="card dashboard-card stats-ausente">
-                    <div class="card-body text-center">
-                        <h5 class="card-title">Ausentes</h5>
-                        <h2 id="totalAusentes">0</h2>
-                        <small id="percentualAusentes">0%</small>
+            <div class="col-md-3 mb-3">
+                <div class="card dashboard-card h-100">
+                    <div class="card-body">
+                        <div class="d-flex align-items-center">
+                            <div class="stats-icon-wrapper mr-3" style="background: rgba(220, 53, 69, 0.1); color: #dc3545;">
+                                <i class="bi bi-person-x-fill"></i>
+                            </div>
+                            <div>
+                                <div class="stats-label">Ausentes</div>
+                                <div class="stats-value text-danger d-flex align-items-end" id="totalAusentes">0 <small class="text-muted ml-2 pb-1 font-weight-bold" id="percentualAusentes" style="font-size: 0.8rem;">(0%)</small></div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
-            <div class="col-md-3">
-                <div class="card dashboard-card">
-                    <div class="card-body presenca-card text-center">
-                        <h5 class="card-title">Última Atualização</h5>
-                        <h6 id="ultimaAtualizacao">--:--</h6>
-                        <small>Tempo real</small>
+            <div class="col-md-3 mb-3">
+                <div class="card dashboard-card h-100">
+                    <div class="card-body">
+                        <div class="d-flex align-items-center">
+                            <div class="stats-icon-wrapper mr-3" style="background: rgba(23, 162, 184, 0.1); color: #17a2b8;">
+                                <i class="bi bi-clock-history"></i>
+                            </div>
+                            <div>
+                                <div class="stats-label">Última Atualização</div>
+                                <div class="stats-value text-info" id="ultimaAtualizacao" style="font-size: 1.2rem;">--:--</div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
 
+        <div class="section-title-wrapper mt-5 mb-4">
+            <div class="section-title-indicator"></div>
+            <h4 class="section-title text-uppercase mb-0">
+                <i class="bi bi-list-check mr-2"></i> Gestão de Participantes
+            </h4>
+        </div>
+
         <!-- Filtros -->
-        <div class="row mt-4">
+        <div class="row">
             <div class="col-md-12">
-                <div class="filtro-container">
+                <div class="filter-card p-4 bg-white rounded shadow-sm mb-4">
                     <div class="row">
                         <div class="col-md-4">
                             <div class="form-group">
@@ -238,20 +194,22 @@
         </div>
 
         <!-- Lista de Participantes -->
-        <div class="row mt-3">
+        <div class="row">
             <div class="col-md-12">
                 <div class="card dashboard-card">
-                    <div class="card-header d-flex justify-content-between align-items-center">
-                        <span>Lista de Participantes</span>
+                    <div class="card-header bg-transparent border-bottom-0 pt-4 pb-0 d-flex justify-content-between align-items-center">
+                        <h5 class="mb-0" style="color: #2c3e50; font-weight: 700;">
+                            <i class="bi bi-people mr-2"></i> Lista de Participantes
+                        </h5>
                         <div>
-                            <button class="btn btn-primary btn-sm" id="btnExportarPresenca">
-                                <i class="material-icons">cloud_download</i> Exportar Lista
+                            <button class="btn btn-primary btn-sm" id="btnExportarPresenca" style="border-radius: 8px;">
+                                <i class="bi bi-cloud-download mr-1"></i> Exportar
                             </button>
                         </div>
                     </div>
                     <div class="card-body">
-                        <div class="table-responsive">
-                            <table class="table table-striped" id="participantesTable">
+                        <div class="table-responsive" style="border-radius: 10px; overflow: hidden; box-shadow: 0 0 10px rgba(0,0,0,0.05);">
+                            <table class="table table-striped table-hover mb-0" id="participantesTable">
                                 <thead class="thead-dark">
                                     <tr>
                                         <th>Nome</th>
@@ -401,8 +359,8 @@
 
         function carregarParticipantes() {
             // Buscar participantes com pagamento confirmado
-            db.collection("Eventos").doc("ComRoca2025").collection("inscricoes")
-                .where("anoevento", "==", "2025")
+            db.collection("Eventos").doc("ComRoca2026").collection("inscricoes")
+                .where("anoevento", "==", "2026")
                 .where("statusPagamento", "==", "pago")
                 .get()
                 .then((querySnapshot) => {
@@ -622,7 +580,7 @@
                 updateData.dataCheckin = agora;
             }
             
-            db.collection("Eventos").doc("ComRoca2025").collection("inscricoes").doc(participanteId)
+            db.collection("Eventos").doc("ComRoca2026").collection("inscricoes").doc(participanteId)
                 .update(updateData)
                 .then(() => {
                     // Atualizar o participante na lista local
@@ -735,7 +693,7 @@
             const wb = XLSX.utils.book_new();
             XLSX.utils.book_append_sheet(wb, ws, "Lista de Presença");
             
-            const nomeArquivo = `Lista_Presenca_AcampBT2025_${formatarDataArquivo(new Date())}.xlsx`;
+            const nomeArquivo = `Lista_Presenca_ComRoca2026_${formatarDataArquivo(new Date())}.xlsx`;
             XLSX.writeFile(wb, nomeArquivo);
         }
 
@@ -744,7 +702,7 @@
             const csv = XLSX.utils.sheet_to_csv(ws);
             
             const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
-            const nomeArquivo = `Lista_Presenca_AcampBT2025_${formatarDataArquivo(new Date())}.csv`;
+            const nomeArquivo = `Lista_Presenca_ComRoca2026_${formatarDataArquivo(new Date())}.csv`;
             saveAs(blob, nomeArquivo);
         }
 
@@ -777,4 +735,3 @@
 </body>
 
 </html>
-<link rel="stylesheet" href="../css/common.css">

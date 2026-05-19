@@ -182,7 +182,7 @@
             }
 
             .header-title {
-                font-size:1.3rem;
+                font-size: 1.3rem;
                 text-align: center;
             }
 
@@ -228,12 +228,12 @@
         <div class="divider"></div>
 
         <div class="info-box">
-            <p><strong>Valor da inscrição:</strong> R$ 30,00</p>
+            <p><strong>Valor da inscrição:</strong> R$ 40,00 Individual e R$ 70,00 Casal </p>
             <p><strong>Tipo de Pagamento:</strong> PIX, Espécie e Cartão (Com Taxa da Maquineta)*</p>
             <!-- <p style="margin-top: -15px;"><small><i>*Pagamento CARTÃO pode ser parcelado até 10x.</i></small></p> -->
-            <p>*Para realização do Pagamento, entrar em contato com <b>Samuel (Coordenador)</b></p>
-            <p style="margin-top: -15px;"><b>Whatsapp: </b><a href="https://wa.me/558391173924" target="_blank">83
-                    99117-3924</a></p>
+            <p>*Para realização do Pagamento, entrar em contato com <b>Gustavo Perrusi (Guga)</b></p>
+            <p style="margin-top: -15px;"><b>Whatsapp: </b><a href="https://wa.me/5583999127728" target="_blank">83
+                    99912-7728</a></p>
         </div>
 
         <form id="acampForm">
@@ -315,14 +315,14 @@
                     <label for="fonecontato">Celular do Responsável (Obrigatório para menor de 18 anos)</label>
                     <input type="tel" class="form-control" id="fonecontato" placeholder="(99) 99999-9999">
                 </div>
-                <div class="form-group" id="autorizacaoDiv">
+                <!-- <div class="form-group" id="autorizacaoDiv">
                     <div class="info-box"
                         style="background-color: #f8f9fa; border: 1px solid #dee2e6; border-radius: 5px; padding: 15px; margin-top: 10px;">
                         <p class="mb-1"><strong>TERMO DE AUTORIZAÇÃO</strong></p>
                         <p class="mb-1">Eu <span id="nomeResponsavelSpan" style="font-weight: bold;"></span> autorizo a
                             participão de <span id="nomeParticipanteSpan" style="font-weight: bold;"></span> no evento
                             "Essência", organizado pela IEB Missão Resgate na cidade do Conde-PB, a ser realizado no dia
-                            26/04/2025.</p>
+                            26/04/2026.</p>
                         <p class="mb-1">Autorizo também que o(a) referido(a) adolescente utilize o transporte oferecido
                             pela IEB Intermares, onde será acompanhado pelo líderes de jovens Alysson Samuel Batista de
                             Amorim
@@ -332,13 +332,13 @@
                         <p class="mb-1">Declaro estar ciente de todas as informações referentes ao evento e ao
                             transporte, bem como das normas e condutas esperadas dos participantes. Comprometo-me a
                             fornecer informações médicas relevantes, caso necessário.</p>
-                        <p class="mb-1">A presente autorização é válida apenas para o dia 26/04/2025 – percurso ida e
+                        <p class="mb-1">A presente autorização é válida apenas para o dia 26/04/2026 – percurso ida e
                             volta.</p>
                     </div>
 
-                </div>
+                </div> -->
 
-                <div class="form-group mt-3">
+                <!-- <div class="form-group mt-3">
                     <label for="assinatura">Assinatura do Responsável</label>
                     <div class="signature-container">
                         <canvas id="signature-pad" class="signature-pad" width="400" height="200"></canvas>
@@ -349,7 +349,7 @@
                     </div>
                     <input type="hidden" id="assinaturaData" name="assinaturaData">
                     <small class="form-text text-muted">Por favor, assine usando o mouse ou touch na tela.</small>
-                </div>
+                </div> -->
 
             </div>
 
@@ -376,9 +376,9 @@
 
         // Função para verificar se o nome já existe
         function verificarNomeExistente(nome) {
-            return db.collection("Eventos").doc("ComRoca2025").collection("inscricoes")
+            return db.collection("Eventos").doc("ComRoca2026").collection("inscricoes")
                 .where("nome", "==", nome)
-                .where("anoevento", "==", "2025")
+                .where("anoevento", "==", "2026")
                 .get()
                 .then((querySnapshot) => {
                     return !querySnapshot.empty;
@@ -511,59 +511,48 @@
 
             // Lista estática de líderes de células
             const lideres = [
-                "ADRIANA / KENEDY",
-                "AIRTON / EMÍLIA",
-                "ALDA",
-                "ALLAN / AILDA",
-                "ANA / JOYCE / AMANDA",
-                "ANDERSON / LAURISA",
-                "ANDREIA / VANDERLEI",
-                "ARTHUR / LORENA",
-                "BELMIRO / MÔNICA",
-                "BERNADETE / FRANCY",
-                "CAIO / BIANCA",
-                "CLÁUDIO / JAQUELINE",
-                "CLOVILDA / JOSIMARC",
-                "CLOVIS / ANDREI",
-                "DANIEL / EVELLY",
-                "EDUARDO / NICOLLY",
-                "FÁBIO / EDNALVA",
-                "FABRÍCIO / NADJA",
-                "FERNANDES / ZELÂNDIA",
-                "GABRIEL / BARBARA",
-                "GABRIEL / RAYZA",
-                "GILBERTO / MARCIA",
-                "GUILHERME / MIGUEL",
-                "GUSTAVO / MARIANA",
-                "GUTEMBERG / ELAINE",
-                "JAIRO / ROSANA",
-                "JOHN",
-                "JONATHAN / ALINE",
-                "JOSINALDO / ELAINE",
-                "JÚNIOR / FERNANDA",
-                "LEONARDO / LIDIA",
-                "LINDEMBERG / ADRIANA / LUCIENE",
-                "LÍVIA / NICOLY",
-                "LUCAS / SAYMON",
-                "MANOEL / CLAUDIANE",
-                "MARCIELLE / PIETRA",
-                "NATIVA",
-                "PATRÍCIA",
-                "PEDRO / FILIPE",
-                "RAMON / NAZELI",
-                "RAQUEL",
-                "RAQUEL / ADEILDES",
-                "REBEKAH / MONIQUE",
-                "RHODNEY / KAREN",
-                "RIBAMAR / JOSELMA",
-                "RICARDO / ROSANE",
-                "ROGÉRIO / LUCIÉLLEN",
-                "RUBENS / EMILLY",
-                "SAMUEL / RAISSA",
-                "SAULO / ERIKA",
-                "SIMONE",
-                "WALTER / JESSY",
-                "KAYANN / NATÁLIA"
+                "ADRIANA / KENEDY - AGUA VIVA 2",
+                "ADVANILTON / EDVÂNIA - AE01",
+                "ALDA - A01",
+                "ALLAN / AILDA - SHOFAR",
+                "ANDERSON / LAURISA - EFATÁ",
+                "ANA / AMANDA - REDE TEEN",
+                "ARTHUR / LORENA - AL01",
+                "BELMIRO / MÔNICA - LEÃO DE JUDÁ",
+                "BERNADETE / JAMILLY - MAANAIM 2",
+                "CHOSEN - REBEKAH / MONIQUE",
+                "CLÁUDIO / JAQUELINE - AGAPE",
+                "CLOVIS / LÍVIA - ROCKS",
+                "EDUARDO / NICOLLY - EN01",
+                "EVELLYN / FERNANDA - EF01",
+                "FÁBIO / EDNALVA - MANANCIAL",
+                "FABRÍCIO / NADJA - SOL DA JUSTIÇA",
+                "FLÁVIO / LIVYA - MARANATA",
+                "GABRIEL / RAYZA - PENIEL",
+                "GILBERTO / MARCIA - AGUA VIVA 1",
+                "GUILHERME / MIGUEL / FILIPE - REDE TEEN",
+                "GUSTAVO / MARIANA - HEAVEN",
+                "GUTEMBERG / ELAINE - ATOS 2",
+                "JAIRO / ROSANA - MORIAH",
+                "JOAO / SHIRLEY - JS01",
+                "LEONARDO / LIDIA - KAIROS",
+                "LINDEMBERG / ADRIANA / LUCIENE - IDE",
+                "MARIA / NILMA - MN01",
+                "NATIVA - SHEKINAH",
+                "PATRÍCIA - ATOS 1",
+                "RAMON / NAZELIA - FILADÉLFIA",
+                "RAQUEL - SHAMMAR",
+                "RHODNEY / KAREN - YAHWEH",
+                "RIBAMAR / JOSELMA - ALIANÇA",
+                "RICARDO / ROSANE - KADOSH",
+                "RUBENS / EMILLY - AGUA VIVA 3",
+                "SAMUEL / RAISSA - MANÁ",
+                "SAYMON / LUCAS - OVERFLOW",
+                "SAULO / ERIKA - ATALAIA",
+                "SIMONE - S01",
+                "THIAGO / NATÁLIA - AWAKE",
+                "THIAGO / NATHALIA - TN01",
+                "Outra Célula"
             ];
 
             // Ordenar os líderes alfabeticamente
@@ -737,7 +726,7 @@
                     rede: document.getElementById('rede').value,
                     outraIgreja: document.getElementById('outraIgreja').value,
                     dataPreenchimento: document.getElementById('dataPreenchimento').value,
-                    anoevento: '2025',
+                    anoevento: '2026',
                     statusPagamento: 'pendente',
                     dtRegistro: new Date().toISOString()
                 };
@@ -745,23 +734,23 @@
                 // Log para visualizar o objeto formData completo (sem a assinatura para não sobrecarregar o console)
                 console.log('Dados completos a serem enviados:', { ...formData, assinaturaResponsavel: formData.assinaturaResponsavel ? 'ASSINATURA_BASE64_REMOVIDA_DO_LOG' : null });
 
-                db.collection("Eventos").doc("ComRoca2025").collection("inscricoes").add(formData)
+                db.collection("Eventos").doc("ComRoca2026").collection("inscricoes").add(formData)
                     .then((docRef) => {
                         console.log("Documento escrito com ID: ", docRef.id);
 
                         // ✅ ADICIONE ESTA PARTE - Incrementar contador
-                        return db.collection("Eventos").doc("ComRoca2025").update({
+                        return db.collection("Eventos").doc("ComRoca2026").update({
                             totalInscricoes: firebase.firestore.FieldValue.increment(1),
                             ultimaAtualizacao: firebase.firestore.FieldValue.serverTimestamp()
                         });
                     })
                     .then(() => {
                         console.log("Contador atualizado!");
-                        
+
                         // Send email notification
                         const emailData = {
-                            to: "mozer.cielle@gmail.com",
-                            subject: "Nova Inscrição Essência 2025",
+                            to: "[EMAIL_ADDRESS]",
+                            subject: "Nova Inscrição Comunhão na Roça 2026",
                             text: `Nova inscrição realizada:\nNome: ${formData.nome}\nTelefone: ${formData.celular}\nData: ${formData.dataPreenchimento}`
                         };
 
