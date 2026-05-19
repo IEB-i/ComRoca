@@ -131,6 +131,102 @@
         .sort-asc .material-icons {
             transform: rotate(180deg);
         }
+
+        /* Estilização moderna dos botões de ação na tabela */
+        .btn-table-action {
+            background: transparent;
+            border: 1px solid transparent;
+            border-radius: 8px;
+            width: 34px;
+            height: 34px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 0;
+            font-size: 1.1rem;
+            cursor: pointer;
+            transition: all 0.2s ease-in-out;
+            position: relative;
+        }
+
+        .btn-table-action:focus {
+            outline: none;
+            box-shadow: none;
+        }
+
+        /* Cores e efeitos para o botão Editar */
+        .btn-table-action.btn-edit-modern {
+            color: #0d6efd;
+            border-color: rgba(13, 110, 253, 0.2);
+        }
+        .btn-table-action.btn-edit-modern:hover {
+            background-color: #0d6efd;
+            color: white;
+            border-color: #0d6efd;
+            transform: scale(1.08);
+            box-shadow: 0 4px 8px rgba(13, 110, 253, 0.2);
+        }
+        .btn-table-action.btn-edit-modern .bi-pencil-fill {
+            display: none;
+        }
+        .btn-table-action.btn-edit-modern:hover .bi-pencil {
+            display: none;
+        }
+        .btn-table-action.btn-edit-modern:hover .bi-pencil-fill {
+            display: inline-block;
+        }
+
+        /* Cores e efeitos para o botão Excluir/Estornar */
+        .btn-table-action.btn-delete-modern {
+            color: #dc3545;
+            border-color: rgba(220, 53, 69, 0.2);
+        }
+        .btn-table-action.btn-delete-modern:hover {
+            background-color: #dc3545;
+            color: white;
+            border-color: #dc3545;
+            transform: scale(1.08);
+            box-shadow: 0 4px 8px rgba(220, 53, 69, 0.2);
+        }
+        .btn-table-action.btn-delete-modern .bi-x-circle-fill {
+            display: none;
+        }
+        .btn-table-action.btn-delete-modern:hover .bi-x-circle {
+            display: none;
+        }
+        .btn-table-action.btn-delete-modern:hover .bi-x-circle-fill {
+            display: inline-block;
+        }
+
+        /* Cores e efeitos para o botão WhatsApp */
+        .btn-table-action.btn-whatsapp-modern {
+            color: #198754;
+            border-color: rgba(25, 135, 84, 0.2);
+        }
+        .btn-table-action.btn-whatsapp-modern:hover {
+            background-color: #198754;
+            color: white;
+            border-color: #198754;
+            transform: scale(1.08);
+            box-shadow: 0 4px 8px rgba(25, 135, 84, 0.2);
+        }
+
+        /* Garantir rolagem horizontal limpa e alinhamento dos cabeçalhos (títulos das colunas) no mobile */
+        @media (max-width: 768px) {
+            .table-responsive {
+                overflow-x: auto !important;
+                display: block;
+                width: 100%;
+                -webkit-overflow-scrolling: touch;
+            }
+            .table-responsive table {
+                min-width: 700px; /* Garante que a tabela tenha tamanho suficiente para forçar a barra horizontal e não amassar */
+            }
+            .table-responsive th, 
+            .table-responsive td {
+                white-space: nowrap; /* Evita quebra de linha de nomes ou valores, mantendo tudo alinhado */
+            }
+        }
     </style>
 </head>
 
@@ -376,6 +472,35 @@
         </div>
     </div>
 
+    <!-- Modal de Envio de Ingresso via WhatsApp -->
+    <div class="modal fade" id="enviarIngressoModal" tabindex="-1" role="dialog"
+        aria-labelledby="enviarIngressoModalLabel" aria-hidden="true" data-backdrop="static">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="enviarIngressoModalLabel">Pagamento Registrado!</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Fechar">
+                        <span aria-hidden="true">×</span>
+                    </button>
+                </div>
+                <div class="modal-body text-center">
+                    <div class="mb-3">
+                        <i class="bi bi-whatsapp text-success" style="font-size: 3rem;"></i>
+                    </div>
+                    <p>O pagamento de <strong id="enviarIngressoNome"></strong> foi registrado com sucesso.</p>
+                    <p>Deseja enviar o ingresso (QR Code) para o WhatsApp do participante agora?</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" id="naoEnviarIngressoBtn">Não, apenas
+                        fechar</button>
+                    <button type="button" class="btn btn-success" id="enviarIngressoBtn">
+                        <i class="bi bi-send mr-1"></i> Sim, enviar por WhatsApp
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
@@ -430,18 +555,61 @@
             carregarParticipantesPendentes();
             carregarUltimosPagamentos();
 
+            // Lógica do Modal de Envio de Ingresso
+            $('#naoEnviarIngressoBtn').on('click', function () {
+                $('#enviarIngressoModal').modal('hide');
+            });
+
+            // Evitar que cliques fora do modal quebrem o fluxo e garantir recarga de dados ao fechar
+            $('#enviarIngressoModal').on('hidden.bs.modal', function () {
+                carregarDashboard();
+                carregarParticipantesPendentes();
+                carregarUltimosPagamentos();
+            });
+
+            $('#enviarIngressoBtn').on('click', function () {
+                const participanteId = $(this).data('id');
+                const nomeParticipante = $(this).data('nome');
+                const celularOriginal = $(this).data('celular') || '';
+                let celular = celularOriginal;
+
+                // Formatar celular para WhatsApp: remover não-dígitos e adicionar 55 se necessário
+                celular = celular ? celular.toString().replace(/\D/g, '') : '';
+                if (celular && !celular.startsWith('55')) {
+                    celular = '55' + celular;
+                }
+
+                // Montar o link do QRCode com Nome e Celular (removemos o parâmetro size opcional para manter o link ainda mais curto e limpo)
+                const qrCodeData = `${nomeParticipante} - ${celularOriginal}`;
+                const qrCodeUrl = `https://api.qrserver.com/v1/create-qr-code/?data=${encodeURIComponent(qrCodeData)}`;
+
+                // Mensagem formatada
+                const mensagem = `Olá ${nomeParticipante}! Seu pagamento para o evento *Comunhão na Roça 2026* foi confirmado com sucesso. ✅\n\nQR Code (Ingresso) de entrada no evento:\n\n${qrCodeUrl}`;
+
+                let waUrl = "";
+                if (celular) {
+                    waUrl = `https://api.whatsapp.com/send?phone=${celular}&text=${encodeURIComponent(mensagem)}`;
+                } else {
+                    alert("Atenção: O celular deste participante não foi encontrado na base de dados. Redirecionando para o WhatsApp Web sem o número preenchido.");
+                    waUrl = `https://api.whatsapp.com/send?text=${encodeURIComponent(mensagem)}`;
+                }
+
+                window.open(waUrl, '_blank');
+                $('#enviarIngressoModal').modal('hide');
+            });
+
             // Formatar campos de valor como moeda
             $('#valorPagamento, #editValorPagamento').on('input', function (e) {
                 let valor = e.target.value;
                 valor = valor.replace(/\D/g, ""); // Remove tudo o que não é dígito
-                
+
                 if (valor === "") {
                     e.target.value = "";
                     return;
                 }
-                
+
                 valor = parseInt(valor, 10).toString();
-                
+
                 if (valor === "NaN") {
                     e.target.value = "";
                     return;
@@ -450,10 +618,10 @@
                 while (valor.length < 3) {
                     valor = "0" + valor;
                 }
-                
+
                 valor = valor.replace(/(\d+)(\d{2})$/, "$1,$2");
                 valor = valor.replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1.");
-                
+
                 e.target.value = valor;
             });
 
@@ -524,14 +692,19 @@
                         });
                     })
                     .then(() => {
-                        alert('Pagamento registrado com sucesso!');
-                        $('#paymentForm')[0].reset();
+                        const nomeParticipante = $('#participante option:selected').text();
+                        const celularParticipante = $('#participante option:selected').data('celular') || '';
 
-                        // Recarregar dados
-                        console.log("Recarregando dados do dashboard após registro de pagamento...");
-                        carregarDashboard();
-                        carregarParticipantesPendentes();
-                        carregarUltimosPagamentos();
+                        $('#enviarIngressoModalLabel').text("Pagamento Registrado!");
+                        $('#enviarIngressoNome').text(nomeParticipante);
+                        $('#enviarIngressoBtn').data('id', participanteId);
+                        $('#enviarIngressoBtn').data('nome', nomeParticipante);
+                        $('#enviarIngressoBtn').data('celular', celularParticipante);
+                        
+                        $('#enviarIngressoModal').modal('show');
+                        $('#paymentForm')[0].reset();
+                        
+                        console.log("Pagamento registrado. Modal de ingresso aberto.");
                     }).catch((error) => {
                         console.error("Erro ao registrar pagamento:", error);
                         alert("Erro ao registrar pagamento. Tente novamente.");
@@ -737,7 +910,8 @@
                 .then((querySnapshot) => {
                     querySnapshot.forEach((doc) => {
                         const participante = doc.data();
-                        selectParticipante.append(`<option value="${doc.id}">${participante.nome}</option>`);
+                        const celular = participante.celular || participante.fonecontato || '';
+                        selectParticipante.append(`<option value="${doc.id}" data-celular="${celular}">${participante.nome}</option>`);
                     });
 
                     // Verificar se há participantes pendentes
@@ -807,11 +981,16 @@
                 <td>
                     ${pagamento.status === 'confirmado' ? `
                         <div class="btn-group" role="group">
-                            <button class="btn btn-info btn-sm" onclick="prepararEdicao('${pagamento.id}')">
-                                <i class="material-icons">edit</i>
+                            <button class="btn-table-action btn-whatsapp-modern mr-1" onclick="prepararEnvioPelaTabela('${pagamento.participanteId}', '${pagamento.participanteNome}')" title="Enviar Ingresso por WhatsApp">
+                                <i class="bi bi-whatsapp"></i>
                             </button>
-                            <button class="btn btn-danger btn-sm" onclick="prepararEstorno('${pagamento.id}', '${pagamento.participanteId}', '${pagamento.participanteNome}')">
-                                <i class="material-icons">cancel</i>
+                            <button class="btn-table-action btn-edit-modern mr-1" onclick="prepararEdicao('${pagamento.id}')" title="Editar Pagamento">
+                                <i class="bi bi-pencil"></i>
+                                <i class="bi bi-pencil-fill"></i>
+                            </button>
+                            <button class="btn-table-action btn-delete-modern" onclick="prepararEstorno('${pagamento.id}', '${pagamento.participanteId}', '${pagamento.participanteNome}')" title="Estornar Pagamento">
+                                <i class="bi bi-x-circle"></i>
+                                <i class="bi bi-x-circle-fill"></i>
                             </button>
                         </div>
                     ` : ''}
@@ -821,6 +1000,34 @@
 
                 tabelaPagamentos.append(linha);
             });
+        }
+
+        function prepararEnvioPelaTabela(participanteId, participanteNome) {
+            console.log("Buscando dados para envio de ingresso via tabela...");
+            
+            // Buscar celular do participante no banco para abrir o modal de envio
+            db.collection("Eventos").doc("ComRoca2026").collection("inscricoes").doc(participanteId).get()
+                .then((doc) => {
+                    if (doc.exists) {
+                        const participante = doc.data();
+                        const celular = participante.celular || participante.fonecontato || '';
+                        
+                        // Adaptar título e dados no modal
+                        $('#enviarIngressoModalLabel').text("Enviar Ingresso");
+                        $('#enviarIngressoNome').text(participanteNome);
+                        $('#enviarIngressoBtn').data('id', participanteId);
+                        $('#enviarIngressoBtn').data('nome', participanteNome);
+                        $('#enviarIngressoBtn').data('celular', celular);
+                        
+                        $('#enviarIngressoModal').modal('show');
+                    } else {
+                        alert("Erro: Participante não encontrado.");
+                    }
+                })
+                .catch((error) => {
+                    console.error("Erro ao buscar participante:", error);
+                    alert("Erro ao buscar dados do participante.");
+                });
         }
 
         function prepararEstorno(pagamentoId, participanteId, participanteNome) {
