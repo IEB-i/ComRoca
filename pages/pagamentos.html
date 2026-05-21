@@ -4,34 +4,51 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Pagamentos</title>
+    <title>Pagamentos — Comunhão na Roça 2026</title>
     <link rel="shortcut icon" href="../assets/3.ico" type="image/x-icon">
 
-    <link rel="stylesheet" href="../css/common.css">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700;800&display=swap">
     <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/chart.js@3.7.1/dist/chart.min.css">
+    <link rel="stylesheet" href="../css/common.css">
+
     <style>
         body {
             font-family: 'Montserrat', sans-serif;
             color: #333;
-            padding-top: 80px;
+            padding-top: 100px;
+            background-color: #f8f9fa;
         }
 
+        /* Animação suave */
+        .fade-in-up {
+            animation: fadeInUp 0.5s ease-out both;
+        }
+
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(20px); }
+            to   { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Cards de estatísticas */
         .stats-icon-wrapper {
-            width: 60px;
-            height: 60px;
+            width: 55px;
+            height: 55px;
             border-radius: 16px;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 1.8rem;
+            font-size: 1.6rem;
+            transition: all 0.3s ease;
+        }
+
+        .dashboard-card:hover .stats-icon-wrapper {
+            transform: scale(1.1);
         }
 
         .stats-value {
-            font-size: 2rem;
+            font-size: 1.8rem;
             font-weight: 800;
             margin-bottom: 0;
             color: #2c3e50;
@@ -39,32 +56,31 @@
         }
 
         .stats-label {
-            font-size: 0.95rem;
+            font-size: 0.85rem;
             color: #6c757d;
             font-weight: 600;
-            margin-bottom: 0;
+            margin-bottom: 2px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
         }
 
-        .chart-container {
-            position: relative;
-            height: 300px;
-            width: 100%;
+        /* Inputs */
+        .form-control {
+            border-radius: 10px;
+            border: 1px solid rgba(0, 0, 0, 0.1);
+            padding: 10px 15px;
+            height: auto;
+            transition: all 0.3s ease;
+            background-color: #f8f9fa;
         }
 
-        .badge-pago {
-            background-color: #28a745;
-            color: white;
-            padding: 5px 10px;
-            border-radius: 20px;
+        .form-control:focus {
+            background-color: #fff;
+            border-color: #ff8c00;
+            box-shadow: 0 0 0 3px rgba(255, 140, 0, 0.12);
         }
 
-        .badge-pendente {
-            background-color: #ffc107;
-            color: #333;
-            padding: 5px 10px;
-            border-radius: 20px;
-        }
-
+        /* Botão de voltar */
         .btn-voltar {
             position: absolute;
             left: 20px;
@@ -90,75 +106,67 @@
             text-decoration: none;
         }
 
-        .btn-voltar .material-icons {
-            font-size: 24px;
+        /* Gráficos */
+        .chart-container {
+            position: relative;
+            height: 280px;
+            width: 100%;
         }
 
-        .btn-group .btn {
-            margin-right: 2px;
+        /* Badges de status */
+        .status-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-size: 0.78rem;
+            font-weight: 700;
+            border: 1.5px solid transparent;
+            letter-spacing: 0.3px;
         }
 
-        .btn-group .btn:last-child {
-            margin-right: 0;
+        .status-badge.confirmado {
+            background-color: rgba(25, 135, 84, 0.1);
+            color: #198754;
+            border-color: rgba(25, 135, 84, 0.25);
         }
 
-        .btn-info {
-            background-color: #17a2b8;
-            color: white;
+        .status-badge.estornado {
+            background-color: rgba(220, 53, 69, 0.1);
+            color: #dc3545;
+            border-color: rgba(220, 53, 69, 0.25);
         }
 
-        .btn-info:hover {
-            background-color: #138496;
-        }
-
-        .sort-btn {
-            background: transparent;
-            border: none;
-            padding: 0;
-            cursor: pointer;
-            transition: all 0.2s;
-        }
-
-        .sort-btn:hover {
-            transform: scale(1.2);
-        }
-
-        .sort-btn:focus {
-            outline: none;
-            box-shadow: none;
-        }
-
-        .sort-asc .material-icons {
-            transform: rotate(180deg);
-        }
-
-        /* Estilização moderna dos botões de ação na tabela */
+        /* Botões de ação na tabela */
         .btn-table-action {
             background: transparent;
             border: 1px solid transparent;
             border-radius: 8px;
-            width: 34px;
-            height: 34px;
+            width: 36px;
+            height: 36px;
             display: inline-flex;
             align-items: center;
             justify-content: center;
             padding: 0;
-            font-size: 1.1rem;
+            font-size: 1.05rem;
             cursor: pointer;
             transition: all 0.2s ease-in-out;
-            position: relative;
+            margin-right: 4px;
         }
+
+        .btn-table-action:last-child { margin-right: 0; }
 
         .btn-table-action:focus {
             outline: none;
             box-shadow: none;
         }
 
-        /* Cores e efeitos para o botão Editar */
         .btn-table-action.btn-edit-modern {
             color: #0d6efd;
             border-color: rgba(13, 110, 253, 0.2);
         }
+
         .btn-table-action.btn-edit-modern:hover {
             background-color: #0d6efd;
             color: white;
@@ -166,21 +174,12 @@
             transform: scale(1.08);
             box-shadow: 0 4px 8px rgba(13, 110, 253, 0.2);
         }
-        .btn-table-action.btn-edit-modern .bi-pencil-fill {
-            display: none;
-        }
-        .btn-table-action.btn-edit-modern:hover .bi-pencil {
-            display: none;
-        }
-        .btn-table-action.btn-edit-modern:hover .bi-pencil-fill {
-            display: inline-block;
-        }
 
-        /* Cores e efeitos para o botão Excluir/Estornar */
         .btn-table-action.btn-delete-modern {
             color: #dc3545;
             border-color: rgba(220, 53, 69, 0.2);
         }
+
         .btn-table-action.btn-delete-modern:hover {
             background-color: #dc3545;
             color: white;
@@ -188,21 +187,12 @@
             transform: scale(1.08);
             box-shadow: 0 4px 8px rgba(220, 53, 69, 0.2);
         }
-        .btn-table-action.btn-delete-modern .bi-x-circle-fill {
-            display: none;
-        }
-        .btn-table-action.btn-delete-modern:hover .bi-x-circle {
-            display: none;
-        }
-        .btn-table-action.btn-delete-modern:hover .bi-x-circle-fill {
-            display: inline-block;
-        }
 
-        /* Cores e efeitos para o botão WhatsApp */
         .btn-table-action.btn-whatsapp-modern {
             color: #198754;
             border-color: rgba(25, 135, 84, 0.2);
         }
+
         .btn-table-action.btn-whatsapp-modern:hover {
             background-color: #198754;
             color: white;
@@ -211,7 +201,57 @@
             box-shadow: 0 4px 8px rgba(25, 135, 84, 0.2);
         }
 
-        /* Garantir rolagem horizontal limpa e alinhamento dos cabeçalhos (títulos das colunas) no mobile */
+        /* Cabeçalhos ordenáveis */
+        th.sortable {
+            cursor: pointer;
+            user-select: none;
+            white-space: nowrap;
+            transition: background-color 0.15s ease;
+        }
+
+        th.sortable:hover { background-color: rgba(97, 55, 4, 0.07); }
+
+        th.sortable:active,
+        th.sortable:focus {
+            background-color: rgba(97, 55, 4, 0.07) !important;
+            outline: none;
+        }
+
+        th.sortable .sort-icon {
+            display: inline-block;
+            margin-left: 5px;
+            font-size: 0.75rem;
+            opacity: 0.4;
+            transition: opacity 0.2s, transform 0.2s;
+            vertical-align: middle;
+        }
+
+        th.sortable.asc .sort-icon,
+        th.sortable.desc .sort-icon {
+            opacity: 1;
+            color: #ff8c00;
+        }
+
+        th.sortable.desc .sort-icon { transform: rotate(180deg); }
+
+        /* Linha de forma de pagamento com ícone */
+        .forma-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+            font-size: 0.82rem;
+            font-weight: 700;
+            color: #495057;
+        }
+
+        /* Hora / data */
+        .data-pagamento {
+            font-size: 0.85rem;
+            color: #2b5210;
+            font-weight: 700;
+        }
+
+        /* Mobile */
         @media (max-width: 768px) {
             .table-responsive {
                 overflow-x: auto !important;
@@ -219,13 +259,11 @@
                 width: 100%;
                 -webkit-overflow-scrolling: touch;
             }
-            .table-responsive table {
-                min-width: 700px; /* Garante que a tabela tenha tamanho suficiente para forçar a barra horizontal e não amassar */
-            }
-            .table-responsive th, 
-            .table-responsive td {
-                white-space: nowrap; /* Evita quebra de linha de nomes ou valores, mantendo tudo alinhado */
-            }
+
+            .table-responsive table { min-width: 800px; }
+
+            .table-responsive th,
+            .table-responsive td { white-space: nowrap; }
         }
     </style>
 </head>
@@ -239,20 +277,19 @@
     </div>
 
     <div class="container mt-5">
-        <div class="row">
+
+        <!-- Cards de Resumo -->
+        <div class="row fade-in-up">
             <div class="col-md-4 mb-3">
-                <div class="card dashboard-card h-100">
-                    <div class="card-body">
+                <div class="card dashboard-card h-100 border-0 shadow-sm" style="border-radius: 16px;">
+                    <div class="card-body p-4">
                         <div class="d-flex align-items-center">
-                            <div class="stats-icon-wrapper mr-3"
-                                style="background: rgba(13, 110, 253, 0.1); color: #0d6efd;">
+                            <div class="stats-icon-wrapper mr-3" style="background: rgba(13, 110, 253, 0.1); color: #0d6efd;">
                                 <i class="bi bi-people-fill"></i>
                             </div>
                             <div>
                                 <div class="stats-label">Total de Inscrições</div>
                                 <div class="stats-value" id="totalInscritos">0</div>
-                                <!-- <h6 class="text-muted mt-2 mb-0" style="font-size: 0.8rem; font-weight: 600;">Esperado:
-                                        R$ <span id="valorTotal">0,00</span></h6> -->
                             </div>
                         </div>
                     </div>
@@ -260,18 +297,18 @@
             </div>
 
             <div class="col-md-4 mb-3">
-                <div class="card dashboard-card h-100">
-                    <div class="card-body">
+                <div class="card dashboard-card h-100 border-0 shadow-sm" style="border-radius: 16px;">
+                    <div class="card-body p-4">
                         <div class="d-flex align-items-center">
-                            <div class="stats-icon-wrapper mr-3"
-                                style="background: rgba(40, 167, 69, 0.1); color: #28a745;">
+                            <div class="stats-icon-wrapper mr-3" style="background: rgba(25, 135, 84, 0.1); color: #198754;">
                                 <i class="bi bi-check-circle-fill"></i>
                             </div>
                             <div>
                                 <div class="stats-label">Confirmados</div>
                                 <div class="stats-value" id="totalPagos">0</div>
-                                <h6 class="text-success mt-2 mb-0" style="font-size: 0.8rem; font-weight: 600;">
-                                    Recebido: R$ <span id="valorPago">0,00</span></h6>
+                                <h6 class="text-success mt-1 mb-0" style="font-size: 0.8rem; font-weight: 700;">
+                                    Recebido: R$ <span id="valorPago">0,00</span>
+                                </h6>
                             </div>
                         </div>
                     </div>
@@ -279,18 +316,15 @@
             </div>
 
             <div class="col-md-4 mb-3">
-                <div class="card dashboard-card h-100">
-                    <div class="card-body">
+                <div class="card dashboard-card h-100 border-0 shadow-sm" style="border-radius: 16px;">
+                    <div class="card-body p-4">
                         <div class="d-flex align-items-center">
-                            <div class="stats-icon-wrapper mr-3"
-                                style="background: rgba(255, 193, 7, 0.1); color: #ffc107;">
+                            <div class="stats-icon-wrapper mr-3" style="background: rgba(255, 193, 7, 0.12); color: #b58100;">
                                 <i class="bi bi-clock-history"></i>
                             </div>
                             <div>
                                 <div class="stats-label">Pendentes</div>
                                 <div class="stats-value" id="totalPendentes">0</div>
-                                <!-- <h6 class="text-warning mt-2 mb-0" style="font-size: 0.8rem; font-weight: 600;">
-                                    Pendente: R$ <span id="valorPendente">0,00</span></h6> -->
                             </div>
                         </div>
                     </div>
@@ -298,13 +332,16 @@
             </div>
         </div>
 
-        <div class="row mt-4">
-            <div class="col-md-6">
-                <div class="card dashboard-card">
-                    <div class="card-header">
-                        Status de Pagamentos
+        <!-- Gráficos -->
+        <div class="row mt-2 fade-in-up">
+            <div class="col-md-6 mb-4">
+                <div class="card dashboard-card border-0 shadow-sm" style="border-radius: 16px;">
+                    <div class="card-header bg-transparent border-bottom-0 pt-4 pb-0">
+                        <h5 class="mb-0" style="color: #613704; font-weight: 700; font-size: 1.1rem;">
+                            <i class="bi bi-pie-chart-fill mr-2" style="color: #ff8c00;"></i> Status de Pagamentos
+                        </h5>
                     </div>
-                    <div class="card-body">
+                    <div class="card-body pt-2">
                         <div class="chart-container">
                             <canvas id="graficoStatus"></canvas>
                         </div>
@@ -312,12 +349,14 @@
                 </div>
             </div>
 
-            <div class="col-md-6">
-                <div class="card dashboard-card">
-                    <div class="card-header">
-                        Formas de Pagamento
+            <div class="col-md-6 mb-4">
+                <div class="card dashboard-card border-0 shadow-sm" style="border-radius: 16px;">
+                    <div class="card-header bg-transparent border-bottom-0 pt-4 pb-0">
+                        <h5 class="mb-0" style="color: #613704; font-weight: 700; font-size: 1.1rem;">
+                            <i class="bi bi-bar-chart-fill mr-2" style="color: #ff8c00;"></i> Formas de Pagamento
+                        </h5>
                     </div>
-                    <div class="card-body">
+                    <div class="card-body pt-2">
                         <div class="chart-container">
                             <canvas id="graficoFormas"></canvas>
                         </div>
@@ -326,71 +365,88 @@
             </div>
         </div>
 
-        <div class="row mt-4">
+        <!-- Formulário: Registrar Novo Pagamento -->
+        <div class="row fade-in-up">
             <div class="col-md-12">
-                <div class="filter-card p-4 bg-white rounded shadow-sm mb-4">
-                    <h5 class="mb-3" style="color: #2c3e50; font-weight: 700;"><i class="bi bi-wallet2 mr-2"></i>
-                        Registrar Novo Pagamento</h5>
-                    <form id="paymentForm" class="row">
-                        <div class="form-group col-md-4">
-                            <label for="participante" class="text-muted" style="font-weight: 600;">Participante</label>
-                            <select class="form-control" id="participante" required>
-                                <option value="">Selecione um participante</option>
-                            </select>
+                <div class="filter-card p-4 shadow-sm mb-4 border-0" style="border-radius: 16px; background-color: #ffffff;">
+                    <h5 class="mb-4" style="color: #613704; font-weight: 700; font-size: 1.1rem; text-transform: uppercase; letter-spacing: 0.5px;">
+                        <i class="bi bi-wallet2 mr-2" style="color: #ff8c00;"></i> Registrar Novo Pagamento
+                    </h5>
+                    <form id="paymentForm" class="row align-items-end">
+                        <div class="form-group col-md-4 mb-3 mb-md-0">
+                            <label for="participante" class="text-muted font-weight-bold mb-1" style="font-size: 0.82rem; text-transform: uppercase; letter-spacing: 0.5px;">Participante</label>
+                            <div class="input-group">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text bg-light border-right-0" style="border-radius: 10px 0 0 10px; border: 1px solid rgba(0,0,0,0.1);">
+                                        <i class="bi bi-person-fill" style="color: #6c757d;"></i>
+                                    </span>
+                                </div>
+                                <select class="form-control border-left-0" id="participante" required style="border-radius: 0 10px 10px 0;">
+                                    <option value="">Selecione um participante</option>
+                                </select>
+                            </div>
                         </div>
-                        <div class="form-group col-md-3">
-                            <label for="valorPagamento" class="text-muted" style="font-weight: 600;">Valor (R$)</label>
-                            <input type="text" class="form-control" id="valorPagamento" placeholder="Ex: 50,00">
+                        <div class="form-group col-md-3 mb-3 mb-md-0">
+                            <label for="valorPagamento" class="text-muted font-weight-bold mb-1" style="font-size: 0.82rem; text-transform: uppercase; letter-spacing: 0.5px;">Valor (R$)</label>
+                            <div class="input-group">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text bg-light border-right-0" style="border-radius: 10px 0 0 10px; border: 1px solid rgba(0,0,0,0.1);">
+                                        <i class="bi bi-currency-dollar" style="color: #6c757d;"></i>
+                                    </span>
+                                </div>
+                                <input type="text" class="form-control border-left-0" id="valorPagamento" placeholder="Ex: 30,00" style="border-radius: 0 10px 10px 0;">
+                            </div>
                         </div>
-                        <div class="form-group col-md-3">
-                            <label for="formaPagamento" class="text-muted" style="font-weight: 600;">Forma</label>
-                            <select class="form-control" id="formaPagamento" required>
-                                <option value="">Selecione</option>
-                                <option value="pix">PIX</option>
-                                <option value="cartao">Cartão</option>
-                                <option value="dinheiro">Dinheiro</option>
-                            </select>
+                        <div class="form-group col-md-3 mb-3 mb-md-0">
+                            <label for="formaPagamento" class="text-muted font-weight-bold mb-1" style="font-size: 0.82rem; text-transform: uppercase; letter-spacing: 0.5px;">Forma</label>
+                            <div class="input-group">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text bg-light border-right-0" style="border-radius: 10px 0 0 10px; border: 1px solid rgba(0,0,0,0.1);">
+                                        <i class="bi bi-credit-card-fill" style="color: #6c757d;"></i>
+                                    </span>
+                                </div>
+                                <select class="form-control border-left-0" id="formaPagamento" required style="border-radius: 0 10px 10px 0;">
+                                    <option value="">Selecione</option>
+                                    <option value="pix">PIX</option>
+                                    <option value="cartao">Cartão</option>
+                                    <option value="dinheiro">Dinheiro</option>
+                                </select>
+                            </div>
                         </div>
-                        <div class="form-group col-md-2 d-flex align-items-end">
-                            <button type="submit" class="btn btn-success w-100 shadow-sm" style="border-radius: 8px;"><i
-                                    class="bi bi-check-circle mr-1"></i> Confirmar</button>
+                        <div class="form-group col-md-2 mb-0">
+                            <button type="submit" class="btn btn-success w-100 shadow-sm" style="border-radius: 10px; font-weight: 700; padding: 10px; background: linear-gradient(135deg, #198754, #28a745); border: none;">
+                                <i class="bi bi-check-circle-fill mr-1"></i> Confirmar
+                            </button>
                         </div>
                     </form>
                 </div>
             </div>
         </div>
 
-        <div class="row mt-3">
+        <!-- Tabela de Pagamentos -->
+        <div class="row mt-2 fade-in-up">
             <div class="col-md-12">
-                <div class="card dashboard-card">
-                    <div class="card-header bg-transparent border-bottom-0 pt-4 pb-0">
-                        <h5 class="mb-0" style="color: #2c3e50; font-weight: 700;"><i class="bi bi-list-ul mr-2"></i>
-                            Últimos Pagamentos</h5>
+                <div class="card dashboard-card border-0 shadow-sm" style="border-radius: 16px;">
+                    <div class="card-header bg-transparent border-bottom-0 pt-4 pb-0 d-flex justify-content-between align-items-center">
+                        <h5 class="mb-0" style="color: #613704; font-weight: 700; font-size: 1.25rem;">
+                            <i class="bi bi-list-ul mr-2" style="color: #ff8c00;"></i> Últimos Pagamentos
+                        </h5>
                     </div>
                     <div class="card-body">
-                        <div class="table-responsive"
-                            style="border-radius: 10px; overflow: hidden; box-shadow: 0 0 10px rgba(0,0,0,0.05);">
-                            <table class="table table-striped table-hover mb-0" id="pagamentosTable">
-                                <thead class="thead-dark">
+                        <div style="border-radius: 12px; overflow-x: auto; overflow-y: visible; border: 1px solid rgba(0,0,0,0.05);">
+                            <table class="table table-hover mb-0" id="pagamentosTable" style="min-width: 750px;">
+                                <thead>
                                     <tr>
-                                        <th style="width: 25%;">
-                                            <div class="d-flex align-items-center">
-                                                Participante
-                                                <button class="btn btn-sm text-white ml-2 sort-btn"
-                                                    data-sort="participante">
-                                                    <i class="material-icons" id="sortIconParticipante">sort</i>
-                                                </button>
-                                            </div>
-                                        </th>
-                                        <th>Data de Pagamento</th>
-                                        <th>Valor</th>
-                                        <th>Forma</th>
-                                        <th>Status</th>
-                                        <th>Ações</th>
+                                        <th class="sortable" data-col="participante" style="width: 30%;">Participante <i class="bi bi-arrow-up sort-icon"></i></th>
+                                        <th class="sortable" data-col="data" style="width: 20%;">Data <i class="bi bi-arrow-up sort-icon"></i></th>
+                                        <th class="sortable" data-col="valor" style="width: 12%;">Valor <i class="bi bi-arrow-up sort-icon"></i></th>
+                                        <th class="sortable" data-col="forma" style="width: 13%;">Forma <i class="bi bi-arrow-up sort-icon"></i></th>
+                                        <th style="width: 13%;">Status</th>
+                                        <th class="text-center" style="width: 12%;">Ações</th>
                                     </tr>
                                 </thead>
                                 <tbody id="pagamentosList">
-                                    <!-- Os dados serão carregados dinamicamente do Firebase -->
+                                    <!-- Dados carregados dinamicamente -->
                                 </tbody>
                             </table>
                         </div>
@@ -398,103 +454,128 @@
                 </div>
             </div>
         </div>
+
     </div>
 
-    <!-- Modal de Confirmação de Estorno -->
-    <div class="modal fade" id="estornoModal" tabindex="-1" role="dialog" aria-labelledby="estornoModalLabel"
-        aria-hidden="true">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="estornoModalLabel">Confirmar Estorno</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Fechar">
-                        <span aria-hidden="true">×</span>
+    <!-- Modal: Confirmar Estorno -->
+    <div class="modal fade" id="estornoModal" tabindex="-1" role="dialog" aria-labelledby="estornoModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document" style="max-width: 420px;">
+            <div class="modal-content shadow-lg border-0" style="border-radius: 20px; overflow: hidden;">
+                <div class="modal-header text-white p-4 border-0" style="background: linear-gradient(135deg, #dc3545, #bd2130);">
+                    <h5 class="modal-title font-weight-bold" id="estornoModalLabel">
+                        <i class="bi bi-arrow-counterclockwise mr-2"></i> Confirmar Estorno
+                    </h5>
+                    <button type="button" class="close text-white" data-dismiss="modal" aria-label="Fechar">
+                        <span aria-hidden="true" style="font-size: 1.5rem;">&times;</span>
                     </button>
                 </div>
-                <div class="modal-body">
-                    <p>Você tem certeza que deseja estornar o pagamento de <strong id="estornoNome"></strong>?</p>
-                    <p>Esta ação irá marcar o pagamento como pendente.</p>
+                <div class="modal-body p-4 bg-light">
+                    <div class="text-center mb-4">
+                        <div class="d-inline-flex align-items-center justify-content-center bg-white rounded-circle shadow-sm" style="width: 70px; height: 70px;">
+                            <i class="bi bi-exclamation-triangle-fill" style="font-size: 2.2rem; color: #dc3545;"></i>
+                        </div>
+                    </div>
+                    <p class="text-center text-muted mb-1" style="font-size: 0.9rem;">Deseja estornar o pagamento de</p>
+                    <p class="text-center font-weight-bold mb-3" style="font-size: 1.05rem; color: #2c3e50;" id="estornoNome"></p>
+                    <p class="text-center text-muted" style="font-size: 0.85rem;">O pagamento será marcado como <strong>pendente</strong> e o estorno será registrado no caixa.</p>
                 </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
-                    <button type="button" class="btn btn-danger" id="confirmarEstorno">Confirmar Estorno</button>
+                <div class="modal-footer border-0 p-4 bg-white d-flex justify-content-between">
+                    <button type="button" class="btn btn-outline-secondary px-4" data-dismiss="modal" style="border-radius: 12px; font-weight: 600;">Cancelar</button>
+                    <button type="button" class="btn btn-danger px-4 shadow-sm" id="confirmarEstorno"
+                        style="border-radius: 12px; font-weight: bold; background: linear-gradient(135deg, #dc3545, #bd2130); border: none;">
+                        <i class="bi bi-arrow-counterclockwise mr-1"></i> Confirmar Estorno
+                    </button>
                 </div>
             </div>
         </div>
     </div>
 
-    <!-- Modal de Edição de Pagamento -->
-    <div class="modal fade" id="editarPagamentoModal" tabindex="-1" role="dialog"
-        aria-labelledby="editarPagamentoModalLabel" aria-hidden="true">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="editarPagamentoModalLabel">Editar Pagamento</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Fechar">
-                        <span aria-hidden="true">×</span>
+    <!-- Modal: Editar Pagamento -->
+    <div class="modal fade" id="editarPagamentoModal" tabindex="-1" role="dialog" aria-labelledby="editarPagamentoModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content shadow-lg border-0" style="border-radius: 20px; overflow: hidden;">
+                <div class="modal-header text-white p-4 border-0" style="background: linear-gradient(135deg, #613704, #8c510a);">
+                    <h5 class="modal-title font-weight-bold" id="editarPagamentoModalLabel">
+                        <i class="bi bi-pencil-square mr-2"></i> Editar Pagamento
+                    </h5>
+                    <button type="button" class="close text-white" data-dismiss="modal" aria-label="Fechar">
+                        <span aria-hidden="true" style="font-size: 1.5rem;">&times;</span>
                     </button>
                 </div>
-                <div class="modal-body">
+                <div class="modal-body p-4 bg-light">
+                    <div class="text-center mb-4">
+                        <div class="d-inline-flex align-items-center justify-content-center bg-white rounded-circle shadow-sm" style="width: 70px; height: 70px;">
+                            <i class="bi bi-cash-coin" style="font-size: 2.2rem; color: #ff8c00;"></i>
+                        </div>
+                    </div>
                     <form id="editarPagamentoForm">
                         <input type="hidden" id="editPagamentoId">
                         <input type="hidden" id="editParticipanteId">
 
-                        <div class="form-group">
-                            <label for="editParticipanteNome">Participante</label>
-                            <input type="text" class="form-control" id="editParticipanteNome" readonly>
+                        <div class="form-group mb-3">
+                            <label class="text-muted font-weight-bold mb-1" style="font-size: 0.82rem; text-transform: uppercase; letter-spacing: 0.5px;">Participante</label>
+                            <input type="text" class="form-control border-0 shadow-sm font-weight-bold" id="editParticipanteNome" readonly style="border-radius: 10px; height: 45px; background-color: #e9ecef;">
                         </div>
 
-                        <div class="form-group">
-                            <label for="editDataPagamento">Data de Pagamento</label>
-                            <input type="text" class="form-control" id="editDataPagamento" readonly>
+                        <div class="form-group mb-3">
+                            <label class="text-muted font-weight-bold mb-1" style="font-size: 0.82rem; text-transform: uppercase; letter-spacing: 0.5px;">Data do Pagamento</label>
+                            <input type="text" class="form-control border-0 shadow-sm" id="editDataPagamento" readonly style="border-radius: 10px; height: 45px; background-color: #e9ecef;">
                         </div>
 
-                        <div class="form-group">
-                            <label for="editValorPagamento">Valor</label>
-                            <input type="text" class="form-control" id="editValorPagamento" required>
-                        </div>
-
-                        <div class="form-group">
-                            <label for="editFormaPagamento">Forma de Pagamento</label>
-                            <select class="form-control" id="editFormaPagamento" required>
-                                <option value="pix">PIX</option>
-                                <option value="cartao">Cartão</option>
-                                <option value="dinheiro">Dinheiro</option>
-                            </select>
+                        <div class="row">
+                            <div class="col-md-6 form-group mb-3">
+                                <label for="editValorPagamento" class="text-muted font-weight-bold mb-1" style="font-size: 0.82rem; text-transform: uppercase; letter-spacing: 0.5px;">Valor (R$)</label>
+                                <input type="text" class="form-control border-0 shadow-sm font-weight-bold" id="editValorPagamento" required style="border-radius: 10px; height: 45px; background-color: #ffffff;">
+                            </div>
+                            <div class="col-md-6 form-group mb-0">
+                                <label for="editFormaPagamento" class="text-muted font-weight-bold mb-1" style="font-size: 0.82rem; text-transform: uppercase; letter-spacing: 0.5px;">Forma</label>
+                                <select class="form-control border-0 shadow-sm" id="editFormaPagamento" required style="border-radius: 10px; height: 45px;">
+                                    <option value="pix">PIX</option>
+                                    <option value="cartao">Cartão</option>
+                                    <option value="dinheiro">Dinheiro</option>
+                                </select>
+                            </div>
                         </div>
                     </form>
                 </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
-                    <button type="button" class="btn btn-primary" id="salvarEdicaoPagamento">Salvar Alterações</button>
+                <div class="modal-footer border-0 p-4 bg-white d-flex justify-content-between">
+                    <button type="button" class="btn btn-outline-secondary px-4" data-dismiss="modal" style="border-radius: 12px; font-weight: 600;">Cancelar</button>
+                    <button type="button" class="btn btn-primary px-4 shadow-sm" id="salvarEdicaoPagamento"
+                        style="border-radius: 12px; font-weight: bold; background: linear-gradient(135deg, #613704, #ff8c00); border: none;">
+                        <i class="bi bi-floppy-fill mr-1"></i> Salvar Alterações
+                    </button>
                 </div>
             </div>
         </div>
     </div>
 
-    <!-- Modal de Envio de Ingresso via WhatsApp -->
-    <div class="modal fade" id="enviarIngressoModal" tabindex="-1" role="dialog"
-        aria-labelledby="enviarIngressoModalLabel" aria-hidden="true" data-backdrop="static">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="enviarIngressoModalLabel">Pagamento Registrado!</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Fechar">
-                        <span aria-hidden="true">×</span>
+    <!-- Modal: Enviar Ingresso por WhatsApp -->
+    <div class="modal fade" id="enviarIngressoModal" tabindex="-1" role="dialog" aria-labelledby="enviarIngressoModalLabel" aria-hidden="true" data-backdrop="static">
+        <div class="modal-dialog modal-dialog-centered" role="document" style="max-width: 420px;">
+            <div class="modal-content shadow-lg border-0" style="border-radius: 20px; overflow: hidden;">
+                <div class="modal-header text-white p-4 border-0" style="background: linear-gradient(135deg, #075e54, #128c7e);">
+                    <h5 class="modal-title font-weight-bold" id="enviarIngressoModalLabel">
+                        <i class="bi bi-whatsapp mr-2"></i> Pagamento Registrado!
+                    </h5>
+                    <button type="button" class="close text-white" data-dismiss="modal" aria-label="Fechar">
+                        <span aria-hidden="true" style="font-size: 1.5rem;">&times;</span>
                     </button>
                 </div>
-                <div class="modal-body text-center">
-                    <div class="mb-3">
-                        <i class="bi bi-whatsapp text-success" style="font-size: 3rem;"></i>
+                <div class="modal-body p-4 bg-light">
+                    <div class="text-center mb-4">
+                        <div class="d-inline-flex align-items-center justify-content-center bg-white rounded-circle shadow-sm" style="width: 70px; height: 70px;">
+                            <i class="bi bi-whatsapp" style="font-size: 2.2rem; color: #25d366;"></i>
+                        </div>
                     </div>
-                    <p>O pagamento de <strong id="enviarIngressoNome"></strong> foi registrado com sucesso.</p>
-                    <p>Deseja enviar o ingresso (QR Code) para o WhatsApp do participante agora?</p>
+                    <p class="text-center text-muted mb-1" style="font-size: 0.9rem;">O pagamento de</p>
+                    <p class="text-center font-weight-bold mb-3" style="font-size: 1.05rem; color: #2c3e50;" id="enviarIngressoNome"></p>
+                    <p class="text-center text-muted" style="font-size: 0.85rem;">foi registrado com sucesso. Deseja enviar o ingresso (QR Code) para o <strong>WhatsApp</strong> do participante agora?</p>
                 </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" id="naoEnviarIngressoBtn">Não, apenas
-                        fechar</button>
-                    <button type="button" class="btn btn-success" id="enviarIngressoBtn">
-                        <i class="bi bi-send mr-1"></i> Sim, enviar por WhatsApp
+                <div class="modal-footer border-0 p-4 bg-white d-flex justify-content-between">
+                    <button type="button" class="btn btn-outline-secondary px-4" id="naoEnviarIngressoBtn" style="border-radius: 12px; font-weight: 600;">Não, fechar</button>
+                    <button type="button" class="btn btn-success px-4 shadow-sm" id="enviarIngressoBtn"
+                        style="border-radius: 12px; font-weight: bold; background: linear-gradient(135deg, #075e54, #25d366); border: none;">
+                        <i class="bi bi-send-fill mr-1"></i> Sim, enviar
                     </button>
                 </div>
             </div>
@@ -505,20 +586,23 @@
     <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js@3.7.1/dist/chart.min.js"></script>
-    <script
-        src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2.2.0/dist/chartjs-plugin-datalabels.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2.2.0/dist/chartjs-plugin-datalabels.min.js"></script>
     <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
     <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-firestore.js"></script>
     <script src="../firebase/firebaseConfig.js"></script>
 
     <script>
 
-        // Variáveis para gráficos
+        // Variáveis globais
         let graficoStatus;
         let graficoFormas;
+        let todosPagamentos = [];
+
+        // Controle de ordenação da tabela
+        let sortConfig = { field: 'dataPagamento', direction: 'desc' };
 
         $(document).ready(function () {
-            // Registra o plugin de datalabels e configura o estilo moderno global
+            // Chart.js: datalabels
             if (typeof ChartDataLabels !== 'undefined') {
                 Chart.register(ChartDataLabels);
                 Chart.defaults.plugins.datalabels = {
@@ -530,7 +614,7 @@
                 };
             }
 
-            // Design moderno global para Chart.js
+            // Design global Chart.js
             Chart.defaults.font.family = "'Montserrat', sans-serif";
             Chart.defaults.color = "#6c757d";
             Chart.defaults.scale.grid.color = "rgba(0,0,0,0.04)";
@@ -538,29 +622,33 @@
             Chart.defaults.elements.bar.borderSkipped = false;
             Chart.defaults.elements.arc.borderWidth = 0;
             Chart.defaults.elements.arc.hoverOffset = 4;
-            Chart.defaults.layout = {
-                padding: {
-                    top: 30,
-                    right: 40,
-                    bottom: 10,
-                    left: 10
-                }
-            };
+            Chart.defaults.layout = { padding: { top: 30, right: 40, bottom: 10, left: 10 } };
 
-            // Inicializar gráficos primeiro
+            // Inicializar gráficos e carregar dados
             initGraficos();
-
-            // Depois carregar dados
             carregarDashboard();
             carregarParticipantesPendentes();
             carregarUltimosPagamentos();
 
-            // Lógica do Modal de Envio de Ingresso
+            // Ordenação por cabeçalho clicável
+            $('#pagamentosTable thead th.sortable').on('click', function () {
+                const col = $(this).data('col');
+                if (sortConfig.field === col) {
+                    sortConfig.direction = sortConfig.direction === 'asc' ? 'desc' : 'asc';
+                } else {
+                    sortConfig.field = col;
+                    sortConfig.direction = 'asc';
+                }
+                $('#pagamentosTable thead th.sortable').removeClass('asc desc');
+                $(this).addClass(sortConfig.direction);
+                aplicarOrdenacao();
+            });
+
+            // Modal: Enviar ingresso
             $('#naoEnviarIngressoBtn').on('click', function () {
                 $('#enviarIngressoModal').modal('hide');
             });
 
-            // Evitar que cliques fora do modal quebrem o fluxo e garantir recarga de dados ao fechar
             $('#enviarIngressoModal').on('hidden.bs.modal', function () {
                 carregarDashboard();
                 carregarParticipantesPendentes();
@@ -573,55 +661,34 @@
                 const celularOriginal = $(this).data('celular') || '';
                 let celular = celularOriginal;
 
-                // Formatar celular para WhatsApp: remover não-dígitos e adicionar 55 se necessário
                 celular = celular ? celular.toString().replace(/\D/g, '') : '';
                 if (celular && !celular.startsWith('55')) {
                     celular = '55' + celular;
                 }
 
-                // Montar o link do QRCode com o ID do participante (garante validação única e rápida no check-in)
                 const qrCodeData = participanteId;
                 const qrCodeUrl = `https://api.qrserver.com/v1/create-qr-code/?data=${encodeURIComponent(qrCodeData)}`;
-
-                // Mensagem formatada
                 const mensagem = `Olá ${nomeParticipante}! Seu pagamento para o evento *Comunhão na Roça 2026* foi confirmado com sucesso. ✅\n\nQR Code (Ingresso) de entrada no evento:\n\n${qrCodeUrl}`;
 
-                let waUrl = "";
-                if (celular) {
-                    waUrl = `https://api.whatsapp.com/send?phone=${celular}&text=${encodeURIComponent(mensagem)}`;
-                } else {
-                    alert("Atenção: O celular deste participante não foi encontrado na base de dados. Redirecionando para o WhatsApp Web sem o número preenchido.");
-                    waUrl = `https://api.whatsapp.com/send?text=${encodeURIComponent(mensagem)}`;
-                }
+                let waUrl = celular
+                    ? `https://api.whatsapp.com/send?phone=${celular}&text=${encodeURIComponent(mensagem)}`
+                    : `https://api.whatsapp.com/send?text=${encodeURIComponent(mensagem)}`;
+
+                if (!celular) alert("Atenção: Celular não encontrado. Redirecionando sem número preenchido.");
 
                 window.open(waUrl, '_blank');
                 $('#enviarIngressoModal').modal('hide');
             });
 
-            // Formatar campos de valor como moeda
+            // Formatação de valor como moeda
             $('#valorPagamento, #editValorPagamento').on('input', function (e) {
-                let valor = e.target.value;
-                valor = valor.replace(/\D/g, ""); // Remove tudo o que não é dígito
-
-                if (valor === "") {
-                    e.target.value = "";
-                    return;
-                }
-
+                let valor = e.target.value.replace(/\D/g, '');
+                if (valor === '') { e.target.value = ''; return; }
                 valor = parseInt(valor, 10).toString();
-
-                if (valor === "NaN") {
-                    e.target.value = "";
-                    return;
-                }
-
-                while (valor.length < 3) {
-                    valor = "0" + valor;
-                }
-
-                valor = valor.replace(/(\d+)(\d{2})$/, "$1,$2");
-                valor = valor.replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1.");
-
+                if (valor === 'NaN') { e.target.value = ''; return; }
+                while (valor.length < 3) { valor = '0' + valor; }
+                valor = valor.replace(/(\d+)(\d{2})$/, '$1,$2');
+                valor = valor.replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1.');
                 e.target.value = valor;
             });
 
@@ -633,25 +700,16 @@
                 const formaPagamento = $('#formaPagamento').val();
                 const valorPagamento = parseFloat($('#valorPagamento').val().replace(/\./g, '').replace(',', '.'));
 
-                console.log("Tentando registrar novo pagamento:");
-                console.log("- Participante ID:", participanteId);
-                console.log("- Forma de Pagamento:", formaPagamento);
-                console.log("- Valor:", valorPagamento);
-
                 if (!participanteId || !formaPagamento) {
                     alert('Por favor, preencha todos os campos.');
-                    console.log("Validação falhou: campos obrigatórios não preenchidos");
                     return;
                 }
 
                 if (!valorPagamento || isNaN(valorPagamento) || valorPagamento <= 0) {
                     alert('Por favor, informe um valor válido para o pagamento.');
-                    console.log("Validação falhou: valor inválido");
                     return;
                 }
 
-                // Atualizar participante com informações de pagamento
-                console.log("Atualizando status do participante para 'pago'...");
                 db.collection("Eventos").doc("ComRoca2026").collection("inscricoes").doc(participanteId)
                     .update({
                         statusPagamento: 'pago',
@@ -660,10 +718,6 @@
                         valorPago: valorPagamento
                     })
                     .then(() => {
-                        console.log("Status do participante atualizado com sucesso");
-                        console.log("Registrando pagamento na coleção de pagamentos...");
-
-                        // Registrar pagamento na coleção de pagamentos
                         return db.collection("Eventos").doc("ComRoca2026").collection("pagamentos").add({
                             participanteId: participanteId,
                             participanteNome: $('#participante option:selected').text(),
@@ -674,9 +728,6 @@
                         });
                     })
                     .then((docRef) => {
-                        console.log("Pagamento registrado com sucesso, ID:", docRef.id);
-
-                        // ADICIONAR: Registrar automaticamente no caixa
                         return db.collection("Eventos").doc("ComRoca2026").collection("caixa").add({
                             descricao: `Inscrição - ${$('#participante option:selected').text()}`,
                             data: new Date().toISOString().substring(0, 10),
@@ -695,52 +746,32 @@
                         const nomeParticipante = $('#participante option:selected').text();
                         const celularParticipante = $('#participante option:selected').data('celular') || '';
 
-                        $('#enviarIngressoModalLabel').text("Pagamento Registrado!");
+                        $('#enviarIngressoModalLabel').html('<i class="bi bi-whatsapp mr-2"></i> Pagamento Registrado!');
                         $('#enviarIngressoNome').text(nomeParticipante);
                         $('#enviarIngressoBtn').data('id', participanteId);
                         $('#enviarIngressoBtn').data('nome', nomeParticipante);
                         $('#enviarIngressoBtn').data('celular', celularParticipante);
-                        
+
                         $('#enviarIngressoModal').modal('show');
                         $('#paymentForm')[0].reset();
-                        
-                        console.log("Pagamento registrado. Modal de ingresso aberto.");
                     }).catch((error) => {
                         console.error("Erro ao registrar pagamento:", error);
                         alert("Erro ao registrar pagamento. Tente novamente.");
                     });
             });
 
-            // Confirmar estorno de pagamento
+            // Confirmar estorno
             $('#confirmarEstorno').on('click', function () {
                 const pagamentoId = $(this).data('pagamento');
                 const participanteId = $(this).data('participante');
 
-                console.log("Iniciando estorno do pagamento:", pagamentoId);
-
-                // Atualizar status do pagamento
                 db.collection("Eventos").doc("ComRoca2026").collection("pagamentos").doc(pagamentoId)
-                    .update({
-                        status: 'estornado',
-                        dataEstorno: new Date().toISOString()
-                    })
+                    .update({ status: 'estornado', dataEstorno: new Date().toISOString() })
                     .then(() => {
-                        console.log("Status do pagamento atualizado para 'estornado'");
-
-                        // Atualizar status do participante
                         return db.collection("Eventos").doc("ComRoca2026").collection("inscricoes").doc(participanteId)
-                            .update({
-                                statusPagamento: 'pendente',
-                                dataPagamento: null,
-                                formaPagamento: null,
-                                valorPago: null
-                            });
+                            .update({ statusPagamento: 'pendente', dataPagamento: null, formaPagamento: null, valorPago: null });
                     })
                     .then(() => {
-                        console.log("Status do participante atualizado para 'pendente'");
-                        console.log("Buscando entrada correspondente no caixa...");
-
-                        // Buscar e tratar entrada correspondente no caixa
                         return db.collection("Eventos").doc("ComRoca2026").collection("caixa")
                             .where("pagamentoId", "==", pagamentoId)
                             .where("referenciaOrigem", "==", "pagamento")
@@ -748,54 +779,37 @@
                     })
                     .then((caixaSnapshot) => {
                         if (!caixaSnapshot.empty) {
-                            console.log(`Encontradas ${caixaSnapshot.size} entrada(s) no caixa para estornar`);
-
                             const batch = db.batch();
-
                             caixaSnapshot.forEach((doc) => {
                                 const transacaoCaixa = doc.data();
-
-                                // Opção 1: Criar transação de estorno (RECOMENDADO para auditoria)
                                 const novaRefEstorno = db.collection("Eventos").doc("ComRoca2026").collection("caixa").doc();
-
                                 batch.set(novaRefEstorno, {
                                     descricao: `ESTORNO - ${transacaoCaixa.descricao}`,
                                     data: new Date().toISOString().substring(0, 10),
                                     valor: transacaoCaixa.valor,
-                                    tipo: 'saida', // Estorno é uma saída
+                                    tipo: 'saida',
                                     categoria: transacaoCaixa.categoria,
                                     metodo: transacaoCaixa.metodo,
                                     observacao: `Estorno do pagamento - Ref Original: ${pagamentoId}`,
                                     referenciaOrigem: 'estorno_pagamento',
                                     pagamentoId: pagamentoId,
                                     participanteId: participanteId,
-                                    transacaoOriginalId: doc.id, // Referência à transação original
+                                    transacaoOriginalId: doc.id,
                                     dataCriacao: new Date().toISOString()
                                 });
-
-                                // Opção 2: Marcar transação original como estornada (para histórico)
                                 batch.update(doc.ref, {
                                     status: 'estornado',
                                     dataEstorno: new Date().toISOString(),
                                     observacao: (transacaoCaixa.observacao || '') + ' [ESTORNADO]'
                                 });
-
-                                // Opção 3: Se preferir deletar completamente (NÃO RECOMENDADO)
-                                // batch.delete(doc.ref);
                             });
-
                             return batch.commit();
-                        } else {
-                            console.log("Nenhuma entrada encontrada no caixa para este pagamento");
-                            return Promise.resolve(); // Continua o fluxo mesmo sem encontrar
                         }
+                        return Promise.resolve();
                     })
                     .then(() => {
-                        console.log("Estorno processado com sucesso em todas as coleções");
                         alert('Pagamento estornado com sucesso!\nO estorno foi registrado no controle de caixa.');
                         $('#estornoModal').modal('hide');
-
-                        // Recarregar dados
                         carregarDashboard();
                         carregarParticipantesPendentes();
                         carregarUltimosPagamentos();
@@ -806,30 +820,52 @@
                     });
             });
 
+            // Salvar edição de pagamento
+            $('#salvarEdicaoPagamento').on('click', function () {
+                const pagamentoId = $('#editPagamentoId').val();
+                const participanteId = $('#editParticipanteId').val();
+                const valorPagamento = parseFloat($('#editValorPagamento').val().replace(/\./g, '').replace(',', '.'));
+                const formaPagamento = $('#editFormaPagamento').val();
+
+                if (!valorPagamento || isNaN(valorPagamento) || valorPagamento <= 0) {
+                    alert('Por favor, informe um valor válido para o pagamento.');
+                    return;
+                }
+
+                db.collection("Eventos").doc("ComRoca2026").collection("pagamentos").doc(pagamentoId)
+                    .update({ valor: valorPagamento, formaPagamento: formaPagamento, dataEdicao: new Date().toISOString() })
+                    .then(() => {
+                        return db.collection("Eventos").doc("ComRoca2026").collection("inscricoes").doc(participanteId)
+                            .update({ formaPagamento: formaPagamento, valorPago: valorPagamento });
+                    })
+                    .then(() => {
+                        alert('Pagamento atualizado com sucesso!');
+                        $('#editarPagamentoModal').modal('hide');
+                        carregarDashboard();
+                        carregarUltimosPagamentos();
+                    })
+                    .catch((error) => {
+                        console.error("Erro ao atualizar pagamento: ", error);
+                        alert("Erro ao atualizar pagamento. Tente novamente.");
+                    });
+            });
+
         });
 
+        // ─── Funções de dados ───────────────────────────────────────────────
+
         function carregarDashboard() {
-            // Primeiro, vamos buscar os pagamentos confirmados
             db.collection("Eventos").doc("ComRoca2026").collection("pagamentos")
                 .where("status", "==", "confirmado")
                 .get()
                 .then((pagamentosSnapshot) => {
-                    // Quantidade de pagamentos confirmados
                     const totalPagamentosConfirmados = pagamentosSnapshot.size;
-
-                    // Calcular o valor total pago
                     let valorTotalPago = 0;
+                    pagamentosSnapshot.forEach((doc) => { valorTotalPago += doc.data().valor || 0; });
 
-                    pagamentosSnapshot.forEach((doc) => {
-                        const pagamento = doc.data();
-                        valorTotalPago += pagamento.valor || 0;
-                    });
-
-                    // Atualizar o card de pagamentos confirmados
                     $('#totalPagos').text(totalPagamentosConfirmados);
                     $('#valorPago').text(valorTotalPago.toFixed(2).replace('.', ','));
 
-                    // Agora vamos buscar os dados de inscrições para os outros cards
                     return db.collection("Eventos").doc("ComRoca2026").collection("inscricoes")
                         .where("anoevento", "==", "2026")
                         .get();
@@ -837,74 +873,42 @@
                 .then((querySnapshot) => {
                     let totalInscritos = querySnapshot.size;
                     let totalPendentes = 0;
-                    const valorInscricao = 30.00;
-
                     querySnapshot.forEach((doc) => {
-                        const participante = doc.data();
-                        if (participante.statusPagamento !== 'pago') {
-                            totalPendentes++;
-                        }
+                        if (doc.data().statusPagamento !== 'pago') totalPendentes++;
                     });
 
-                    // Atualizar contadores
                     $('#totalInscritos').text(totalInscritos);
                     $('#totalPendentes').text(totalPendentes);
 
-                    // Atualizar valores financeiros para total e pendente
-                    const valorTotal = (totalInscritos * valorInscricao).toFixed(2).replace('.', ',');
-                    const valorPendente = (totalPendentes * valorInscricao).toFixed(2).replace('.', ',');
-
-                    $('#valorTotal').text(valorTotal);
-                    $('#valorPendente').text(valorPendente);
-
-                    // Atualizar gráfico de status
                     const totalPagos = parseInt($('#totalPagos').text());
                     atualizarGraficoStatus(totalPagos, totalPendentes);
-
-                    // Contar formas de pagamento
                     buscarFormasPagamento();
                 })
-                .catch((error) => {
-                    console.error("Erro ao carregar dashboard:", error);
-                });
+                .catch((error) => { console.error("Erro ao carregar dashboard:", error); });
         }
 
         function buscarFormasPagamento() {
-            // Buscar pagamentos confirmados
             db.collection("Eventos").doc("ComRoca2026").collection("pagamentos")
                 .where("status", "==", "confirmado")
                 .get()
                 .then((querySnapshot) => {
-                    const formasPagamento = {
-                        pix: 0,
-                        cartao: 0,
-                        dinheiro: 0
-                    };
-
+                    const formasPagamento = { pix: 0, cartao: 0, dinheiro: 0 };
                     querySnapshot.forEach((doc) => {
-                        const pagamento = doc.data();
-                        if (pagamento.formaPagamento) {
-                            formasPagamento[pagamento.formaPagamento]++;
-                        }
+                        const f = doc.data().formaPagamento;
+                        if (f) formasPagamento[f]++;
                     });
-
-                    // Atualizar gráfico de formas de pagamento
                     atualizarGraficoFormas(formasPagamento);
                 })
-                .catch((error) => {
-                    console.error("Erro ao buscar formas de pagamento: ", error);
-                });
+                .catch((error) => { console.error("Erro ao buscar formas de pagamento: ", error); });
         }
 
         function carregarParticipantesPendentes() {
-            // Limpar select de participantes
             const selectParticipante = $('#participante');
             selectParticipante.html('<option value="">Selecione um participante</option>');
 
-            // Buscar participantes com pagamento pendente
             db.collection("Eventos").doc("ComRoca2026").collection("inscricoes")
                 .where("anoevento", "==", "2026")
-                .where("statusPagamento", "in", ["pendente", null])  // Apenas pendentes ou sem status
+                .where("statusPagamento", "in", ["pendente", null])
                 .orderBy("nome")
                 .get()
                 .then((querySnapshot) => {
@@ -913,8 +917,6 @@
                         const celular = participante.celular || participante.fonecontato || '';
                         selectParticipante.append(`<option value="${doc.id}" data-celular="${celular}">${participante.nome}</option>`);
                     });
-
-                    // Verificar se há participantes pendentes
                     if (querySnapshot.size === 0) {
                         selectParticipante.append('<option value="" disabled>Não há participantes com pagamento pendente</option>');
                     }
@@ -926,32 +928,22 @@
         }
 
         function carregarUltimosPagamentos() {
-            // Limpar tabela de pagamentos
             const tabelaPagamentos = $('#pagamentosList');
             tabelaPagamentos.html('');
 
-            // Buscar pagamentos
             db.collection("Eventos").doc("ComRoca2026").collection("pagamentos")
                 .orderBy("dataPagamento", "desc")
                 .get()
                 .then((querySnapshot) => {
                     todosPagamentos = [];
-
                     querySnapshot.forEach((doc) => {
                         const pagamento = doc.data();
-                        pagamento.id = doc.id; // Armazenar o ID do documento
+                        pagamento.id = doc.id;
                         todosPagamentos.push(pagamento);
                     });
-
-                    // Inicializar a ordenação
-                    updateSortIcon();
-
-                    // Aplicar filtros e ordenação
                     aplicarOrdenacao();
                 })
-                .catch((error) => {
-                    console.error("Erro ao carregar pagamentos: ", error);
-                });
+                .catch((error) => { console.error("Erro ao carregar pagamentos: ", error); });
         }
 
         function atualizarTabelaPagamentos(pagamentos) {
@@ -959,66 +951,69 @@
             tabelaPagamentos.html('');
 
             if (pagamentos.length === 0) {
-                tabelaPagamentos.html('<tr><td colspan="6" class="text-center">Nenhum pagamento encontrado</td></tr>');
+                tabelaPagamentos.html('<tr><td colspan="6" class="text-center py-4 text-muted">Nenhum pagamento encontrado</td></tr>');
                 return;
             }
 
             pagamentos.forEach(pagamento => {
                 const dataPagamento = formatarData(pagamento.dataPagamento);
                 const valor = (pagamento.valor).toFixed(2).replace('.', ',');
+                const isConfirmado = pagamento.status === 'confirmado';
+
+                const formaIcone = {
+                    pix: '<i class="bi bi-qr-code mr-1"></i>PIX',
+                    cartao: '<i class="bi bi-credit-card mr-1"></i>Cartão',
+                    dinheiro: '<i class="bi bi-cash mr-1"></i>Dinheiro'
+                };
+
+                const formaLabel = formaIcone[pagamento.formaPagamento] || pagamento.formaPagamento;
 
                 const linha = `
-            <tr>
-                <td>${pagamento.participanteNome}</td>
-                <td>${dataPagamento}</td>
-                <td>R$ ${valor}</td>
-                <td>${formatarFormaPagamento(pagamento.formaPagamento)}</td>
-                <td>
-                    <span class="badge ${pagamento.status === 'confirmado' ? 'badge-pago' : 'badge-pendente'}">
-                        ${pagamento.status === 'confirmado' ? 'Confirmado' : 'Estornado'}
-                    </span>
-                </td>
-                <td>
-                    ${pagamento.status === 'confirmado' ? `
-                        <div class="btn-group" role="group">
-                            <button class="btn-table-action btn-whatsapp-modern mr-1" onclick="prepararEnvioPelaTabela('${pagamento.participanteId}', '${pagamento.participanteNome}')" title="Enviar Ingresso por WhatsApp">
+                <tr>
+                    <td><strong style="color: #2c3e50;">${pagamento.participanteNome}</strong></td>
+                    <td><div class="data-pagamento">${dataPagamento}</div></td>
+                    <td><strong>R$ ${valor}</strong></td>
+                    <td><span class="forma-badge">${formaLabel}</span></td>
+                    <td>
+                        <span class="status-badge ${isConfirmado ? 'confirmado' : 'estornado'}">
+                            <i class="bi ${isConfirmado ? 'bi-check-circle-fill' : 'bi-x-circle-fill'}"></i>
+                            ${isConfirmado ? 'Confirmado' : 'Estornado'}
+                        </span>
+                    </td>
+                    <td class="text-center">
+                        ${isConfirmado ? `
+                        <div class="d-flex align-items-center justify-content-center">
+                            <button class="btn-table-action btn-whatsapp-modern" onclick="prepararEnvioPelaTabela('${pagamento.participanteId}', '${pagamento.participanteNome}')" title="Enviar Ingresso por WhatsApp">
                                 <i class="bi bi-whatsapp"></i>
                             </button>
-                            <button class="btn-table-action btn-edit-modern mr-1" onclick="prepararEdicao('${pagamento.id}')" title="Editar Pagamento">
-                                <i class="bi bi-pencil"></i>
+                            <button class="btn-table-action btn-edit-modern" onclick="prepararEdicao('${pagamento.id}')" title="Editar Pagamento">
                                 <i class="bi bi-pencil-fill"></i>
                             </button>
                             <button class="btn-table-action btn-delete-modern" onclick="prepararEstorno('${pagamento.id}', '${pagamento.participanteId}', '${pagamento.participanteNome}')" title="Estornar Pagamento">
-                                <i class="bi bi-x-circle"></i>
-                                <i class="bi bi-x-circle-fill"></i>
+                                <i class="bi bi-arrow-counterclockwise"></i>
                             </button>
                         </div>
-                    ` : ''}
-                </td>
-            </tr>
-            `;
+                        ` : ''}
+                    </td>
+                </tr>`;
 
                 tabelaPagamentos.append(linha);
             });
         }
 
         function prepararEnvioPelaTabela(participanteId, participanteNome) {
-            console.log("Buscando dados para envio de ingresso via tabela...");
-            
-            // Buscar celular do participante no banco para abrir o modal de envio
             db.collection("Eventos").doc("ComRoca2026").collection("inscricoes").doc(participanteId).get()
                 .then((doc) => {
                     if (doc.exists) {
                         const participante = doc.data();
                         const celular = participante.celular || participante.fonecontato || '';
-                        
-                        // Adaptar título e dados no modal
-                        $('#enviarIngressoModalLabel').text("Enviar Ingresso");
+
+                        $('#enviarIngressoModalLabel').html('<i class="bi bi-whatsapp mr-2"></i> Enviar Ingresso');
                         $('#enviarIngressoNome').text(participanteNome);
                         $('#enviarIngressoBtn').data('id', participanteId);
                         $('#enviarIngressoBtn').data('nome', participanteNome);
                         $('#enviarIngressoBtn').data('celular', celular);
-                        
+
                         $('#enviarIngressoModal').modal('show');
                     } else {
                         alert("Erro: Participante não encontrado.");
@@ -1037,8 +1032,53 @@
             $('#estornoModal').modal('show');
         }
 
+        function prepararEdicao(pagamentoId) {
+            const pagamento = todosPagamentos.find(p => p.id === pagamentoId);
+            if (!pagamento) { alert('Pagamento não encontrado!'); return; }
+
+            $('#editPagamentoId').val(pagamentoId);
+            $('#editParticipanteId').val(pagamento.participanteId);
+            $('#editParticipanteNome').val(pagamento.participanteNome);
+            $('#editDataPagamento').val(formatarData(pagamento.dataPagamento));
+            $('#editValorPagamento').val(pagamento.valor.toFixed(2).replace('.', ','));
+            $('#editFormaPagamento').val(pagamento.formaPagamento);
+
+            $('#editarPagamentoModal').modal('show');
+        }
+
+        // ─── Ordenação ───────────────────────────────────────────────────────
+
+        function aplicarOrdenacao() {
+            let pagamentosFiltrados = [...todosPagamentos];
+            const dir = sortConfig.direction === 'asc' ? 1 : -1;
+
+            pagamentosFiltrados.sort((a, b) => {
+                let vA, vB;
+                switch (sortConfig.field) {
+                    case 'participante':
+                        vA = (a.participanteNome || '').toLowerCase();
+                        vB = (b.participanteNome || '').toLowerCase();
+                        break;
+                    case 'valor':
+                        vA = a.valor || 0; vB = b.valor || 0;
+                        break;
+                    case 'forma':
+                        vA = a.formaPagamento || ''; vB = b.formaPagamento || '';
+                        break;
+                    case 'data':
+                    default:
+                        vA = new Date(a.dataPagamento || 0);
+                        vB = new Date(b.dataPagamento || 0);
+                }
+                return vA > vB ? dir : vA < vB ? -dir : 0;
+            });
+
+            atualizarTabelaPagamentos(pagamentosFiltrados);
+        }
+
+        // ─── Gráficos ─────────────────────────────────────────────────────────
+
         function initGraficos() {
-            // Inicializar gráfico de status
             const ctxStatus = document.getElementById('graficoStatus').getContext('2d');
             graficoStatus = new Chart(ctxStatus, {
                 type: 'doughnut',
@@ -1046,27 +1086,20 @@
                     labels: ['Pagos', 'Pendentes'],
                     datasets: [{
                         data: [0, 0],
-                        backgroundColor: ['#28a745', '#ffc107'],
-                        borderWidth: 1
+                        backgroundColor: ['#198754', '#b58100'],
+                        borderWidth: 0
                     }]
                 },
                 options: {
                     responsive: true,
                     maintainAspectRatio: false,
                     plugins: {
-                        legend: {
-                            position: 'bottom'
-                        },
-                        datalabels: {
-                            color: '#fff',
-                            anchor: 'center',
-                            align: 'center'
-                        }
+                        legend: { position: 'bottom' },
+                        datalabels: { color: '#fff', anchor: 'center', align: 'center' }
                     }
                 }
             });
 
-            // Inicializar gráfico de formas de pagamento
             const ctxFormas = document.getElementById('graficoFormas').getContext('2d');
             graficoFormas = new Chart(ctxFormas, {
                 type: 'bar',
@@ -1076,14 +1109,14 @@
                         label: 'Quantidade',
                         data: [0, 0, 0],
                         backgroundColor: [
-                            'rgba(75, 192, 192, 0.7)',
-                            'rgba(54, 162, 235, 0.7)',
-                            'rgba(153, 102, 255, 0.7)'
+                            'rgba(97, 55, 4, 0.75)',
+                            'rgba(255, 140, 0, 0.75)',
+                            'rgba(25, 135, 84, 0.75)'
                         ],
                         borderColor: [
-                            'rgba(75, 192, 192, 1)',
-                            'rgba(54, 162, 235, 1)',
-                            'rgba(153, 102, 255, 1)'
+                            'rgba(97, 55, 4, 1)',
+                            'rgba(255, 140, 0, 1)',
+                            'rgba(25, 135, 84, 1)'
                         ],
                         borderWidth: 1
                     }]
@@ -1091,60 +1124,37 @@
                 options: {
                     responsive: true,
                     maintainAspectRatio: false,
-                    scales: {
-                        y: {
-                            beginAtZero: true,
-                            ticks: {
-                                stepSize: 1
-                            }
-                        }
-                    },
+                    scales: { y: { beginAtZero: true, ticks: { stepSize: 1 } } },
                     plugins: {
-                        legend: {
-                            display: false
-                        },
-                        datalabels: {
-                            anchor: 'end',
-                            align: 'top'
-                        }
+                        legend: { display: false },
+                        datalabels: { anchor: 'end', align: 'top' }
                     }
                 }
             });
         }
 
         function atualizarGraficoStatus(totalPagos, totalPendentes) {
-            // Verificar se o gráfico foi inicializado
             if (graficoStatus && graficoStatus.data) {
                 graficoStatus.data.datasets[0].data = [totalPagos, totalPendentes];
                 graficoStatus.update();
-            } else {
-                console.warn("Gráfico de status não está inicializado ainda");
             }
         }
 
         function atualizarGraficoFormas(formasPagamento) {
-            // Verificar se o gráfico foi inicializado
             if (graficoFormas && graficoFormas.data) {
-                graficoFormas.data.datasets[0].data = [
-                    formasPagamento.pix,
-                    formasPagamento.cartao,
-                    formasPagamento.dinheiro
-                ];
+                graficoFormas.data.datasets[0].data = [formasPagamento.pix, formasPagamento.cartao, formasPagamento.dinheiro];
                 graficoFormas.update();
-            } else {
-                console.warn("Gráfico de formas não está inicializado ainda");
             }
         }
 
-        function formatarData(dataString) {
-            if (!dataString) return '';
+        // ─── Utilitários ─────────────────────────────────────────────────────
 
+        function formatarData(dataString) {
+            if (!dataString) return '—';
             try {
                 const data = new Date(dataString);
                 return data.toLocaleDateString('pt-BR') + ' ' + data.toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' });
-            } catch (e) {
-                return dataString;
-            }
+            } catch (e) { return dataString; }
         }
 
         function formatarFormaPagamento(forma) {
@@ -1156,171 +1166,7 @@
             }
         }
 
-        // Função para preparar a edição de um pagamento
-        function prepararEdicao(pagamentoId) {
-            // Buscar o pagamento pelo ID
-            const pagamento = todosPagamentos.find(p => p.id === pagamentoId);
-
-            if (!pagamento) {
-                alert('Pagamento não encontrado!');
-                return;
-            }
-
-            // Preencher o formulário com os dados do pagamento
-            $('#editPagamentoId').val(pagamentoId);
-            $('#editParticipanteId').val(pagamento.participanteId);
-            $('#editParticipanteNome').val(pagamento.participanteNome);
-            $('#editDataPagamento').val(formatarData(pagamento.dataPagamento));
-            $('#editValorPagamento').val(pagamento.valor.toFixed(2).replace('.', ','));
-            $('#editFormaPagamento').val(pagamento.formaPagamento);
-
-            // Abrir o modal
-            $('#editarPagamentoModal').modal('show');
-        }
-
-        // Adicione este event listener no document.ready
-        $(document).ready(function () {
-            // ... código existente ...
-
-            // Salvar edição de pagamento
-            $('#salvarEdicaoPagamento').on('click', function () {
-                const pagamentoId = $('#editPagamentoId').val();
-                const participanteId = $('#editParticipanteId').val();
-                const valorPagamento = parseFloat($('#editValorPagamento').val().replace(/\./g, '').replace(',', '.'));
-                const formaPagamento = $('#editFormaPagamento').val();
-
-                if (!valorPagamento || isNaN(valorPagamento) || valorPagamento <= 0) {
-                    alert('Por favor, informe um valor válido para o pagamento.');
-                    return;
-                }
-
-                // Atualizar o pagamento no Firestore
-                db.collection("Eventos").doc("ComRoca2026").collection("pagamentos").doc(pagamentoId)
-                    .update({
-                        valor: valorPagamento,
-                        formaPagamento: formaPagamento,
-                        dataEdicao: new Date().toISOString()
-                    })
-                    .then(() => {
-                        // Atualizar o participante com as novas informações
-                        return db.collection("Eventos").doc("ComRoca2026").collection("inscricoes").doc(participanteId)
-                            .update({
-                                formaPagamento: formaPagamento,
-                                valorPago: valorPagamento
-                            });
-                    })
-                    .then(() => {
-                        alert('Pagamento atualizado com sucesso!');
-                        $('#editarPagamentoModal').modal('hide');
-
-                        // Recarregar dados
-                        carregarDashboard();
-                        carregarUltimosPagamentos();
-                    })
-                    .catch((error) => {
-                        console.error("Erro ao atualizar pagamento: ", error);
-                        alert("Erro ao atualizar pagamento. Tente novamente.");
-                    });
-            });
-        });
-
-        // Adicione estas variáveis globais no início do seu script
-        let sortConfig = {
-            field: 'dataPagamento', // Campo padrão para ordenação (data de pagamento)
-            direction: 'desc'       // Direção padrão (decrescente)
-        };
-
-        // Adicione este event listener no document.ready
-        $(document).ready(function () {
-            // ... código existente ...
-
-            // Adicionar evento de clique no botão de classificação
-            $('.sort-btn').on('click', function () {
-                const sortField = $(this).data('sort');
-
-                // Se clicar no mesmo campo, inverte a direção
-                if (sortField === sortConfig.field) {
-                    sortConfig.direction = sortConfig.direction === 'asc' ? 'desc' : 'asc';
-                } else {
-                    // Se clicar em um campo diferente, define o novo campo e direção padrão (asc)
-                    sortConfig.field = sortField;
-                    sortConfig.direction = 'asc';
-                }
-
-                // Atualizar ícone
-                updateSortIcon();
-
-                // Aplicar a ordenação
-                aplicarOrdenacao();
-            });
-        });
-
-        // Função para atualizar o ícone de ordenação
-        function updateSortIcon() {
-            // Remover classes de todos os ícones
-            $('.sort-btn').removeClass('sort-asc sort-desc');
-
-            // Adicionar classe ao ícone atual
-            $(`.sort-btn[data-sort="${sortConfig.field}"]`).addClass(
-                sortConfig.direction === 'asc' ? 'sort-asc' : 'sort-desc'
-            );
-        }
-
-        // Função para aplicar a ordenação
-        function aplicarOrdenacao() {
-            let pagamentosFiltrados = [...todosPagamentos];
-
-            // Aplicar filtros ativos
-            // ... código de filtragem existente ...
-
-            // Aplicar ordenação
-            pagamentosFiltrados.sort((a, b) => {
-                let valorA, valorB;
-
-                // Determinar os valores a comparar com base no campo de ordenação
-                switch (sortConfig.field) {
-                    case 'participante':
-                        valorA = a.participanteNome.toLowerCase();
-                        valorB = b.participanteNome.toLowerCase();
-                        break;
-                    case 'data':
-                        valorA = new Date(a.dataPagamento);
-                        valorB = new Date(b.dataPagamento);
-                        break;
-                    case 'valor':
-                        valorA = a.valor;
-                        valorB = b.valor;
-                        break;
-                    case 'forma':
-                        valorA = a.formaPagamento;
-                        valorB = b.formaPagamento;
-                        break;
-                    default:
-                        valorA = new Date(a.dataPagamento);
-                        valorB = new Date(b.dataPagamento);
-                }
-
-                // Comparar os valores na direção especificada
-                if (sortConfig.direction === 'asc') {
-                    return valorA > valorB ? 1 : -1;
-                } else {
-                    return valorA < valorB ? 1 : -1;
-                }
-            });
-
-            // Atualizar a tabela com os resultados ordenados
-            atualizarTabelaPagamentos(pagamentosFiltrados);
-        }
-
-        // Modificar a função aplicarFiltros para usar a nova função de ordenação
-        function aplicarFiltros() {
-            // ... código de filtragem existente ...
-
-            // Aplicar ordenação após a filtragem
-            aplicarOrdenacao();
-        }
     </script>
 </body>
 
 </html>
-<link rel="stylesheet" href="../css/common.css">

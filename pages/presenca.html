@@ -16,53 +16,322 @@
         body {
             font-family: 'Montserrat', sans-serif;
             color: #333;
-            padding-top: 80px;
+            padding-top: 100px;
+            background-color: #f8f9fa;
         }
 
-        .status-badge {
-            font-size: 14px;
-            padding: 5px 10px;
-            border-radius: 20px;
+        /* Animação suave para carregar os elementos */
+        .fade-in-up {
+            animation: fadeInUp 0.5s ease-out both;
         }
 
-        .presente {
-            background-color: #28a745;
-            color: white;
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
         }
 
-        .ausente {
-            background-color: #dc3545;
-            color: white;
+        /* Seção de Títulos */
+        .section-title {
+            color: #613704;
+            font-weight: 700;
+            font-size: 1.35rem;
         }
 
-        .pendente {
-            background-color: #ffc107;
-            color: #212529;
+        /* Indicador do título da seção */
+        .section-title-indicator {
+            background: linear-gradient(135deg, #613704, #ff8c00);
+            width: 5px;
+            height: 24px;
+            border-radius: 4px;
         }
 
-        .btn-presenca {
+        /* Card de Estatísticas - Visual Moderno */
+        .stats-icon-wrapper {
+            width: 55px;
+            height: 55px;
+            border-radius: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.6rem;
             transition: all 0.3s ease;
         }
 
-        .btn-presenca:hover {
-            transform: scale(1.05);
+        .dashboard-card:hover .stats-icon-wrapper {
+            transform: scale(1.1);
         }
 
+        .stats-value {
+            font-size: 1.8rem;
+            font-weight: 800;
+            margin-bottom: 0;
+            color: #2c3e50;
+            line-height: 1.2;
+        }
+
+        .stats-label {
+            font-size: 0.85rem;
+            color: #6c757d;
+            font-weight: 600;
+            margin-bottom: 2px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        /* Estilização moderna dos inputs */
+        .form-control {
+            border-radius: 10px;
+            border: 1px solid rgba(0, 0, 0, 0.1);
+            padding: 10px 15px;
+            height: auto;
+            transition: all 0.3s ease;
+            background-color: #f8f9fa;
+        }
+
+        .form-control:focus {
+            background-color: #fff;
+            border-color: #ff8c00;
+            box-shadow: 0 0 0 0.2rem rgba(255, 140, 0, 0.15);
+            outline: none;
+        }
+
+        /* Estilização moderna das tabelas */
+        .table-responsive {
+            border-radius: 16px;
+            border: none;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+            overflow: hidden;
+        }
+
+        .table {
+            margin-bottom: 0;
+        }
+
+        .table thead th {
+            background-color: #613704;
+            color: white;
+            font-weight: 700;
+            text-transform: uppercase;
+            font-size: 0.8rem;
+            letter-spacing: 0.8px;
+            border: none;
+            padding: 18px 15px;
+            vertical-align: middle;
+        }
+
+        .table tbody td {
+            padding: 18px 15px;
+            vertical-align: middle;
+            border-top: 1px solid rgba(0, 0, 0, 0.05);
+            font-size: 0.9rem;
+            color: #495057;
+            transition: background-color 0.2s;
+        }
+
+        .table tbody tr:hover td {
+            background-color: rgba(97, 55, 4, 0.02);
+        }
+
+        /* Modern Badges */
+        .status-badge {
+            font-size: 11px;
+            padding: 6px 12px;
+            border-radius: 30px;
+            font-weight: 700;
+            display: inline-flex;
+            align-items: center;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            border: 1px solid transparent;
+        }
+
+        .status-badge i {
+            margin-right: 4px;
+            font-size: 14px;
+        }
+
+        .status-badge.presente {
+            background-color: rgba(40, 167, 69, 0.12);
+            color: #198754;
+            border-color: rgba(40, 167, 69, 0.2);
+        }
+
+        .status-badge.ausente {
+            background-color: rgba(220, 53, 69, 0.12);
+            color: #dc3545;
+            border-color: rgba(220, 53, 69, 0.2);
+        }
+
+        .status-badge.pendente {
+            background-color: rgba(255, 193, 7, 0.12);
+            color: #b58100;
+            border-color: rgba(255, 193, 7, 0.25);
+        }
+
+        /* Estilização moderna dos botões de ação na tabela */
+        .btn-table-action {
+            background: transparent;
+            border: 1px solid transparent;
+            border-radius: 8px;
+            width: 36px;
+            height: 36px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 0;
+            font-size: 1.1rem;
+            cursor: pointer;
+            transition: all 0.2s ease-in-out;
+            position: relative;
+            margin-right: 5px;
+        }
+
+        .btn-table-action:last-child {
+            margin-right: 0;
+        }
+
+        .btn-table-action:focus {
+            outline: none;
+            box-shadow: none;
+        }
+
+        /* Cores e efeitos para botões específicos */
+        .btn-table-action.btn-presente-modern {
+            color: #198754;
+            border-color: rgba(25, 135, 84, 0.2);
+        }
+
+        .btn-table-action.btn-presente-modern:hover:not(:disabled) {
+            background-color: #198754;
+            color: white;
+            border-color: #198754;
+            transform: scale(1.08);
+            box-shadow: 0 4px 8px rgba(25, 135, 84, 0.2);
+        }
+
+        .btn-table-action.btn-presente-modern:disabled {
+            color: rgba(25, 135, 84, 0.4);
+            border-color: rgba(25, 135, 84, 0.05);
+            background-color: rgba(25, 135, 84, 0.05);
+            cursor: not-allowed;
+        }
+
+        .btn-table-action.btn-ausente-modern {
+            color: #dc3545;
+            border-color: rgba(220, 53, 69, 0.2);
+        }
+
+        .btn-table-action.btn-ausente-modern:hover:not(:disabled) {
+            background-color: #dc3545;
+            color: white;
+            border-color: #dc3545;
+            transform: scale(1.08);
+            box-shadow: 0 4px 8px rgba(220, 53, 69, 0.2);
+        }
+
+        .btn-table-action.btn-ausente-modern:disabled {
+            color: rgba(220, 53, 69, 0.4);
+            border-color: rgba(220, 53, 69, 0.05);
+            background-color: rgba(220, 53, 69, 0.05);
+            cursor: not-allowed;
+        }
+
+        .btn-table-action.btn-edit-modern {
+            color: #6c757d;
+            border-color: rgba(108, 117, 125, 0.25);
+        }
+
+        .btn-table-action.btn-edit-modern:hover:not(:disabled) {
+            background-color: #6c757d;
+            color: white;
+            border-color: #343638;
+            transform: scale(1.08);
+            box-shadow: 0 4px 8px rgba(108, 117, 125, 0.25);
+        }
+
+        .btn-table-action.btn-edit-modern:disabled {
+            color: rgba(0, 0, 0, 0.35);
+            border-color: rgba(205, 209, 212, 0.062);
+            background-color: rgba(188, 194, 199, 0.05);
+            cursor: not-allowed;
+        }
+
+        /* Estilos de realce */
         .search-highlight {
             background-color: #fff3cd;
             padding: 2px 4px;
-            border-radius: 3px;
+            border-radius: 4px;
+            font-weight: 700;
+            color: #664d03;
         }
 
         .hora-checkin {
-            font-size: 12px;
-            color: #6c757d;
-            font-style: italic;
+            font-size: 0.85rem;
+            color: #2b5210;
+            font-weight: 700;
         }
 
-        .participante-info {
-            font-size: 12px;
-            color: #6c757d;
+        /* Cabeçalhos ordenáveis */
+        th.sortable {
+            cursor: pointer;
+            user-select: none;
+            white-space: nowrap;
+            transition: background-color 0.15s ease;
+        }
+
+        th.sortable:hover {
+            background-color: rgba(97, 55, 4, 0.07);
+        }
+
+        th.sortable:active,
+        th.sortable:focus {
+            background-color: rgba(97, 55, 4, 0.07) !important;
+            outline: none;
+        }
+
+        th.sortable .sort-icon {
+            display: inline-block;
+            margin-left: 5px;
+            font-size: 0.75rem;
+            opacity: 0.4;
+            transition: opacity 0.2s, transform 0.2s;
+            vertical-align: middle;
+        }
+
+        th.sortable.asc .sort-icon,
+        th.sortable.desc .sort-icon {
+            opacity: 1;
+            color: #ff8c00;
+        }
+
+        th.sortable.desc .sort-icon {
+            transform: rotate(180deg);
+        }
+
+        /* Custom Scrollbar */
+        @media (max-width: 768px) {
+            .table-responsive {
+                overflow-x: auto !important;
+                display: block;
+                width: 100%;
+                -webkit-overflow-scrolling: touch;
+            }
+
+            .table-responsive table {
+                min-width: 800px;
+            }
+
+            .table-responsive th,
+            .table-responsive td {
+                white-space: nowrap;
+            }
         }
     </style>
 </head>
@@ -72,10 +341,10 @@
         <a href="gestao.html" class="btn-voltar">
             <i class="material-icons">arrow_back</i>
         </a>
-        <h2 class="header-title">Check-in</h2>
+        <h2 class="header-title">PAINEL DE PRESENÇA</h2>
     </div>
 
-    <div class="container mt-5">
+    <div class="container mt-5 fade-in-up">
         <!-- 1. RESUMO DE PRESENÇAS -->
         <div class="section-title-wrapper mt-5 mb-4">
             <div class="section-title-indicator"></div>
@@ -86,9 +355,9 @@
 
         <!-- Estatísticas -->
         <div class="row mb-4">
-            <div class="col-md-3 mb-3">
-                <div class="card dashboard-card h-100">
-                    <div class="card-body">
+            <div class="col-md-4 mb-3">
+                <div class="card dashboard-card h-100 shadow-sm border-0">
+                    <div class="card-body p-4">
                         <div class="d-flex align-items-center">
                             <div class="stats-icon-wrapper mr-3"
                                 style="background: rgba(13, 110, 253, 0.1); color: #0d6efd;">
@@ -102,9 +371,9 @@
                     </div>
                 </div>
             </div>
-            <div class="col-md-3 mb-3">
-                <div class="card dashboard-card h-100">
-                    <div class="card-body">
+            <div class="col-md-4 mb-3">
+                <div class="card dashboard-card h-100 shadow-sm border-0">
+                    <div class="card-body p-4">
                         <div class="d-flex align-items-center">
                             <div class="stats-icon-wrapper mr-3"
                                 style="background: rgba(40, 167, 69, 0.1); color: #28a745;">
@@ -112,18 +381,19 @@
                             </div>
                             <div>
                                 <div class="stats-label">Presentes</div>
-                                <div class="stats-value text-success d-flex align-items-end" id="totalPresentes">0
+                                <div class="stats-value d-flex align-items-end" id="totalPresentes"
+                                    style="color: #198754;">0
                                     <small class="text-muted ml-2 pb-1 font-weight-bold" id="percentualPresentes"
-                                        style="font-size: 0.8rem;">(0%)</small>
+                                        style="font-size: 0.82rem;">(0%)</small>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
-            <div class="col-md-3 mb-3">
-                <div class="card dashboard-card h-100">
-                    <div class="card-body">
+            <div class="col-md-4 mb-3">
+                <div class="card dashboard-card h-100 shadow-sm border-0">
+                    <div class="card-body p-4">
                         <div class="d-flex align-items-center">
                             <div class="stats-icon-wrapper mr-3"
                                 style="background: rgba(220, 53, 69, 0.1); color: #dc3545;">
@@ -131,26 +401,9 @@
                             </div>
                             <div>
                                 <div class="stats-label">Ausentes</div>
-                                <div class="stats-value text-danger d-flex align-items-end" id="totalAusentes">0 <small
-                                        class="text-muted ml-2 pb-1 font-weight-bold" id="percentualAusentes"
-                                        style="font-size: 0.8rem;">(0%)</small></div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-3 mb-3">
-                <div class="card dashboard-card h-100">
-                    <div class="card-body">
-                        <div class="d-flex align-items-center">
-                            <div class="stats-icon-wrapper mr-3"
-                                style="background: rgba(23, 162, 184, 0.1); color: #17a2b8;">
-                                <i class="bi bi-clock-history"></i>
-                            </div>
-                            <div>
-                                <div class="stats-label">Última Atualização</div>
-                                <div class="stats-value text-info" id="ultimaAtualizacao" style="font-size: 1.2rem;">
-                                    --:--</div>
+                                <div class="stats-value d-flex align-items-end" id="totalAusentes"
+                                    style="color: #dc3545;">0 <small class="text-muted ml-2 pb-1 font-weight-bold"
+                                        id="percentualAusentes" style="font-size: 0.82rem;">(0%)</small></div>
                             </div>
                         </div>
                     </div>
@@ -168,34 +421,69 @@
         <!-- Filtros -->
         <div class="row">
             <div class="col-md-12">
-                <div class="filter-card p-4 bg-white rounded shadow-sm mb-4">
+                <div class="filter-card p-4 shadow-sm mb-4 border-0"
+                    style="border-radius: 16px; background-color: #ffffff;">
+                    <h5 class="mb-4"
+                        style="color: #613704; font-weight: 700; font-size: 1.1rem; text-transform: uppercase; letter-spacing: 0.5px;">
+                        <i class="bi bi-funnel-fill mr-2" style="color: #ff8c00;"></i> Filtrar & Buscar
+                    </h5>
                     <div class="row">
                         <div class="col-md-4">
-                            <div class="form-group">
-                                <label for="filtroNome">Buscar por nome</label>
-                                <input type="text" class="form-control" id="filtroNome"
-                                    placeholder="Digite o nome do participante">
+                            <div class="form-group mb-md-0">
+                                <label for="filtroNome" class="text-muted mb-2"
+                                    style="font-weight: 600; font-size: 0.85rem; text-transform: uppercase; letter-spacing: 0.5px;">Buscar
+                                    por nome</label>
+                                <div class="input-group">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text bg-light border-right-0"
+                                            style="border-radius: 10px 0 0 10px; border: 1px solid rgba(0,0,0,0.1);"><i
+                                                class="bi bi-search" style="color: #6c757d;"></i></span>
+                                    </div>
+                                    <input type="text" class="form-control border-left-0" id="filtroNome"
+                                        placeholder="Digite o nome do participante..."
+                                        style="border-radius: 0 10px 10px 0;">
+                                </div>
                             </div>
                         </div>
                         <div class="col-md-4">
-                            <div class="form-group">
-                                <label for="filtroStatus">Filtrar por status</label>
-                                <select class="form-control" id="filtroStatus">
-                                    <option value="todos">Todos os status</option>
-                                    <option value="presente">Presentes</option>
-                                    <option value="ausente">Ausentes</option>
-                                    <option value="pendente">Pendentes</option>
-                                </select>
+                            <div class="form-group mb-md-0">
+                                <label for="filtroStatus" class="text-muted mb-2"
+                                    style="font-weight: 600; font-size: 0.85rem; text-transform: uppercase; letter-spacing: 0.5px;">Filtrar
+                                    por status</label>
+                                <div class="input-group">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text bg-light border-right-0"
+                                            style="border-radius: 10px 0 0 10px; border: 1px solid rgba(0,0,0,0.1);"><i
+                                                class="bi bi-tag-fill" style="color: #6c757d;"></i></span>
+                                    </div>
+                                    <select class="form-control border-left-0" id="filtroStatus"
+                                        style="border-radius: 0 10px 10px 0;">
+                                        <option value="todos">Todos os status</option>
+                                        <option value="presente">Presentes</option>
+                                        <option value="ausente">Ausentes</option>
+                                        <option value="pendente">Pendentes</option>
+                                    </select>
+                                </div>
                             </div>
                         </div>
                         <div class="col-md-4">
-                            <div class="form-group">
-                                <label for="ordenacao">Ordenar por</label>
-                                <select class="form-control" id="ordenacao">
-                                    <option value="nome">Nome</option>
-                                    <option value="checkin">Hora do check-in</option>
-                                    <option value="idade">Idade</option>
-                                </select>
+                            <div class="form-group mb-md-0">
+                                <label for="ordenacao" class="text-muted mb-2"
+                                    style="font-weight: 600; font-size: 0.85rem; text-transform: uppercase; letter-spacing: 0.5px;">Ordenar
+                                    por</label>
+                                <div class="input-group">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text bg-light border-right-0"
+                                            style="border-radius: 10px 0 0 10px; border: 1px solid rgba(0,0,0,0.1);"><i
+                                                class="bi bi-sort-alpha-down" style="color: #6c757d;"></i></span>
+                                    </div>
+                                    <select class="form-control border-left-0" id="ordenacao"
+                                        style="border-radius: 0 10px 10px 0;">
+                                        <option value="nome">Nome</option>
+                                        <option value="checkin">Hora do check-in</option>
+                                        <option value="idade">Idade</option>
+                                    </select>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -206,30 +494,32 @@
         <!-- Lista de Participantes -->
         <div class="row">
             <div class="col-md-12">
-                <div class="card dashboard-card">
+                <div class="card dashboard-card border-0 shadow-sm" style="border-radius: 16px;">
                     <div
                         class="card-header bg-transparent border-bottom-0 pt-4 pb-0 d-flex justify-content-between align-items-center">
-                        <h5 class="mb-0" style="color: #2c3e50; font-weight: 700;">
-                            <i class="bi bi-people mr-2"></i> Lista de Participantes
+                        <h5 class="mb-0" style="color: #613704; font-weight: 700; font-size: 1.25rem;">
+                            <i class="bi bi-people-fill mr-2" style="color: #ff8c00;"></i> Lista de Participantes
                         </h5>
                         <div>
-                            <button class="btn btn-primary btn-sm" id="btnExportarPresenca" style="border-radius: 8px;">
+                            <button class="btn btn-primary shadow-sm" id="btnExportarPresenca"
+                                style="border-radius: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px; padding: 8px 16px; font-size: 0.8rem;">
                                 <i class="bi bi-cloud-download mr-1"></i> Exportar
                             </button>
                         </div>
                     </div>
                     <div class="card-body">
                         <div class="table-responsive"
-                            style="border-radius: 10px; overflow: hidden; box-shadow: 0 0 10px rgba(0,0,0,0.05);">
-                            <table class="table table-striped table-hover mb-0" id="participantesTable">
-                                <thead class="thead-dark">
+                            style="border-radius: 12px; overflow: hidden; border: 1px solid rgba(0,0,0,0.05);">
+                            <table class="table table-hover mb-0" id="participantesTable">
+                                <thead>
                                     <tr>
-                                        <th>Nome</th>
-                                        <th>Idade</th>
-                                        <th>Telefone</th>
-                                        <th>Status</th>
-                                        <th>Check-in</th>
-                                        <th>Ações</th>
+                                        <th class="sortable" data-col="nome" style="width: 55%;">Nome <i
+                                                class="bi bi-arrow-up sort-icon"></i></th>
+                                        <th class="sortable" data-col="status" style="width: 18%;">Status <i
+                                                class="bi bi-arrow-up sort-icon"></i></th>
+                                        <th class="sortable text-center" data-col="hora" style="width: 15%;">Hora <i
+                                                class="bi bi-arrow-up sort-icon"></i></th>
+                                        <th class="text-center" style="width: 12%;">Ações</th>
                                     </tr>
                                 </thead>
                                 <tbody id="participantesList">
@@ -243,44 +533,40 @@
         </div>
     </div>
 
-    <!-- Modal de Confirmação de Presença -->
+    <!-- Modal: Marcar como Pendente -->
     <div class="modal fade" id="confirmarPresencaModal" tabindex="-1" role="dialog"
         aria-labelledby="confirmarPresencaModalLabel" aria-hidden="true">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="confirmarPresencaModalLabel">Confirmar Presença</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Fechar">
-                        <span aria-hidden="true">×</span>
+        <div class="modal-dialog modal-dialog-centered" role="document" style="max-width: 420px;">
+            <div class="modal-content shadow-lg border-0" style="border-radius: 20px; overflow: hidden;">
+                <div class="modal-header text-white p-4 border-0"
+                    style="background: linear-gradient(135deg, #4a4e69, #6c757d) !important;">
+                    <h5 class="modal-title font-weight-bold" id="confirmarPresencaModalLabel">
+                        <i class="bi bi-clock-history mr-2"></i> Marcar como Pendente
+                    </h5>
+                    <button type="button" class="close text-white" data-dismiss="modal" aria-label="Fechar">
+                        <span aria-hidden="true" style="font-size: 1.5rem;">&times;</span>
                     </button>
                 </div>
-                <div class="modal-body">
-                    <div class="text-center mb-3">
-                        <i class="material-icons" style="font-size: 48px; color: #28a745;">person_pin</i>
+                <div class="modal-body p-4 bg-light">
+                    <div class="text-center mb-4">
+                        <div class="d-inline-flex align-items-center justify-content-center bg-white rounded-circle shadow-sm"
+                            style="width: 70px; height: 70px;">
+                            <i class="bi bi-clock-history" style="font-size: 2.2rem; color: #6c757d;"></i>
+                        </div>
                     </div>
-                    <div class="form-group">
-                        <label>Participante</label>
-                        <input type="text" class="form-control" id="nomeParticipante" readonly>
-                        <input type="hidden" id="participanteId">
-                    </div>
-                    <div class="form-group">
-                        <label>Idade</label>
-                        <input type="text" class="form-control" id="idadeParticipante" readonly>
-                    </div>
-                    <div class="form-group">
-                        <label>Telefone</label>
-                        <input type="text" class="form-control" id="telefoneParticipante" readonly>
-                    </div>
-                    <div class="form-group">
-                        <label for="observacoesPresenca">Observações (opcional)</label>
-                        <textarea class="form-control" id="observacoesPresenca" rows="3"
-                            placeholder="Observações sobre a presença..."></textarea>
-                    </div>
+                    <p class="text-center text-muted mb-1" style="font-size: 0.9rem;">Deseja redefinir a presença de</p>
+                    <p class="text-center font-weight-bold mb-3" style="font-size: 1.05rem; color: #2c3e50;"
+                        id="nomePendenteModal"></p>
+                    <p class="text-center text-muted" style="font-size: 0.85rem;">para <strong>Pendente</strong>? O
+                        horário de check-in será removido.</p>
+                    <input type="hidden" id="participanteId">
                 </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
-                    <button type="button" class="btn btn-success" id="confirmarPresente">
-                        <i class="material-icons">check</i> Confirmar Presença
+                <div class="modal-footer border-0 p-4 bg-white d-flex justify-content-between">
+                    <button type="button" class="btn btn-outline-secondary px-4" data-dismiss="modal"
+                        style="border-radius: 12px; font-weight: 600;">Cancelar</button>
+                    <button type="button" class="btn px-4 shadow-sm" id="confirmarPendenteBtn"
+                        style="border-radius: 12px; font-weight: bold; background: linear-gradient(135deg, #4a4e69, #6c757d); color: #fff; border: none;">
+                        <i class="bi bi-clock-history mr-1"></i> Confirmar
                     </button>
                 </div>
             </div>
@@ -288,86 +574,127 @@
     </div>
 
     <!-- Modal de Exportação -->
+
     <div class="modal fade" id="exportarPresencaModal" tabindex="-1" role="dialog"
         aria-labelledby="exportarPresencaModalLabel" aria-hidden="true">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="exportarPresencaModalLabel">Exportar Lista de Presença</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Fechar">
-                        <span aria-hidden="true">×</span>
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content shadow-lg border-0" style="border-radius: 20px; overflow: hidden;">
+                <div class="modal-header text-white p-4 border-0"
+                    style="background: linear-gradient(135deg, #613704, #8c510a) !important;">
+                    <h5 class="modal-title font-weight-bold" id="exportarPresencaModalLabel">
+                        <i class="bi bi-cloud-download-fill mr-2"></i> Exportar Lista de Presença
+                    </h5>
+                    <button type="button" class="close text-white" data-dismiss="modal" aria-label="Fechar">
+                        <span aria-hidden="true" style="font-size: 1.5rem;">&times;</span>
                     </button>
                 </div>
-                <div class="modal-body">
-                    <div class="form-group">
-                        <label for="formatoExportacaoPresenca">Formato de Exportação</label>
-                        <select class="form-control" id="formatoExportacaoPresenca">
-                            <option value="excel">Excel (.xlsx)</option>
-                            <option value="csv">CSV (.csv)</option>
-                        </select>
+                <div class="modal-body p-4 bg-light">
+                    <div class="text-center mb-4">
+                        <div class="d-inline-flex align-items-center justify-content-center bg-white rounded-circle shadow-sm"
+                            style="width: 70px; height: 70px;">
+                            <i class="bi bi-file-earmark-spreadsheet" style="font-size: 2.2rem; color: #ff8c00;"></i>
+                        </div>
                     </div>
-                    <div class="form-group">
-                        <label for="statusExportar">Status para Exportar</label>
-                        <select class="form-control" id="statusExportar">
-                            <option value="todos">Todos os participantes</option>
-                            <option value="presente">Apenas presentes</option>
-                            <option value="ausente">Apenas ausentes</option>
-                        </select>
+                    <div class="row">
+                        <div class="col-md-6 form-group mb-3">
+                            <label for="formatoExportacaoPresenca" class="text-muted font-weight-bold mb-1"
+                                style="font-size: 0.82rem; text-transform: uppercase; letter-spacing: 0.5px;">Formato</label>
+                            <select class="form-control border-0 shadow-sm" id="formatoExportacaoPresenca"
+                                style="border-radius: 10px; height: 45px;">
+                                <option value="excel">Excel (.xlsx)</option>
+                                <option value="csv">CSV (.csv)</option>
+                            </select>
+                        </div>
+                        <div class="col-md-6 form-group mb-3">
+                            <label for="statusExportar" class="text-muted font-weight-bold mb-1"
+                                style="font-size: 0.82rem; text-transform: uppercase; letter-spacing: 0.5px;">Status
+                                Filtrado</label>
+                            <select class="form-control border-0 shadow-sm" id="statusExportar"
+                                style="border-radius: 10px; height: 45px;">
+                                <option value="todos">Todos</option>
+                                <option value="presente">Apenas Presentes</option>
+                                <option value="ausente">Apenas Ausentes</option>
+                            </select>
+                        </div>
                     </div>
-                    <div class="form-check">
-                        <input type="checkbox" class="form-check-input" id="incluirHorarios" checked>
-                        <label class="form-check-label" for="incluirHorarios">Incluir horários de check-in</label>
-                    </div>
-                    <div class="form-check">
-                        <input type="checkbox" class="form-check-input" id="incluirObservacoes">
-                        <label class="form-check-label" for="incluirObservacoes">Incluir observações</label>
+                    <div class="card border-0 p-3 mt-2 shadow-sm"
+                        style="border-radius: 12px; background-color: #ffffff;">
+                        <h6 class="font-weight-bold mb-3"
+                            style="color: #613704; font-size: 0.85rem; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 12px;">
+                            Configurações Extras</h6>
+                        <div class="custom-control custom-checkbox mb-2">
+                            <input type="checkbox" class="custom-control-input" id="incluirHorarios" checked>
+                            <label class="custom-control-label text-muted font-weight-bold" for="incluirHorarios"
+                                style="font-size: 0.85rem;">Incluir horários de check-in</label>
+                        </div>
+                        <div class="custom-control custom-checkbox">
+                            <input type="checkbox" class="custom-control-input" id="incluirObservacoes">
+                            <label class="custom-control-label text-muted font-weight-bold" for="incluirObservacoes"
+                                style="font-size: 0.85rem;">Incluir observações de presença</label>
+                        </div>
                     </div>
                 </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
-                    <button type="button" class="btn btn-primary" id="confirmarExportacaoPresenca">Exportar</button>
+                <div class="modal-footer border-0 p-4 bg-white d-flex justify-content-between">
+                    <button type="button" class="btn btn-outline-secondary px-4" data-dismiss="modal"
+                        style="border-radius: 12px; font-weight: 600;">Cancelar</button>
+                    <button type="button" class="btn btn-primary px-4 shadow-sm" id="confirmarExportacaoPresenca"
+                        style="border-radius: 12px; font-weight: bold; background: linear-gradient(135deg, #613704, #ff8c00); border: none;">
+                        <i class="bi bi-cloud-download mr-1"></i> Exportar Arquivo
+                    </button>
                 </div>
             </div>
         </div>
     </div>
 
-
-
     <!-- Modal de Pagamento Rápido e Presença -->
-    <div class="modal fade" id="pagamentoRapidoModal" tabindex="-1" role="dialog" aria-labelledby="pagamentoRapidoModalLabel" aria-hidden="true" data-backdrop="static">
+    <div class="modal fade" id="pagamentoRapidoModal" tabindex="-1" role="dialog"
+        aria-labelledby="pagamentoRapidoModalLabel" aria-hidden="true" data-backdrop="static">
         <div class="modal-dialog modal-dialog-centered" role="document">
             <div class="modal-content shadow-lg border-0" style="border-radius: 20px; overflow: hidden;">
-                <div class="modal-header bg-warning text-dark p-4 border-0" style="background: linear-gradient(135deg, #ffc107, #ffca2c) !important;">
+                <div class="modal-header text-white p-4 border-0"
+                    style="background: linear-gradient(135deg, #ff8c00, #ffb300) !important;">
                     <h5 class="modal-title font-weight-bold" id="pagamentoRapidoModalLabel">
                         <i class="bi bi-exclamation-triangle-fill mr-2 text-danger"></i> Pagamento Pendente!
                     </h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Fechar">
+                    <button type="button" class="close text-white" data-dismiss="modal" aria-label="Fechar">
                         <span aria-hidden="true" style="font-size: 1.5rem;">&times;</span>
                     </button>
                 </div>
                 <div class="modal-body p-4 bg-light">
-                    <div class="alert alert-warning border-0 p-3 mb-4 shadow-sm" style="border-radius: 12px; background-color: #fff3cd; color: #664d03;">
+                    <div class="alert alert-warning border-0 p-3 mb-4 shadow-sm"
+                        style="border-radius: 12px; background-color: #fff3cd; color: #664d03;">
                         <i class="bi bi-info-circle-fill mr-2"></i>
-                        Este participante está com o pagamento pendente. Confirme o pagamento para liberar o check-in e a presença no evento.
+                        Este participante está com o pagamento pendente. Confirme o pagamento para liberar o check-in e
+                        a presença no evento.
                     </div>
 
                     <form id="pagamentoRapidoForm">
                         <input type="hidden" id="pagRapidoParticipanteId">
-                        
+
                         <div class="form-group mb-3">
-                            <label class="text-muted font-weight-bold mb-1">Participante</label>
-                            <input type="text" class="form-control border-0 shadow-sm font-weight-bold" id="pagRapidoNome" readonly style="border-radius: 10px; height: 45px; background-color: #e9ecef;">
+                            <label class="text-muted font-weight-bold mb-1"
+                                style="font-size: 0.82rem; text-transform: uppercase; letter-spacing: 0.5px;">Participante</label>
+                            <input type="text" class="form-control border-0 shadow-sm font-weight-bold"
+                                id="pagRapidoNome" readonly
+                                style="border-radius: 10px; height: 45px; background-color: #e9ecef;">
                         </div>
 
                         <div class="row">
                             <div class="col-md-6 form-group mb-3">
-                                <label for="pagRapidoValor" class="text-muted font-weight-bold mb-1">Valor da Inscrição (R$)</label>
-                                <input type="text" class="form-control border-0 shadow-sm" id="pagRapidoValor" value="30,00" style="border-radius: 10px; height: 45px;">
+                                <label for="pagRapidoValor" class="text-muted font-weight-bold mb-1"
+                                    style="font-size: 0.82rem; text-transform: uppercase; letter-spacing: 0.5px;">Valor
+                                    da Inscrição (R$)</label>
+                                <input type="text" class="form-control border-0 shadow-sm font-weight-bold"
+                                    id="pagRapidoValor" value="30,00"
+                                    style="border-radius: 10px; height: 45px; background-color: #ffffff;">
                             </div>
-                            
+
                             <div class="col-md-6 form-group mb-3">
-                                <label for="pagRapidoMetodo" class="text-muted font-weight-bold mb-1">Método de Pagamento</label>
-                                <select class="form-control border-0 shadow-sm" id="pagRapidoMetodo" required style="border-radius: 10px; height: 45px;">
+                                <label for="pagRapidoMetodo" class="text-muted font-weight-bold mb-1"
+                                    style="font-size: 0.82rem; text-transform: uppercase; letter-spacing: 0.5px;">Método
+                                    de Pagamento</label>
+                                <select class="form-control border-0 shadow-sm" id="pagRapidoMetodo" required
+                                    style="border-radius: 10px; height: 45px;">
                                     <option value="pix" selected>PIX</option>
                                     <option value="cartao">Cartão</option>
                                     <option value="dinheiro">Dinheiro</option>
@@ -377,8 +704,10 @@
                     </form>
                 </div>
                 <div class="modal-footer border-0 p-4 bg-white d-flex justify-content-between">
-                    <button type="button" class="btn btn-outline-secondary px-4" data-dismiss="modal" style="border-radius: 12px; font-weight: 600;">Cancelar</button>
-                    <button type="button" class="btn btn-success px-4 shadow-sm" id="btnSalvarPagamentoRapido" style="border-radius: 12px; font-weight: bold; background: linear-gradient(135deg, #198754, #28a745); border: none;">
+                    <button type="button" class="btn btn-outline-secondary px-4" data-dismiss="modal"
+                        style="border-radius: 12px; font-weight: 600;">Cancelar</button>
+                    <button type="button" class="btn btn-success px-4 shadow-sm" id="btnSalvarPagamentoRapido"
+                        style="border-radius: 12px; font-weight: bold; background: linear-gradient(135deg, #198754, #28a745); border: none;">
                         <i class="bi bi-check-circle-fill mr-1"></i> Confirmar Pago & Entrada
                     </button>
                 </div>
@@ -399,6 +728,8 @@
         // Variáveis globais
         let todosParticipantes = [];
         let participantesFiltrados = [];
+        let sortCol = 'nome'; // coluna atual de ordenação
+        let sortDir = 'asc';  // direção: 'asc' ou 'desc'
 
         $(document).ready(function () {
             // Carregar dados iniciais
@@ -414,7 +745,11 @@
             $('#ordenacao').on('change', aplicarFiltros);
 
             // Configurar eventos dos botões
-            $('#confirmarPresente').on('click', confirmarPresenca);
+            $('#confirmarPendenteBtn').on('click', function () {
+                const participanteId = $('#participanteId').val();
+                marcarPresencaPendente(participanteId);
+                $('#confirmarPresencaModal').modal('hide');
+            });
             $('#btnExportarPresenca').on('click', function () {
                 $('#exportarPresencaModal').modal('show');
             });
@@ -424,6 +759,21 @@
             });
 
 
+
+            // Ordenação por clique nos cabeçalhos
+            $('#participantesTable thead th.sortable').on('click', function () {
+                const col = $(this).data('col');
+                if (sortCol === col) {
+                    sortDir = sortDir === 'asc' ? 'desc' : 'asc';
+                } else {
+                    sortCol = col;
+                    sortDir = 'asc';
+                }
+                // Atualizar visual dos cabeçalhos
+                $('#participantesTable thead th.sortable').removeClass('asc desc');
+                $(this).addClass(sortDir);
+                aplicarFiltros();
+            });
 
             // Evento do botão de pagamento expresso
             $('#btnSalvarPagamentoRapido').on('click', salvarPagamentoRapido);
@@ -491,39 +841,39 @@
         function aplicarFiltros() {
             const filtroNome = $('#filtroNome').val().toLowerCase();
             const filtroStatus = $('#filtroStatus').val();
-            const ordenacao = $('#ordenacao').val();
 
             // Aplicar filtros
             participantesFiltrados = todosParticipantes.filter(participante => {
-                // Filtro por nome
                 const nomeMatch = participante.nome.toLowerCase().includes(filtroNome);
-
-                // Filtro por status
                 let statusMatch = true;
                 if (filtroStatus !== 'todos') {
                     statusMatch = (participante.statusPresenca || 'pendente') === filtroStatus;
                 }
-
                 return nomeMatch && statusMatch;
             });
 
-            // Aplicar ordenação
+            // Aplicar ordenação pela coluna e direção atuais
+            const dir = sortDir === 'asc' ? 1 : -1;
             participantesFiltrados.sort((a, b) => {
-                switch (ordenacao) {
+                switch (sortCol) {
+                    case 'status': {
+                        const ordem = { presente: 0, pendente: 1, ausente: 2 };
+                        const sA = ordem[a.statusPresenca || 'pendente'] ?? 3;
+                        const sB = ordem[b.statusPresenca || 'pendente'] ?? 3;
+                        return (sA - sB) * dir;
+                    }
+                    case 'hora': {
+                        const dataA = a.dataCheckin ? new Date(a.dataCheckin).getTime() : 0;
+                        const dataB = b.dataCheckin ? new Date(b.dataCheckin).getTime() : 0;
+                        return (dataA - dataB) * dir;
+                    }
                     case 'nome':
-                        return a.nome.localeCompare(b.nome);
-                    case 'checkin':
-                        const dataA = a.dataCheckin ? new Date(a.dataCheckin) : new Date(0);
-                        const dataB = b.dataCheckin ? new Date(b.dataCheckin) : new Date(0);
-                        return dataB - dataA; // Mais recente primeiro
-                    case 'idade':
-                        return (parseInt(a.idade) || 0) - (parseInt(b.idade) || 0);
                     default:
-                        return a.nome.localeCompare(b.nome);
+                        return a.nome.localeCompare(b.nome) * dir;
                 }
             });
 
-            // Atualizar a tabela
+            // Atualizar a tabela após filtrar e ordenar
             atualizarTabelaParticipantes();
         }
 
@@ -561,9 +911,9 @@
 
                 // Determinar classe e texto do badge de pagamento
                 const ePago = participante.statusPagamento === 'pago';
-                const pagBadge = ePago 
-                    ? `<span class="badge badge-success px-2 py-1 ml-2" style="font-size: 11px; border-radius: 12px; font-weight: 700;"><i class="bi bi-cash-coin mr-1"></i>Pago</span>`
-                    : `<span class="badge badge-warning px-2 py-1 ml-2" style="font-size: 11px; border-radius: 12px; font-weight: 700; color: #212529;"><i class="bi bi-exclamation-triangle-fill mr-1"></i>Pendente</span>`;
+                const pagBadge = ePago
+                    ? `<span class="badge px-2 py-1 ml-2" style="font-size: 10px; border-radius: 12px; font-weight: 700; background-color: rgba(40, 167, 69, 0.12); color: #198754; border: 1px solid rgba(40, 167, 69, 0.2);"><i class="bi bi-cash-coin mr-1"></i>Pago</span>`
+                    : `<span class="badge px-2 py-1 ml-2" style="font-size: 10px; border-radius: 12px; font-weight: 700; background-color: rgba(255, 193, 7, 0.12); color: #b58100; border: 1px solid rgba(255, 193, 7, 0.25);"><i class="bi bi-exclamation-triangle-fill mr-1"></i>Pendente</span>`;
 
                 // Formatear hora do check-in
                 let checkinInfo = '--:--';
@@ -578,37 +928,37 @@
                 const linha = `
                 <tr id="participante-row-${participante.id}">
                     <td>
-                        <strong>${participante.nome}</strong>
-                        ${pagBadge}
-                        <div class="participante-info">ID: ${participante.id}</div>
+                        <strong style="color: #2c3e50;">${participante.nome}</strong>
                     </td>
-                    <td>${idade}</td>
-                    <td>${telefone}</td>
                     <td>
-                        <span class="badge status-badge ${statusClass}">
+                        <span class="status-badge ${statusClass}">
                             <i class="material-icons" style="font-size: 14px; vertical-align: middle;">${statusIcon}</i>
                             ${statusText}
                         </span>
                     </td>
-                    <td>
+                    <td class="text-center">
                         <div class="hora-checkin">${checkinInfo}</div>
-                        ${participante.observacoesPresenca ? `<small class="text-muted">${participante.observacoesPresenca}</small>` : ''}
+                        ${participante.observacoesPresenca ? `<small class="text-muted d-block mt-1" style="font-size: 11px;">${participante.observacoesPresenca}</small>` : ''}
                     </td>
-                    <td>
-                        <div class="btn-group" role="group">
-                            <button class="btn btn-success btn-sm btn-presenca" 
+                    <td class="text-center">
+                        <div class="d-flex align-items-center justify-content-center">
+                            <button class="btn-table-action btn-presente-modern" 
+                                    title="Marcar como Presente"
                                     onclick="marcarPresenca('${participante.id}', 'presente')"
                                     ${status === 'presente' ? 'disabled' : ''}>
-                                <i class="material-icons">check</i>
+                                <i class="bi bi-check-lg"></i>
                             </button>
-                            <button class="btn btn-danger btn-sm btn-presenca" 
-                                                                        onclick="marcarPresenca('${participante.id}', 'ausente')"
+                            <button class="btn-table-action btn-ausente-modern" 
+                                    title="Marcar como Ausente"
+                                    onclick="marcarPresenca('${participante.id}', 'ausente')"
                                     ${status === 'ausente' ? 'disabled' : ''}>
-                                <i class="material-icons">close</i>
+                                <i class="bi bi-x-lg"></i>
                             </button>
-                            <button class="btn btn-info btn-sm" 
-                                    onclick="abrirModalPresenca('${participante.id}')">
-                                <i class="material-icons">edit</i>
+                            <button class="btn-table-action btn-edit-modern" 
+                                    title="Marcar como Pendente"
+                                    onclick="abrirModalPendente('${participante.id}')"
+                                    ${status === 'pendente' ? 'disabled' : ''}>
+                                <i class="bi bi-clock-history" style="font-size: 0.9rem;"></i>
                             </button>
                         </div>
                     </td>
@@ -643,31 +993,13 @@
             $('#ultimaAtualizacao').text(hora);
         }
 
-        function abrirModalPresenca(participanteId) {
+        function abrirModalPendente(participanteId) {
             const participante = todosParticipantes.find(p => p.id === participanteId);
+            if (!participante) return;
 
-            if (!participante) {
-                alert('Participante não encontrado!');
-                return;
-            }
-
-            // Preencher o modal com os dados do participante
             $('#participanteId').val(participanteId);
-            $('#nomeParticipante').val(participante.nome);
-            $('#idadeParticipante').val(participante.idade || '');
-            $('#telefoneParticipante').val(formatarTelefone(participante.telefone));
-            $('#observacoesPresenca').val(participante.observacoesPresenca || '');
-
-            // Abrir o modal
+            $('#nomePendenteModal').text(participante.nome);
             $('#confirmarPresencaModal').modal('show');
-        }
-
-        function confirmarPresenca() {
-            const participanteId = $('#participanteId').val();
-            const observacoes = $('#observacoesPresenca').val();
-
-            marcarPresenca(participanteId, 'presente', observacoes);
-            $('#confirmarPresencaModal').modal('hide');
         }
 
         function marcarPresenca(participanteId, status, observacoes = '') {
@@ -727,6 +1059,44 @@
                 .catch((error) => {
                     console.error("Erro ao marcar presença: ", error);
                     alert("Erro ao marcar presença. Tente novamente.");
+                });
+        }
+
+        function marcarPresencaPendente(participanteId, observacoes = '') {
+            const participante = todosParticipantes.find(p => p.id === participanteId);
+            if (!participante) {
+                alert('Participante não encontrado!');
+                return;
+            }
+
+            const agora = new Date().toISOString();
+
+            // Voltar para pendente e limpar dataCheckin
+            const updateData = {
+                statusPresenca: 'pendente',
+                observacoesPresenca: observacoes,
+                dataCheckin: null,
+                dataUltimaAtualizacao: agora
+            };
+
+            db.collection("Eventos").doc("ComRoca2026").collection("inscricoes").doc(participanteId)
+                .update(updateData)
+                .then(() => {
+                    const index = todosParticipantes.findIndex(p => p.id === participanteId);
+                    if (index !== -1) {
+                        todosParticipantes[index].statusPresenca = 'pendente';
+                        todosParticipantes[index].observacoesPresenca = observacoes;
+                        todosParticipantes[index].dataCheckin = null;
+                    }
+
+                    aplicarFiltros();
+                    atualizarEstatisticas();
+
+                    mostrarNotificacao(`Presença de ${participante.nome} foi cancelada.`, 'warning');
+                })
+                .catch((error) => {
+                    console.error("Erro ao cancelar presença: ", error);
+                    alert("Erro ao cancelar presença. Tente novamente.");
                 });
         }
 
@@ -861,11 +1231,11 @@
             // Preencher campos
             $('#pagRapidoParticipanteId').val(participanteId);
             $('#pagRapidoNome').val(participante.nome);
-            
+
             // Valor da inscrição padrão R$ 30,00
             const valorInscricao = participante.valorInscricao || 30.00;
             $('#pagRapidoValor').val(valorInscricao.toFixed(2).replace('.', ','));
-            
+
             // Abrir o modal
             $('#pagamentoRapidoModal').modal('show');
         }
@@ -930,7 +1300,7 @@
                 .then(() => {
                     // Fechar o modal de pagamento rápido
                     $('#pagamentoRapidoModal').modal('hide');
-                    
+
                     // Atualizar a lista local com os dados atualizados de pagamento
                     const index = todosParticipantes.findIndex(p => p.id === participanteId);
                     if (index !== -1) {
