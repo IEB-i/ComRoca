@@ -441,6 +441,9 @@
             // Carregar dados de participantes inscritos
             carregarParticipantes();
 
+            // Iniciar escuta dos últimos 10 checkins realizados
+            iniciarEscutaEntradasRecentes();
+
             // Ativar a câmera ao clicar no botão de ativação
             $(document).on('click', '#btnAtivarCamera', function () {
                 // Tentar reativar o contexto de áudio sob gesto do usuário
@@ -596,6 +599,7 @@
                 try {
                     todosParticipantes = JSON.parse(cachedData);
                     console.log(`Carregados ${todosParticipantes.length} participantes do cache do localStorage.`);
+                    atualizarEntradasRecentesLocalmente();
                 } catch (e) {
                     console.error("Erro ao analisar cache do localStorage:", e);
                 }
@@ -628,6 +632,8 @@
                         // Salvar no localStorage com o timestamp atual
                         localStorage.setItem(CACHE_KEY, JSON.stringify(todosParticipantes));
                         localStorage.setItem(TIMESTAMP_KEY, agora.toString());
+
+                        atualizarEntradasRecentesLocalmente();
                     })
                     .catch((error) => {
                         console.error("Erro ao carregar participantes do Firestore:", error);
@@ -836,11 +842,17 @@
                 todosParticipantes.push(participante);
             }
 
-            // 1. Verificar Pagamento
+            // 1. Verificar se o check-in já foi realizado
+            if (participante.statusPresenca === 'presente') {
+                mostrarFeedbackJaRealizado(participante);
+                return;
+            }
+
+            // 2. Verificar Pagamento
             if (participante.statusPagamento !== 'pago') {
                 mostrarFeedbackPending(participante);
             } else {
-                // 2. Confirmar presença se pago
+                // 3. Confirmar presença se pago
                 salvarPresencaPortaria(participante.id);
             }
         }
@@ -1032,41 +1044,130 @@
             }
         }
 
-        // Histórico de Logs da Sessão (Tela)
-        function adicionarLogSessao(participante, acao) {
-            const agora = new Date();
-            const hora = agora.toLocaleTimeString('pt-BR', {
-                hour: '2-digit',
-                minute: '2-digit',
-                second: '2-digit'
-            });
+        function mostrarFeedbackJaRealizado(p) {
+            $('#resultPanel')
+                .removeClass('state-waiting state-success state-error')
+                .addClass('state-pending');
 
-            const log = {
-                hora: hora,
-                nome: participante.nome,
-                id: participante.id,
-                acao: acao
-            };
+            const tel = formatarTelefone(p.telefone || p.celular || '');
+            const idade = p.idade ? `${p.idade} anos` : '';
+            
+            let detalheCheckin = "Entrada já registrada anteriormente.";
+            if (p.dataCheckin) {
+                try {
+                    const dataObj = new Date(p.dataCheckin);
+                    const horaFormatada = dataObj.toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' });
+                    detalheCheckin = `Check-in já realizado hoje às ${horaFormatada}.`;
+                } catch (e) {
+                    console.error("Erro ao formatar data de check-in:", e);
+                }
+            }
 
-            logsSessao.unshift(log); // Coloca no topo
-            if (logsSessao.length > 5) logsSessao.pop(); // Mantém 5 registros
+            $('#panelContent').html(`
+                <div class="state-icon icon-pending shadow-lg" style="background-color: #ff9800; color: white;">
+                    <i class="bi bi-person-x-fill"></i>
+                </div>
+                <h3 class="font-weight-bold mb-1" style="color: #ff9800 !important;">JÁ REALIZADO!</h3>
+                <h5 class="font-weight-bold text-dark mb-2" style="font-size: 1.3rem;">${p.nome}</h5>
+                <div class="text-muted font-weight-bold mb-3" style="font-size: 0.9rem;">
+                    ${idade} ${idade && tel ? '•' : ''} ${tel}
+                </div>
+                <div class="alert alert-warning py-2 px-3 border-0 small font-weight-bold mb-3" style="border-radius: 12px; background-color: #fff3cd; color: #664d03; max-width: 320px; margin: 0 auto 15px auto;">
+                    <i class="bi bi-info-circle-fill mr-1"></i> ${detalheCheckin}
+                </div>
+                <span class="badge badge-warning px-4 py-2 font-weight-bold text-dark" style="border-radius: 20px; font-size: 13px; background-color: #ffc107;">
+                    <i class="bi bi-shield-exclamation mr-1"></i> Entrada Já Registrada
+                </span>
+            `);
 
-            renderizarLogsSessao();
+            // Abre o modal de feedback
+            $('#feedbackModal').modal('show');
+
+            // Auto-ocultar após 4 segundos
+            setTimeout(() => {
+                if ($('#resultPanel').find('h3').text().includes('JÁ REALIZADO')) {
+                    $('#feedbackModal').modal('hide');
+                }
+            }, 4000);
         }
 
-        function renderizarLogsSessao() {
-            $('#noLogsPlaceholder').remove();
+        // Carregar os últimos 10 check-ins em tempo real do Firestore
+        function iniciarEscutaEntradasRecentes() {
+            if (typeof db === 'undefined') {
+                console.warn("Firestore indisponível. Usando logs locais de sessão.");
+                return;
+            }
+
+            try {
+                db.collection("Eventos").doc("ComRoca2026").collection("inscricoes")
+                    .orderBy("dataCheckin", "desc")
+                    .limit(10)
+                    .onSnapshot((querySnapshot) => {
+                        const lista = [];
+                        querySnapshot.forEach((doc) => {
+                            const data = doc.data();
+                            data.id = doc.id;
+                            if (data.statusPresenca === 'presente' && data.dataCheckin) {
+                                lista.push(data);
+                            }
+                        });
+
+                        renderizarEntradasRecentes(lista);
+                    }, (error) => {
+                        console.error("Erro na escuta em tempo real dos check-ins:", error);
+                        atualizarEntradasRecentesLocalmente();
+                    });
+            } catch (e) {
+                console.error("Exceção ao iniciar escuta de check-ins:", e);
+                atualizarEntradasRecentesLocalmente();
+            }
+        }
+
+        function atualizarEntradasRecentesLocalmente() {
+            const lista = todosParticipantes
+                .filter(p => p && p.statusPresenca === 'presente' && p.dataCheckin)
+                .sort((a, b) => new Date(b.dataCheckin) - new Date(a.dataCheckin))
+                .slice(0, 10);
+            renderizarEntradasRecentes(lista);
+        }
+
+        function renderizarEntradasRecentes(lista) {
             const list = $('#recentLogsList');
+            
+            if (lista.length === 0) {
+                list.html(`
+                    <div class="text-center py-5 text-muted" id="noLogsPlaceholder" style="font-size: 0.9rem;">
+                        Nenhuma entrada validada nesta sessão ainda.
+                    </div>
+                `);
+                return;
+            }
+
+            $('#noLogsPlaceholder').remove();
             list.html('');
 
-            logsSessao.forEach(log => {
-                const iniciais = log.nome.substring(0, 2).toUpperCase();
+            lista.forEach(p => {
+                const iniciais = (p.nome || 'P').substring(0, 2).toUpperCase();
+                
+                let hora = '...';
+                if (p.dataCheckin) {
+                    try {
+                        const dataObj = new Date(p.dataCheckin);
+                        hora = dataObj.toLocaleTimeString('pt-BR', {
+                            hour: '2-digit',
+                            minute: '2-digit',
+                            second: '2-digit'
+                        });
+                    } catch (e) {
+                        console.error(e);
+                    }
+                }
 
                 const item = `
                     <div class="log-item">
-                        <div class="log-time">${log.hora}</div>
+                        <div class="log-time">${hora}</div>
                         <div class="log-avatar">${iniciais}</div>
-                        <div class="log-name">${log.nome}</div>
+                        <div class="log-name">${p.nome}</div>
                         <span class="badge badge-success log-badge bg-success text-white">
                             Check-in ok
                         </span>
@@ -1074,6 +1175,11 @@
                 `;
                 list.append(item);
             });
+        }
+
+        // Histórico de Logs da Sessão (Tela)
+        function adicionarLogSessao(participante, acao) {
+            atualizarEntradasRecentesLocalmente();
         }
 
         // Modal de Pagamento Rápido
