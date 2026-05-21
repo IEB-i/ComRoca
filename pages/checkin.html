@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Check-in Expresso - ComRoça 2026</title>
+    <title>Check-in - ComRoça 2026</title>
     <link rel="shortcut icon" href="../assets/3.ico" type="image/x-icon">
 
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
@@ -35,7 +35,7 @@
             border-radius: 18px;
             overflow: hidden;
             background-color: #000;
-            box-shadow: inset 0 0 20px rgba(0,0,0,0.8);
+            box-shadow: inset 0 0 20px rgba(0, 0, 0, 0.8);
         }
 
         #reader {
@@ -61,9 +61,11 @@
             0% {
                 top: 0%;
             }
+
             50% {
                 top: 100%;
             }
+
             100% {
                 top: 0%;
             }
@@ -112,13 +114,23 @@
         }
 
         @keyframes pulseSuccess {
-            0% { box-shadow: 0 15px 35px rgba(40, 167, 69, 0.1); }
-            100% { box-shadow: 0 15px 45px rgba(40, 167, 69, 0.25); }
+            0% {
+                box-shadow: 0 15px 35px rgba(40, 167, 69, 0.1);
+            }
+
+            100% {
+                box-shadow: 0 15px 45px rgba(40, 167, 69, 0.25);
+            }
         }
 
         @keyframes pulsePending {
-            0% { box-shadow: 0 15px 35px rgba(255, 193, 7, 0.1); }
-            100% { box-shadow: 0 15px 45px rgba(255, 193, 7, 0.25); }
+            0% {
+                box-shadow: 0 15px 35px rgba(255, 193, 7, 0.1);
+            }
+
+            100% {
+                box-shadow: 0 15px 45px rgba(255, 193, 7, 0.25);
+            }
         }
 
         /* Ícones dos Estados */
@@ -131,7 +143,7 @@
             justify-content: center;
             font-size: 2.8rem;
             margin-bottom: 20px;
-            box-shadow: 0 6px 15px rgba(0,0,0,0.06);
+            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.06);
         }
 
         .icon-waiting {
@@ -166,7 +178,7 @@
             display: flex;
             align-items: center;
             padding: 12px 15px;
-            border-bottom: 1px solid rgba(0,0,0,0.04);
+            border-bottom: 1px solid rgba(0, 0, 0, 0.04);
             transition: background-color 0.2s ease;
         }
 
@@ -225,83 +237,83 @@
         <a href="gestao.html" class="btn-voltar">
             <i class="material-icons">arrow_back</i>
         </a>
-        <h2 class="header-title">Portaria & Check-in Expresso</h2>
+        <h2 class="header-title">Check-in</h2>
     </div>
 
     <div class="container mt-5">
         <div class="row pt-2">
             <!-- Coluna 1: Leitor e Entrada -->
             <div class="col-lg-6 mb-4">
-                <div class="card scanner-card p-4 h-100">
+                <div class="card scanner-card p-4 h-100" style="overflow: visible !important;">
                     <h5 class="font-weight-bold mb-3 text-dark d-flex justify-content-between align-items-center">
                         <span><i class="bi bi-camera-video-fill text-success mr-2"></i> Leitor da Portaria</span>
-                        <span class="badge badge-success px-3 py-1 font-weight-bold" style="border-radius: 12px; font-size: 11px; animation: flashBadge 1.5s infinite alternate;"><i class="bi bi-circle-fill mr-1 text-white" style="font-size: 6px; vertical-align: middle;"></i> Câmera Ativa</span>
+                        <span class="badge badge-secondary px-3 py-1 font-weight-bold" id="cameraStatusBadge"
+                            style="border-radius: 12px; font-size: 11px; transition: all 0.3s ease;"><i
+                                class="bi bi-circle-fill mr-1 text-white"
+                                style="font-size: 6px; vertical-align: middle;"></i> Leitor Inativo</span>
                     </h5>
 
                     <!-- Viewfinder -->
                     <div class="viewfinder-wrapper">
-                        <div class="laser-line"></div>
-                        <div id="reader"></div>
+                        <div class="laser-line" style="display: none;"></div>
+                        <div id="reader"
+                            style="width: 100%; min-height: 280px; display: flex; flex-direction: column; justify-content: center; align-items: center; background: #1a1a1a;">
+                            <div id="cameraPlaceholder" class="text-center p-4">
+                                <i class="bi bi-camera-fill text-muted mb-2"
+                                    style="font-size: 3rem; color: #6c757d !important; display: block;"></i>
+                                <h6 class="text-white font-weight-bold mb-1">Leitor Desativado</h6>
+                                <p class="text-muted small px-3 mb-3">Ative a câmera para escanear ingressos via QR Code
+                                    na portaria.</p>
+                                <button type="button" class="btn btn-success font-weight-bold px-4 shadow-sm"
+                                    id="btnAtivarCamera"
+                                    style="border-radius: 12px; background: linear-gradient(135deg, #198754, #28a745); border: none; height: 45px;">
+                                    <i class="bi bi-play-fill mr-1"></i> Iniciar Câmera
+                                </button>
+                            </div>
+                        </div>
                     </div>
 
                     <div class="form-group mt-4">
                         <label for="cameraSelect" class="text-muted font-weight-bold mb-1">
                             <i class="bi bi-camera-video mr-1"></i> Selecionar Dispositivo de Captura
                         </label>
-                        <select class="form-control border shadow-sm" id="cameraSelect" style="border-radius: 12px; height: 45px; font-weight: 600;"></select>
+                        <select class="form-control border shadow-sm" id="cameraSelect"
+                            style="border-radius: 12px; height: 45px; font-weight: 600;">
+                            <option value="">Aguardando ativação da câmera...</option>
+                        </select>
                     </div>
 
-                    <div class="form-group mt-2 mb-0">
+                    <div class="form-group mt-2 mb-0" style="position: relative;">
                         <label for="manualQrInput" class="text-muted font-weight-bold mb-1">
                             <i class="bi bi-keyboard mr-1"></i> Digitar ID ou Nome Completo (Manual)
                         </label>
-                        <div class="input-group shadow-sm" style="border-radius: 12px; overflow: hidden; border: 1px solid #ced4da;">
-                            <input type="text" class="form-control border-0" id="manualQrInput" placeholder="Insira o ID ou Nome para Check-in expresso..." style="height: 46px; font-weight: 600;">
+                        <div class="input-group shadow-sm"
+                            style="border-radius: 12px; overflow: hidden; border: 1px solid #ced4da;">
+                            <input type="text" class="form-control border-0" id="manualQrInput"
+                                placeholder="Insira o ID ou Nome para Check-in expresso..."
+                                style="height: 46px; font-weight: 600;" autocomplete="off">
                             <div class="input-group-append">
-                                <button class="btn btn-success px-4" type="button" id="btnConfirmarManualQr" style="background: linear-gradient(135deg, #198754, #28a745); border: none; font-weight: bold;">Validar</button>
+                                <button class="btn btn-success px-4" type="button" id="btnConfirmarManualQr"
+                                    style="background: linear-gradient(135deg, #198754, #28a745); border: none; font-weight: bold;">Validar</button>
                             </div>
+                        </div>
+                        <!-- Autocomplete Suggestions List -->
+                        <div id="autocompleteResults" class="list-group shadow"
+                            style="position: absolute; width: 100%; z-index: 1050; max-height: 250px; overflow-y: auto; display: none; margin-top: 5px; border-radius: 12px; border: 1px solid rgba(0,0,0,0.15); background-color: #ffffff;">
                         </div>
                     </div>
                 </div>
             </div>
 
-            <!-- Coluna 2: Status da Validação -->
+            <!-- Coluna 2: Histórico de Entradas -->
             <div class="col-lg-6 mb-4">
                 <div class="d-flex flex-column h-100">
-                    <!-- Painel GIGANTE de Status do Último Scan -->
-                    <div id="resultPanel" class="card result-panel state-waiting mb-4 flex-grow-1">
-                        <div class="d-flex flex-column align-items-center" id="panelContent">
-                            <div class="state-icon icon-waiting">
-                                <i class="bi bi-qr-code-scan"></i>
-                            </div>
-                            <h4 class="font-weight-bold text-dark mb-2">Aguardando Ingresso...</h4>
-                            <p class="text-muted mb-0" style="max-width: 320px;">Aponte o QR Code do ingresso do participante para a câmera ou utilize a busca manual rápida acima.</p>
-                        </div>
-                    </div>
-
-                    <!-- Configurações Rápidas -->
-                    <div class="card p-3 mb-4 log-feed-card">
-                        <div class="row align-items-center">
-                            <div class="col-6">
-                                <div class="custom-control custom-switch">
-                                    <input type="checkbox" class="custom-control-input" id="soundSwitch" checked>
-                                    <label class="custom-control-label font-weight-bold text-muted" for="soundSwitch" style="font-size: 0.85rem;"><i class="bi bi-volume-up-fill mr-1"></i> Bip Sonoro</label>
-                                </div>
-                            </div>
-                            <div class="col-6 text-right">
-                                <div class="custom-control custom-switch">
-                                    <input type="checkbox" class="custom-control-input" id="vibrateSwitch" checked>
-                                    <label class="custom-control-label font-weight-bold text-muted" for="vibrateSwitch" style="font-size: 0.85rem;"><i class="bi bi-phone-vibrate mr-1"></i> Vibrar Dispositivo</label>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
                     <!-- Logs Recentes -->
-                    <div class="card log-feed-card p-4">
-                        <h6 class="font-weight-bold text-dark mb-3"><i class="bi bi-clock-history mr-2 text-success"></i> Entradas Recentes na Sessão</h6>
-                        <div id="recentLogsList" style="min-height: 120px;">
-                            <div class="text-center py-4 text-muted" id="noLogsPlaceholder" style="font-size: 0.9rem;">
+                    <div class="card log-feed-card p-4 flex-grow-1">
+                        <h6 class="font-weight-bold text-dark mb-3"><i
+                                class="bi bi-clock-history mr-2 text-success"></i> Entradas Recentes na Sessão</h6>
+                        <div id="recentLogsList" style="min-height: 350px;">
+                            <div class="text-center py-5 text-muted" id="noLogsPlaceholder" style="font-size: 0.9rem;">
                                 Nenhuma entrada validada nesta sessão ainda.
                             </div>
                         </div>
@@ -311,41 +323,80 @@
         </div>
     </div>
 
+    <!-- Modal de Feedback de Validação (Sucesso, Pendente, Erro) -->
+    <div class="modal fade" id="feedbackModal" tabindex="-1" role="dialog" aria-labelledby="feedbackModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content shadow-lg border-0"
+                style="border-radius: 24px; overflow: hidden; position: relative;">
+                <!-- Botão de Fechar Absoluto -->
+                <button type="button" class="close" data-dismiss="modal" aria-label="Fechar"
+                    style="position: absolute; right: 20px; top: 15px; z-index: 1100; font-size: 2rem; color: #333; opacity: 0.5; outline: none; border: none; background: none;">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                <div class="modal-body p-0">
+                    <div id="resultPanel" class="result-panel state-waiting"
+                        style="min-height: 380px; border: none; border-radius: 0;">
+                        <div class="d-flex flex-column align-items-center" id="panelContent">
+                            <div class="state-icon icon-waiting">
+                                <i class="bi bi-qr-code-scan"></i>
+                            </div>
+                            <h4 class="font-weight-bold text-dark mb-2">Aguardando Ingresso...</h4>
+                            <p class="text-muted mb-0" style="max-width: 320px;">Aponte o QR Code do ingresso do
+                                participante para a câmera ou utilize a busca manual rápida acima.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <!-- Modal de Pagamento Rápido e Presença -->
-    <div class="modal fade" id="pagamentoRapidoModal" tabindex="-1" role="dialog" aria-labelledby="pagamentoRapidoModalLabel" aria-hidden="true" data-backdrop="static">
+    <div class="modal fade" id="pagamentoRapidoModal" tabindex="-1" role="dialog"
+        aria-labelledby="pagamentoRapidoModalLabel" aria-hidden="true" data-backdrop="static">
         <div class="modal-dialog modal-dialog-centered" role="document">
             <div class="modal-content shadow-lg border-0" style="border-radius: 20px; overflow: hidden;">
-                <div class="modal-header bg-warning text-dark p-4 border-0" style="background: linear-gradient(135deg, #ffc107, #ffca2c) !important;">
+                <div class="modal-header bg-warning text-dark p-4 border-0"
+                    style="background: linear-gradient(135deg, #ffc107, #ffca2c) !important;">
                     <h5 class="modal-title font-weight-bold" id="pagamentoRapidoModalLabel">
                         <i class="bi bi-exclamation-triangle-fill mr-2 text-danger"></i> Pagamento Pendente!
                     </h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Fechar" id="btnFecharPagamentoRapido">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Fechar"
+                        id="btnFecharPagamentoRapido">
                         <span aria-hidden="true" style="font-size: 1.5rem;">&times;</span>
                     </button>
                 </div>
                 <div class="modal-body p-4 bg-light">
-                    <div class="alert alert-warning border-0 p-3 mb-4 shadow-sm" style="border-radius: 12px; background-color: #fff3cd; color: #664d03;">
+                    <div class="alert alert-warning border-0 p-3 mb-4 shadow-sm"
+                        style="border-radius: 12px; background-color: #fff3cd; color: #664d03;">
                         <i class="bi bi-info-circle-fill mr-2"></i>
-                        Este participante está com o pagamento pendente. Confirme o pagamento para liberar o check-in e a presença no evento.
+                        Este participante está com o pagamento pendente. Confirme o pagamento para liberar o check-in e
+                        a presença no evento.
                     </div>
 
                     <form id="pagamentoRapidoForm">
                         <input type="hidden" id="pagRapidoParticipanteId">
-                        
+
                         <div class="form-group mb-3">
                             <label class="text-muted font-weight-bold mb-1">Participante</label>
-                            <input type="text" class="form-control border-0 shadow-sm font-weight-bold" id="pagRapidoNome" readonly style="border-radius: 10px; height: 45px; background-color: #e9ecef;">
+                            <input type="text" class="form-control border-0 shadow-sm font-weight-bold"
+                                id="pagRapidoNome" readonly
+                                style="border-radius: 10px; height: 45px; background-color: #e9ecef;">
                         </div>
 
                         <div class="row">
                             <div class="col-md-6 form-group mb-3">
-                                <label for="pagRapidoValor" class="text-muted font-weight-bold mb-1">Valor da Inscrição (R$)</label>
-                                <input type="text" class="form-control border-0 shadow-sm" id="pagRapidoValor" value="30,00" style="border-radius: 10px; height: 45px;">
+                                <label for="pagRapidoValor" class="text-muted font-weight-bold mb-1">Valor da Inscrição
+                                    (R$)</label>
+                                <input type="text" class="form-control border-0 shadow-sm" id="pagRapidoValor"
+                                    value="30,00" style="border-radius: 10px; height: 45px;">
                             </div>
-                            
+
                             <div class="col-md-6 form-group mb-3">
-                                <label for="pagRapidoMetodo" class="text-muted font-weight-bold mb-1">Método de Pagamento</label>
-                                <select class="form-control border-0 shadow-sm" id="pagRapidoMetodo" required style="border-radius: 10px; height: 45px;">
+                                <label for="pagRapidoMetodo" class="text-muted font-weight-bold mb-1">Método de
+                                    Pagamento</label>
+                                <select class="form-control border-0 shadow-sm" id="pagRapidoMetodo" required
+                                    style="border-radius: 10px; height: 45px;">
                                     <option value="pix" selected>PIX</option>
                                     <option value="cartao">Cartão</option>
                                     <option value="dinheiro">Dinheiro</option>
@@ -355,8 +406,10 @@
                     </form>
                 </div>
                 <div class="modal-footer border-0 p-4 bg-white d-flex justify-content-between">
-                    <button type="button" class="btn btn-outline-secondary px-4" data-dismiss="modal" style="border-radius: 12px; font-weight: 600;">Cancelar</button>
-                    <button type="button" class="btn btn-success px-4 shadow-sm" id="btnSalvarPagamentoRapido" style="border-radius: 12px; font-weight: bold; background: linear-gradient(135deg, #198754, #28a745); border: none;">
+                    <button type="button" class="btn btn-outline-secondary px-4" data-dismiss="modal"
+                        style="border-radius: 12px; font-weight: 600;">Cancelar</button>
+                    <button type="button" class="btn btn-success px-4 shadow-sm" id="btnSalvarPagamentoRapido"
+                        style="border-radius: 12px; font-weight: bold; background: linear-gradient(135deg, #198754, #28a745); border: none;">
                         <i class="bi bi-check-circle-fill mr-1"></i> Confirmar Pago & Entrada
                     </button>
                 </div>
@@ -368,10 +421,10 @@
     <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-    
+
     <!-- Biblioteca HTML5-QRCode -->
     <script src="https://cdn.jsdelivr.net/npm/html5-qrcode@2.3.8/minified/html5-qrcode.min.js"></script>
-    
+
     <!-- Firebase SDK -->
     <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
     <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-firestore.js"></script>
@@ -383,7 +436,7 @@
         let html5QrCode = null;
         let scannerIniciado = false;
         let logsSessao = []; // Logs na sessão do navegador
-        
+
         // Contexto de Áudio para o bip
         let audioCtx = null;
 
@@ -398,8 +451,14 @@
             // Carregar dados de participantes inscritos
             carregarParticipantes();
 
-            // Iniciar a câmera automaticamente após um delay curto de estabilização
-            setTimeout(iniciarScanner, 800);
+            // Ativar a câmera ao clicar no botão de ativação
+            $(document).on('click', '#btnAtivarCamera', function () {
+                // Tentar reativar o contexto de áudio sob gesto do usuário
+                if (audioCtx && audioCtx.state === 'suspended') {
+                    audioCtx.resume();
+                }
+                iniciarScanner();
+            });
 
             // Ouvir tecla Enter no input manual
             $('#manualQrInput').on('keypress', function (e) {
@@ -421,16 +480,16 @@
 
             // Evento do botão de pagamento expresso
             $('#btnSalvarPagamentoRapido').on('click', salvarPagamentoRapido);
-            
+
             // Garantir que reative a leitura após fechar o modal
-            $('#pagamentoRapidoModal, #btnFecharPagamentoRapido').on('hidden.bs.modal', function () {
+            $('#feedbackModal, #pagamentoRapidoModal, #btnFecharPagamentoRapido').on('hidden.bs.modal', function () {
                 restaurarPainelEspera();
             });
 
             // Formatar valor do pagamento expresso como moeda em tempo real
             $('#pagRapidoValor').on('input', function (e) {
                 let valor = e.target.value;
-                valor = valor.replace(/\D/g, ""); 
+                valor = valor.replace(/\D/g, "");
 
                 if (valor === "") {
                     e.target.value = "";
@@ -453,111 +512,309 @@
 
                 e.target.value = valor;
             });
+
+            // Autocomplete para busca manual a partir de 3 letras
+            $('#manualQrInput').on('input', function () {
+                const termo = $(this).val().trim().toLowerCase();
+                const autocompleteBox = $('#autocompleteResults');
+
+                if (termo.length >= 3) {
+                    // Filtrar participantes locally (protegendo contra nomes vazios ou nulos)
+                    const matches = todosParticipantes.filter(p => p && p.nome && typeof p.nome === 'string' && p.nome.toLowerCase().includes(termo));
+                    autocompleteBox.empty();
+
+                    if (matches.length > 0) {
+                        matches.forEach(p => {
+                            const tel = formatarTelefone(p.telefone || p.celular || '');
+                            let badgeHtml = '';
+                            if (p.statusPresenca === 'presente') {
+                                badgeHtml = '<span class="badge badge-success px-2 py-1" style="border-radius: 8px;">Presente</span>';
+                            } else if (p.statusPagamento === 'pago') {
+                                badgeHtml = '<span class="badge badge-info px-2 py-1" style="border-radius: 8px; background-color: #17a2b8; color: white;">Liberado</span>';
+                            } else {
+                                badgeHtml = '<span class="badge badge-warning px-2 py-1 text-dark" style="border-radius: 8px; background-color: #ffc107;">Pendente</span>';
+                            }
+
+                            const item = $(`
+                                <a href="#" class="list-group-item list-group-item-action d-flex justify-content-between align-items-center" style="font-weight: 600; padding: 12px 15px; font-size: 0.9rem; border: none; border-bottom: 1px solid rgba(0,0,0,0.05); background-color: #ffffff;">
+                                    <div>
+                                        <span class="text-dark d-block">${p.nome}</span>
+                                        <span class="text-muted small" style="font-size: 0.8rem;">${tel ? tel : 'Sem telefone'} ${p.idade ? '• ' + p.idade + ' anos' : ''}</span>
+                                    </div>
+                                    <div>
+                                        ${badgeHtml}
+                                    </div>
+                                </a>
+                            `);
+
+                            item.on('click', function (e) {
+                                e.preventDefault();
+                                $('#manualQrInput').val('');
+                                autocompleteBox.hide();
+                                processarCheckIn(p);
+                            });
+
+                            autocompleteBox.append(item);
+                        });
+                        autocompleteBox.show();
+                    } else {
+                        autocompleteBox.html('<div class="list-group-item text-muted text-center py-3 small" style="border: none; background-color: #ffffff;">Nenhum participante encontrado</div>');
+                        autocompleteBox.show();
+                    }
+                } else {
+                    autocompleteBox.hide();
+                }
+            });
+
+            // Ocultar autocomplete ao clicar fora
+            $(document).on('click', function (e) {
+                if (!$(e.target).closest('#manualQrInput, #autocompleteResults').length) {
+                    $('#autocompleteResults').hide();
+                }
+            });
+
+            // Fechar com ESC
+            $(document).on('keydown', function (e) {
+                if (e.key === "Escape") {
+                    $('#autocompleteResults').hide();
+                }
+            });
         });
 
-        // Buscar todos os participantes
-        function carregarParticipantes() {
-            db.collection("Eventos").doc("ComRoca2026").collection("inscricoes")
-                .where("anoevento", "==", "2026")
-                .get()
-                .then((querySnapshot) => {
-                    todosParticipantes = [];
-                    querySnapshot.forEach((doc) => {
-                        const participante = doc.data();
-                        participante.id = doc.id;
-                        todosParticipantes.push(participante);
-                    });
-                    console.log(`${todosParticipantes.length} participantes carregados.`);
-                })
-                .catch((error) => {
-                    console.error("Erro ao carregar participantes:", error);
-                });
+        // Salvar e atualizar o cache local no localStorage
+        function atualizarCacheLocalStorage() {
+            try {
+                localStorage.setItem('comroca_participantes_data', JSON.stringify(todosParticipantes));
+                // Mantém o timestamp original ou usa o atual se for nova sincronização
+            } catch (e) {
+                console.error("Erro ao salvar cache no localStorage:", e);
+            }
         }
 
-        // Sistema de Câmera Scanner
+        // Buscar todos os participantes com cache no localStorage de 30 segundos
+        function carregarParticipantes() {
+            const CACHE_KEY = 'comroca_participantes_data';
+            const TIMESTAMP_KEY = 'comroca_participantes_timestamp';
+            const CACHE_DURATION_MS = 30000; // 30 segundos
+
+            const cachedData = localStorage.getItem(CACHE_KEY);
+            const cachedTimestamp = localStorage.getItem(TIMESTAMP_KEY);
+            const agora = Date.now();
+
+            // Tentar ler cache local primeiro
+            if (cachedData) {
+                try {
+                    todosParticipantes = JSON.parse(cachedData);
+                    console.log(`Carregados ${todosParticipantes.length} participantes do cache do localStorage.`);
+                } catch (e) {
+                    console.error("Erro ao analisar cache do localStorage:", e);
+                }
+            }
+
+            // Se o cache ainda estiver válido e tivermos dados carregados, podemos pular a busca no Firebase temporariamente
+            if (todosParticipantes.length > 0 && cachedTimestamp && (agora - parseInt(cachedTimestamp, 10) < CACHE_DURATION_MS)) {
+                return;
+            }
+
+            // Verificar se o Firebase Firestore está disponível
+            if (typeof db === 'undefined') {
+                console.warn("Firebase Firestore (db) não está disponível. Usando apenas dados locais do cache.");
+                return;
+            }
+
+            try {
+                db.collection("Eventos").doc("ComRoca2026").collection("inscricoes")
+                    .where("anoevento", "==", "2026")
+                    .get()
+                    .then((querySnapshot) => {
+                        todosParticipantes = [];
+                        querySnapshot.forEach((doc) => {
+                            const participante = doc.data();
+                            participante.id = doc.id;
+                            todosParticipantes.push(participante);
+                        });
+                        console.log(`${todosParticipantes.length} participantes carregados do Firestore.`);
+
+                        // Salvar no localStorage com o timestamp atual
+                        localStorage.setItem(CACHE_KEY, JSON.stringify(todosParticipantes));
+                        localStorage.setItem(TIMESTAMP_KEY, agora.toString());
+                    })
+                    .catch((error) => {
+                        console.error("Erro ao carregar participantes do Firestore:", error);
+                    });
+            } catch (error) {
+                console.error("Exceção ao carregar participantes do Firestore:", error);
+            }
+        }
+
+        // Sistema de Câmera Scanner com ativação robusta e direta
         function iniciarScanner() {
             if (scannerIniciado) return;
 
-            const cameraSelect = $('#cameraSelect');
-            cameraSelect.html('<option value="">Carregando câmeras...</option>');
+            if (typeof Html5Qrcode === 'undefined') {
+                tratarErroCamera("Biblioteca QR Code (Html5Qrcode) não foi carregada. Verifique sua conexão com a internet.");
+                return;
+            }
 
-            Html5Qrcode.getCameras().then(devices => {
-                if (devices && devices.length) {
-                    cameraSelect.html('');
-                    
-                    let backCamera = null;
-                    devices.forEach(device => {
-                        const label = device.label.toLowerCase();
-                        const isBack = label.includes('back') || label.includes('traseira') || label.includes('environment');
-                        
-                        const optionText = device.label || `Câmera ${cameraSelect.children().length + 1}`;
-                        const option = $(`<option value="${device.id}">${optionText}</option>`);
-                        
-                        if (isBack) {
-                            cameraSelect.prepend(option);
-                            if (!backCamera) backCamera = device.id;
-                        } else {
-                            cameraSelect.append(option);
+            // Limpar placeholder do leitor antes de inicializar o vídeo
+            $('#reader').html('');
+            $('.laser-line').show(); // Exibir linha laser de varredura
+
+            try {
+                html5QrCode = new Html5Qrcode("reader");
+                
+                // Mudar o badge para Carregando/Ativa
+                $('#cameraStatusBadge')
+                    .removeClass('badge-secondary badge-danger')
+                    .addClass('badge-success')
+                    .html('<i class="bi bi-circle-fill mr-1 text-white" style="font-size: 6px; vertical-align: middle;"></i> Iniciando Câmera...');
+
+                // Iniciar diretamente usando a câmera traseira (facingMode: environment)
+                html5QrCode.start(
+                    { facingMode: "environment" },
+                    {
+                        fps: 12,
+                        qrbox: function (width, height) {
+                            const min = Math.min(width, height);
+                            const boxSize = Math.floor(min * 0.7);
+                            return { width: boxSize, height: boxSize };
                         }
-                    });
+                    },
+                    (decodedText, decodedResult) => {
+                        // QR Code Detectado!
+                        processarQRCodeScanned(decodedText);
+                    },
+                    (errorMessage) => {
+                        // Frame error normal
+                    }
+                ).then(() => {
+                    scannerIniciado = true;
+                    
+                    $('#cameraStatusBadge')
+                        .removeClass('badge-secondary badge-danger')
+                        .addClass('badge-success')
+                        .html('<i class="bi bi-circle-fill mr-1 text-white" style="font-size: 6px; vertical-align: middle;"></i> Câmera Ativa');
 
-                    html5QrCode = new Html5Qrcode("reader");
-                    const cameraUsar = backCamera || devices[0].id;
-                    cameraSelect.val(cameraUsar);
+                    // Carregar a lista de outras câmeras em segundo plano para preencher o select de troca
+                    Html5Qrcode.getCameras().then(devices => {
+                        if (devices && devices.length) {
+                            const cameraSelect = $('#cameraSelect');
+                            cameraSelect.html('');
+                            
+                            devices.forEach(device => {
+                                const optionText = device.label || `Câmera ${cameraSelect.children().length + 1}`;
+                                const option = $(`<option value="${device.id}">${optionText}</option>`);
+                                cameraSelect.append(option);
+                            });
 
-                    const startCamera = (cameraId) => {
-                        html5QrCode.start(
-                            cameraId, 
-                            {
-                                fps: 12,
-                                qrbox: function(width, height) {
-                                    const min = Math.min(width, height);
-                                    const boxSize = Math.floor(min * 0.7);
-                                    return { width: boxSize, height: boxSize };
+                            // Configurar evento de troca de câmera
+                            cameraSelect.off('change').on('change', function () {
+                                const selectedCam = $(this).val();
+                                if (selectedCam) {
+                                    html5QrCode.stop().then(() => {
+                                        scannerIniciado = false;
+                                        // Iniciar com o ID específico selecionado
+                                        html5QrCode.start(
+                                            selectedCam,
+                                            {
+                                                fps: 12,
+                                                qrbox: function (width, height) {
+                                                    const min = Math.min(width, height);
+                                                    const boxSize = Math.floor(min * 0.7);
+                                                    return { width: boxSize, height: boxSize };
+                                                }
+                                            },
+                                            (decodedText, decodedResult) => {
+                                                processarQRCodeScanned(decodedText);
+                                            },
+                                            (errorMessage) => {}
+                                        ).then(() => {
+                                            scannerIniciado = true;
+                                        }).catch(err => {
+                                            console.error("Erro ao alternar câmera:", err);
+                                        });
+                                    }).catch(err => {
+                                        console.error("Erro ao parar câmera:", err);
+                                    });
                                 }
-                            },
-                            (decodedText, decodedResult) => {
-                                // QR Code Detectado!
-                                processarQRCodeScanned(decodedText);
-                            },
-                            (errorMessage) => {
-                                // Frame error normal e contínuo
-                            }
-                        ).then(() => {
-                            scannerIniciado = true;
-                        }).catch(err => {
-                            console.error("Erro ao iniciar câmera html5-qrcode:", err);
-                        });
-                    };
-
-                    startCamera(cameraUsar);
-
-                    // Mudar câmera
-                    cameraSelect.off('change').on('change', function () {
-                        const selectedCam = $(this).val();
-                        if (selectedCam) {
-                            html5QrCode.stop().then(() => {
-                                scannerIniciado = false;
-                                startCamera(selectedCam);
-                            }).catch(err => {
-                                console.error("Erro ao alternar câmera:", err);
                             });
                         }
+                    }).catch(err => {
+                        console.warn("Não foi possível listar as câmeras adicionais em segundo plano:", err);
                     });
 
-                } else {
-                    cameraSelect.html('<option value="">Nenhuma câmera detectada</option>');
-                }
-            }).catch(err => {
-                console.error("Erro ao obter câmeras:", err);
-                cameraSelect.html('<option value="">Erro nas câmeras</option>');
-            });
+                }).catch(err => {
+                    console.error("Erro ao iniciar câmera html5-qrcode diretamente:", err);
+                    
+                    // Caso falhe com facingMode environment (por exemplo, em computadores que só têm webcam frontal),
+                    // tentamos de forma automática usar qualquer câmera padrão disponível
+                    console.log("Tentando iniciar qualquer câmera padrão como fallback...");
+                    html5QrCode.start(
+                        { facingMode: "user" },
+                        {
+                            fps: 12,
+                            qrbox: function (width, height) {
+                                const min = Math.min(width, height);
+                                const boxSize = Math.floor(min * 0.7);
+                                return { width: boxSize, height: boxSize };
+                            }
+                        },
+                        (decodedText, decodedResult) => {
+                            processarQRCodeScanned(decodedText);
+                        },
+                        (errorMessage) => {}
+                    ).then(() => {
+                        scannerIniciado = true;
+                        $('#cameraStatusBadge')
+                            .removeClass('badge-secondary badge-danger')
+                            .addClass('badge-success')
+                            .html('<i class="bi bi-circle-fill mr-1 text-white" style="font-size: 6px; vertical-align: middle;"></i> Câmera Ativa');
+                    }).catch(fallbackErr => {
+                        console.error("Erro no fallback da câmera:", fallbackErr);
+                        tratarErroCamera("Permissão negada ou restrição do navegador para este site.");
+                    });
+                });
+            } catch (err) {
+                console.error("Erro síncrono ao acessar câmeras:", err);
+                tratarErroCamera("O navegador ou dispositivo não suporta acesso à câmera.");
+            }
+        }
+
+        function tratarErroCamera(detalhe) {
+            $('#cameraStatusBadge')
+                .removeClass('badge-secondary badge-success')
+                .addClass('badge-danger')
+                .html('<i class="bi bi-x-circle-fill mr-1" style="vertical-align: middle;"></i> Erro Câmera');
+
+            $('#cameraSelect').html('<option value="">Erro ao acessar câmeras</option>');
+            $('.laser-line').hide();
+
+            let mensagemAjuda = "Verifique se a permissão foi negada no seu navegador. Clique no ícone de cadeado ou câmera na barra de endereço (lado esquerdo da URL) e mude a permissão de câmera para 'Permitir'.";
+            
+            // Verificar protocolo/contexto seguro
+            if (location.protocol === 'file:') {
+                mensagemAjuda = "Você abriu o arquivo HTML diretamente (protocolo <strong>file://</strong>). Os navegadores bloqueiam o acesso à câmera por segurança em arquivos locais. <strong>Para testar a câmera, você precisa rodar a página através de um servidor local (ex: usar a extensão 'Live Server' no VS Code ou subir um servidor local) e acessar via http://localhost</strong>.";
+            } else if (window.isSecureContext === false) {
+                mensagemAjuda = "O navegador bloqueou o acesso à câmera porque a conexão não é segura (HTTP). <strong>A câmera só funciona em conexões seguras HTTPS ou através do endereço 'http://localhost'</strong>.";
+            }
+
+            $('#reader').html(`
+                <div id="cameraPlaceholder" class="text-center p-4">
+                    <i class="bi bi-exclamation-triangle-fill text-danger mb-2" style="font-size: 3rem;"></i>
+                    <h6 class="text-white font-weight-bold mb-1">Acesso Bloqueado ou Não Suportado</h6>
+                    <p class="text-white small px-3 mb-2" style="font-size: 0.9rem; font-weight: 500;">Detalhe do erro: ${detalhe}</p>
+                    <p class="text-muted small px-3 mb-3" style="font-size: 0.85rem; line-height: 1.4;">${mensagemAjuda}</p>
+                    <button type="button" class="btn btn-outline-danger font-weight-bold px-4" id="btnAtivarCamera" style="border-radius: 12px; height: 45px;">
+                        <i class="bi bi-arrow-clockwise mr-1"></i> Tentar Novamente
+                    </button>
+                </div>
+            `);
         }
 
         // Processamento de QR
         function processarQRCodeScanned(scannedText) {
             console.log("Portaria escaneou:", scannedText);
-            
+
             if (!scannedText) return;
 
             // Feedback tátil e sonoro imediatamente
@@ -567,9 +824,9 @@
             if (scannedText.includes(' - ')) {
                 const partes = scannedText.split(' - ');
                 const nome = partes[0].trim();
-                
-                // Buscar local primeiro
-                let pLocal = todosParticipantes.find(p => p.nome.toLowerCase() === nome.toLowerCase());
+
+                // Buscar local primeiro (protegendo contra nomes vazios ou nulos)
+                let pLocal = todosParticipantes.find(p => p && p.nome && typeof p.nome === 'string' && p.nome.toLowerCase() === nome.toLowerCase());
                 if (pLocal) {
                     processarCheckIn(pLocal);
                 } else {
@@ -596,7 +853,7 @@
             } else {
                 // 2. Novo formato: ID único do Firestore
                 const id = scannedText.trim();
-                
+
                 let pLocal = todosParticipantes.find(p => p.id === id);
                 if (pLocal) {
                     processarCheckIn(pLocal);
@@ -624,7 +881,7 @@
 
         function buscarPorNomeParcialLocal(termo) {
             const termoLC = termo.toLowerCase();
-            const pLocal = todosParticipantes.find(p => p.nome.toLowerCase().includes(termoLC));
+            const pLocal = todosParticipantes.find(p => p && p.nome && typeof p.nome === 'string' && p.nome.toLowerCase().includes(termoLC));
             if (pLocal) {
                 processarCheckIn(pLocal);
             } else {
@@ -652,6 +909,26 @@
         function salvarPresencaPortaria(participanteId) {
             const agora = new Date().toISOString();
 
+            // Suporte para check-in offline caso o Firebase não esteja disponível
+            if (typeof db === 'undefined') {
+                console.warn("Firebase Firestore indisponível. Salvando check-in localmente (modo Offline).");
+                const index = todosParticipantes.findIndex(p => p.id === participanteId);
+                if (index !== -1) {
+                    todosParticipantes[index].statusPresenca = 'presente';
+                    todosParticipantes[index].dataCheckin = agora;
+                }
+
+                // Atualizar o cache local com a nova presença
+                atualizarCacheLocalStorage();
+
+                const participante = todosParticipantes[index] || { nome: 'Participante', id: participanteId, telefone: '' };
+                mostrarFeedbackSuccess(participante);
+
+                // Registrar log da sessão como offline
+                adicionarLogSessao(participante, 'Check-in (Offline)');
+                return;
+            }
+
             db.collection("Eventos").doc("ComRoca2026").collection("inscricoes").doc(participanteId)
                 .update({
                     statusPresenca: 'presente',
@@ -665,6 +942,9 @@
                         todosParticipantes[index].statusPresenca = 'presente';
                         todosParticipantes[index].dataCheckin = agora;
                     }
+
+                    // Atualizar o cache local com a nova presença
+                    atualizarCacheLocalStorage();
 
                     const participante = todosParticipantes[index] || { nome: 'Participante', telefone: '' };
                     mostrarFeedbackSuccess(participante);
@@ -680,6 +960,9 @@
 
         // Feedbacks Visuais dos Painéis
         function restaurarPainelEspera() {
+            // Oculta o modal se estiver aberto
+            $('#feedbackModal').modal('hide');
+
             $('#resultPanel')
                 .removeClass('state-success state-pending state-error')
                 .addClass('state-waiting');
@@ -715,10 +998,13 @@
                 </span>
             `);
 
-            // Auto-restaurar painel após 4.5 segundos
+            // Abre o modal de feedback
+            $('#feedbackModal').modal('show');
+
+            // Auto-ocultar após 4.5 segundos
             setTimeout(() => {
                 if ($('#resultPanel').hasClass('state-success')) {
-                    restaurarPainelEspera();
+                    $('#feedbackModal').modal('hide');
                 }
             }, 4500);
         }
@@ -749,6 +1035,9 @@
                     <i class="bi bi-cash-coin mr-1"></i> Confirmar Pagamento Expresso
                 </button>
             `);
+
+            // Abre o modal de feedback
+            $('#feedbackModal').modal('show');
         }
 
         function mostrarFeedbackError(mensagem) {
@@ -762,37 +1051,38 @@
                 </div>
                 <h3 class="font-weight-bold text-danger mb-2">ERRO NO CHECK-IN</h3>
                 <p class="text-muted font-weight-bold mb-3" style="max-width: 280px; font-size: 0.95rem;">${mensagem}</p>
-                <button class="btn btn-secondary btn-sm px-4" onclick="restaurarPainelEspera()" style="border-radius: 10px;">
-                    Tentar Novamente
+                <button class="btn btn-secondary btn-sm px-4" data-dismiss="modal" style="border-radius: 10px;">
+                    Fechar
                 </button>
             `);
 
-            // Auto-restaurar após 4 segundos
+            // Abre o modal de feedback
+            $('#feedbackModal').modal('show');
+
+            // Auto-ocultar após 4 segundos
             setTimeout(() => {
                 if ($('#resultPanel').hasClass('state-error')) {
-                    restaurarPainelEspera();
+                    $('#feedbackModal').modal('hide');
                 }
             }, 4000);
         }
 
         // Bip e Vibrador
         function emitirFeedbackNotificacao() {
-            // Vibrar se ativo
-            const vibrateAtivo = $('#vibrateSwitch').is(':checked');
-            if (vibrateAtivo && navigator.vibrate) {
+            // Vibrar
+            if (navigator.vibrate) {
                 navigator.vibrate(180);
             }
 
-            // Som se ativo
-            const somAtivo = $('#soundSwitch').is(':checked');
-            if (somAtivo && audioCtx) {
+            // Som
+            if (audioCtx) {
                 try {
                     const osc = audioCtx.createOscillator();
                     const gain = audioCtx.createGain();
                     osc.connect(gain);
                     gain.connect(audioCtx.destination);
                     osc.type = "sine";
-                    osc.frequency.value = 920; 
+                    osc.frequency.value = 920;
                     gain.gain.setValueAtTime(0.08, audioCtx.currentTime);
                     osc.start();
                     osc.stop(audioCtx.currentTime + 0.12);
@@ -831,7 +1121,7 @@
 
             logsSessao.forEach(log => {
                 const iniciais = log.nome.substring(0, 2).toUpperCase();
-                
+
                 const item = `
                     <div class="log-item">
                         <div class="log-time">${log.hora}</div>
@@ -848,6 +1138,7 @@
 
         // Modal de Pagamento Rápido
         function abrirPagamentoRapidoModal(participanteId) {
+            $('#feedbackModal').modal('hide');
             const participante = todosParticipantes.find(p => p.id === participanteId);
             if (!participante) {
                 mostrarFeedbackError("Erro: Participante não localizado na sessão.");
@@ -856,10 +1147,10 @@
 
             $('#pagRapidoParticipanteId').val(participanteId);
             $('#pagRapidoNome').val(participante.nome);
-            
+
             const valorInscricao = participante.valorInscricao || 30.00;
             $('#pagRapidoValor').val(valorInscricao.toFixed(2).replace('.', ','));
-            
+
             $('#pagamentoRapidoModal').modal('show');
         }
 
@@ -876,6 +1167,11 @@
 
             if (!valorPagamento || isNaN(valorPagamento) || valorPagamento <= 0) {
                 alert("Por favor, insira um valor de pagamento válido.");
+                return;
+            }
+
+            if (typeof db === 'undefined') {
+                alert("Erro: Firebase Firestore indisponível. Não é possível registrar pagamentos no modo Offline.");
                 return;
             }
 
@@ -921,7 +1217,7 @@
                 .then(() => {
                     // Fechar o modal
                     $('#pagamentoRapidoModal').modal('hide');
-                    
+
                     // Atualizar local
                     const index = todosParticipantes.findIndex(p => p.id === participanteId);
                     if (index !== -1) {
@@ -929,6 +1225,9 @@
                         todosParticipantes[index].formaPagamento = formaPagamento;
                         todosParticipantes[index].valorPago = valorPagamento;
                     }
+
+                    // Atualizar o cache local com a confirmação de pagamento
+                    atualizarCacheLocalStorage();
 
                     // Tocar som de sucesso do pagamento
                     if (audioCtx) {
@@ -943,7 +1242,7 @@
                             gain.gain.setValueAtTime(0.08, audioCtx.currentTime);
                             osc.start();
                             osc.stop(audioCtx.currentTime + 0.3);
-                        } catch (e) {}
+                        } catch (e) { }
                     }
 
                     // Logar
