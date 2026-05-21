@@ -477,6 +477,7 @@
             // Garantir que reative a leitura após fechar o modal
             $('#feedbackModal, #pagamentoRapidoModal, #btnFecharPagamentoRapido').on('hidden.bs.modal', function () {
                 restaurarPainelEspera();
+                processandoCheckin = false;
             });
 
             // Formatar valor do pagamento expresso como moeda em tempo real
@@ -544,6 +545,7 @@
                                 e.preventDefault();
                                 $('#manualQrInput').val('');
                                 autocompleteBox.hide();
+                                processandoCheckin = true; // Bloquear scanner durante visualização
                                 processarCheckIn(p);
                             });
 
@@ -758,70 +760,85 @@
         }
 
         // Processamento de QR
+        let processandoCheckin = false;
+
         function processarQRCodeScanned(scannedText) {
+            // Se já estiver processando ou se algum modal estiver aberto, ignorar frames subsequentes
+            if (processandoCheckin || $('.modal.show').length > 0) {
+                return;
+            }
+
             console.log("Portaria escaneou:", scannedText);
 
             if (!scannedText) return;
 
-            // Feedback tátil e sonoro imediatamente
-            emitirFeedbackNotificacao();
+            processandoCheckin = true;
 
-            // 1. Antigo formato: "Nome - Celular"
-            if (scannedText.includes(' - ')) {
-                const partes = scannedText.split(' - ');
-                const nome = partes[0].trim();
+            try {
+                // Feedback tátil e sonoro imediatamente
+                emitirFeedbackNotificacao();
 
-                // Buscar local primeiro (protegendo contra nomes vazios ou nulos)
-                let pLocal = todosParticipantes.find(p => p && p.nome && typeof p.nome === 'string' && p.nome.toLowerCase() === nome.toLowerCase());
-                if (pLocal) {
-                    processarCheckIn(pLocal);
+                // 1. Antigo formato: "Nome - Celular"
+                if (scannedText.includes(' - ')) {
+                    const partes = scannedText.split(' - ');
+                    const nome = partes[0].trim();
+
+                    // Buscar local primeiro (protegendo contra nomes vazios ou nulos)
+                    let pLocal = todosParticipantes.find(p => p && p.nome && typeof p.nome === 'string' && p.nome.toLowerCase() === nome.toLowerCase());
+                    if (pLocal) {
+                        processarCheckIn(pLocal);
+                    } else {
+                        // Firestore
+                        db.collection("Eventos").doc("ComRoca2026").collection("inscricoes")
+                            .where("anoevento", "==", "2026")
+                            .where("nome", "==", nome)
+                            .get()
+                            .then(snapshot => {
+                                if (!snapshot.empty) {
+                                    const doc = snapshot.docs[0];
+                                    const part = doc.data();
+                                    part.id = doc.id;
+                                    processarCheckIn(part);
+                                } else {
+                                    mostrarFeedbackError(`Participante "${nome}" não cadastrado.`);
+                                }
+                            })
+                            .catch(err => {
+                                console.error(err);
+                                mostrarFeedbackError("Erro ao buscar no banco de dados.");
+                            });
+                    }
                 } else {
-                    // Firestore
-                    db.collection("Eventos").doc("ComRoca2026").collection("inscricoes")
-                        .where("anoevento", "==", "2026")
-                        .where("nome", "==", nome)
-                        .get()
-                        .then(snapshot => {
-                            if (!snapshot.empty) {
-                                const doc = snapshot.docs[0];
-                                const part = doc.data();
-                                part.id = doc.id;
-                                processarCheckIn(part);
-                            } else {
-                                mostrarFeedbackError(`Participante "${nome}" não cadastrado.`);
-                            }
-                        })
-                        .catch(err => {
-                            console.error(err);
-                            mostrarFeedbackError("Erro ao buscar no banco de dados.");
-                        });
-                }
-            } else {
-                // 2. Novo formato: ID único do Firestore
-                const id = scannedText.trim();
+                    // 2. Novo formato: ID único do Firestore
+                    const id = scannedText.trim();
 
-                let pLocal = todosParticipantes.find(p => p.id === id);
-                if (pLocal) {
-                    processarCheckIn(pLocal);
-                } else {
-                    // Firestore por ID
-                    db.collection("Eventos").doc("ComRoca2026").collection("inscricoes").doc(id).get()
-                        .then(doc => {
-                            if (doc.exists) {
-                                const part = doc.data();
-                                part.id = doc.id;
-                                processarCheckIn(part);
-                            } else {
-                                // Tentar busca parcial por nome na lista local
+                    let pLocal = todosParticipantes.find(p => p.id === id);
+                    if (pLocal) {
+                        processarCheckIn(pLocal);
+                    } else {
+                        // Firestore por ID
+                        db.collection("Eventos").doc("ComRoca2026").collection("inscricoes").doc(id).get()
+                            .then(doc => {
+                                if (doc.exists) {
+                                    const part = doc.data();
+                                    part.id = doc.id;
+                                    processarCheckIn(part);
+                                } else {
+                                    // Tentar busca parcial por nome na lista local
+                                    buscarPorNomeParcialLocal(id);
+                                }
+                            })
+                            .catch(err => {
+                                console.error(err);
+                                // Fallback busca parcial local
                                 buscarPorNomeParcialLocal(id);
-                            }
-                        })
-                        .catch(err => {
-                            console.error(err);
-                            // Fallback busca parcial local
-                            buscarPorNomeParcialLocal(id);
-                        });
+                            });
+                    }
                 }
+            } catch (err) {
+                console.error("Erro ao processar scan do QR code:", err);
+                mostrarFeedbackError("Erro interno no processamento do scan.");
+                processandoCheckin = false;
             }
         }
 
