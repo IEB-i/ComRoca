@@ -597,6 +597,7 @@
         let graficoStatus;
         let graficoFormas;
         let todosPagamentos = [];
+        let submittingPagamento = false; // Proteção contra duplo clique
 
         // Controle de ordenação da tabela
         let sortConfig = { field: 'dataPagamento', direction: 'desc' };
@@ -696,6 +697,9 @@
             $('#paymentForm').on('submit', function (e) {
                 e.preventDefault();
 
+                // Proteção contra duplo clique: ignora se já está processando
+                if (submittingPagamento) return;
+
                 const participanteId = $('#participante').val();
                 const formaPagamento = $('#formaPagamento').val();
                 const valorPagamento = parseFloat($('#valorPagamento').val().replace(/\./g, '').replace(',', '.'));
@@ -710,6 +714,16 @@
                     return;
                 }
 
+                // Bloquear botão e sinalizar que está em processamento
+                submittingPagamento = true;
+                const $btnConfirmar = $('#paymentForm button[type="submit"]');
+                const textoOriginal = $btnConfirmar.html();
+                $btnConfirmar.prop('disabled', true)
+                             .html('<i class="bi bi-hourglass-split mr-1"></i> Registrando...');
+
+                const nomeParticipanteSelecionado = $('#participante option:selected').text();
+                const celularParticipanteSelecionado = $('#participante option:selected').data('celular') || '';
+
                 db.collection("Eventos").doc("ComRoca2026").collection("inscricoes").doc(participanteId)
                     .update({
                         statusPagamento: 'pago',
@@ -720,7 +734,7 @@
                     .then(() => {
                         return db.collection("Eventos").doc("ComRoca2026").collection("pagamentos").add({
                             participanteId: participanteId,
-                            participanteNome: $('#participante option:selected').text(),
+                            participanteNome: nomeParticipanteSelecionado,
                             valor: valorPagamento,
                             formaPagamento: formaPagamento,
                             dataPagamento: new Date().toISOString(),
@@ -729,7 +743,7 @@
                     })
                     .then((docRef) => {
                         return db.collection("Eventos").doc("ComRoca2026").collection("caixa").add({
-                            descricao: `Inscrição - ${$('#participante option:selected').text()}`,
+                            descricao: `Inscrição - ${nomeParticipanteSelecionado}`,
                             data: new Date().toISOString().substring(0, 10),
                             valor: valorPagamento,
                             tipo: 'entrada',
@@ -743,20 +757,23 @@
                         });
                     })
                     .then(() => {
-                        const nomeParticipante = $('#participante option:selected').text();
-                        const celularParticipante = $('#participante option:selected').data('celular') || '';
-
                         $('#enviarIngressoModalLabel').html('<i class="bi bi-whatsapp mr-2"></i> Pagamento Registrado!');
-                        $('#enviarIngressoNome').text(nomeParticipante);
+                        $('#enviarIngressoNome').text(nomeParticipanteSelecionado);
                         $('#enviarIngressoBtn').data('id', participanteId);
-                        $('#enviarIngressoBtn').data('nome', nomeParticipante);
-                        $('#enviarIngressoBtn').data('celular', celularParticipante);
+                        $('#enviarIngressoBtn').data('nome', nomeParticipanteSelecionado);
+                        $('#enviarIngressoBtn').data('celular', celularParticipanteSelecionado);
 
                         $('#enviarIngressoModal').modal('show');
                         $('#paymentForm')[0].reset();
-                    }).catch((error) => {
+                    })
+                    .catch((error) => {
                         console.error("Erro ao registrar pagamento:", error);
                         alert("Erro ao registrar pagamento. Tente novamente.");
+                    })
+                    .finally(() => {
+                        // Reabilitar botão independentemente do resultado
+                        submittingPagamento = false;
+                        $btnConfirmar.prop('disabled', false).html(textoOriginal);
                     });
             });
 
